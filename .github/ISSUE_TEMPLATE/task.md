@@ -8,6 +8,6 @@ assignees: ''
 ---
 
 TODO
-[] Job1
-[] Job2
-[] Job3
+- [ ] job1
+- [ ] job2
+- [ ] job3
