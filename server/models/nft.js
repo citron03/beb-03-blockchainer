@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   Nft.associate = (db) => {
-    db.Nft.belongsTo(db.User, { foreignKey: "owner", targetKey: "id" });
+    Nft.belongsTo(db.User, { foreignKey: "owner", targetKey: "id" });
   };
   return Nft;
 };
