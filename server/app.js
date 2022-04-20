@@ -1,4 +1,5 @@
 const express = require("express");
+const { User } = require("./models");
 const app = express();
 const db = require("./models");
 const port = 3000;
@@ -11,9 +12,14 @@ db.sequelize
   .catch(console.error);
 
 app.get("/", (req, res) => {
-  res.send("connected");
+  res.send("server connected");
 });
 
 app.listen(port, () => {
   console.log(`server is listening at localhost:${port}`);
+});
+
+app.post("/", (req, res) => {
+  console.log(req);
+  res.send(req.username);
 });
