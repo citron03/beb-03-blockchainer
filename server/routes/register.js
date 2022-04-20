@@ -4,7 +4,7 @@ const lightwallet = require("eth-lightwallet");
 const { User } = require("../models");
 
 router.post("/", async (req, res) => {
-  let reqUsername, reqPassword;
+  let reqUsername, reqPassword, reqemail;
   reqUsername = req.body.username;
   reqPassword = req.body.password;
   reqemail = req.body.email;
@@ -45,7 +45,11 @@ router.post("/", async (req, res) => {
               }
             )
               .then((result) => {
-                res.json(address);
+                res.json({
+                  username: reqUsername,
+                  password: reqPassword,
+                  address: address,
+                });
               })
               .catch((err) => {
                 console.error(err);
