@@ -1,5 +1,4 @@
 const express = require("express");
-const req = require("express/lib/request");
 const app = express();
 const db = require("./models");
 const port = 3000;
