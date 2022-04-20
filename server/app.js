@@ -14,29 +14,28 @@ db.sequelize
   })
   .catch(console.error);
 
-app.get("/", (req, res) => {
-  res.send("server connected");
+app.get("/", function (req, res) {
+  res.end("server connected");
 });
 
 app.listen(port, () => {
   console.log(`server is listening at localhost:${port}`);
 });
 
-app.post("/", async (req, res) => {
-  let reqUserName, reqPassword;
-  reqUserName = req.body.userName;
+app.post("/register", async (req, res) => {
+  let reqUsername, reqPassword;
+  reqUsername = req.body.username;
   reqPassword = req.body.password;
+  reqemail = req.body.email;
 
   User.findOrCreate({
     where: {
-      userName: reqUserName,
+      username: reqUsername,
     },
-    default: {
-      password: reqPassword,
-    },
+    default: {},
   }).then(([user, created]) => {
     if (!created) {
-      res.status(409).send("username already exists");
+      res.status(409).send("same username already exists");
     } else {
       let mnemonic;
       mnemonic = lightwallet.keystore.generateRandomSeed();
@@ -55,13 +54,13 @@ app.post("/", async (req, res) => {
 
             User.update(
               {
-                username: reqUserName,
                 password: reqPassword,
+                email: reqemail,
                 address: address,
                 balance: "0",
               },
               {
-                where: {},
+                where: { username: reqUsername },
               }
             )
               .then((result) => {
