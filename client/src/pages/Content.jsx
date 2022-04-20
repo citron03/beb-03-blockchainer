@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 function Content() {
     const page = useParams().page;
-    console.log(page);
+    // console.log(page);
     return (
         <>
             <ContentMain/>

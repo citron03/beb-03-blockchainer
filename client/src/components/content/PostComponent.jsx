@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import handleTitle from "./handleTitle";
+import handleTitle from "./useData/handleTitle";
 
 const PostComponentContainer = styled.div`
     width: 15rem;
@@ -16,7 +16,8 @@ const PostComponentContainer = styled.div`
     box-shadow: 1px 1px #b2bec3;
     &:hover {
         transform: translate(-0.8px, -0.8px);
-        box-shadow: 0.3px 0.3px #b2bec3;
+        box-shadow: 0.3px 0.3px #f1f2f6;
+        background-color: #f2f2f2;
     }
 `
 
