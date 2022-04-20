@@ -30,7 +30,7 @@ function App() {
           <Route path="/content">
             <Content />
           </Route>
-          <Route path="/postdetail">
+          <Route path="/postdetail/:post_id">
             <PostDetail />
           </Route>
         </Switch>
