@@ -11,7 +11,7 @@ const Nav = () => {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/content">
+                        <NavLink to="/content/0">
                             Content
                         </NavLink>
                     </li>
