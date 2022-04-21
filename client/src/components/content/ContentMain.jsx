@@ -16,11 +16,11 @@ const move = keyframes`
 
 const ContentMainContainer = styled.section`
     display: flex;
-    margin: 100px 0.5rem 0.5rem 0.5rem;
-    padding: 0.5rem;
-    overflow: hidden;
+    align-items: center;
+    margin-top: 100px;
     animation: ${move} 1.5s;
     width: 100%;
+    overflow: hidden;
 `;
 
 const Button = styled.button`
@@ -36,16 +36,15 @@ const Button = styled.button`
 
 const Image = styled.img`
     width: 100%;
-    height: auto;
-    margin-right: 10vw;
-    margin-left: 10vw;
+    padding-left: 10%;
+    padding-right: 10%;
 `;
 
 const ImageContainer = styled.div`
     display: flex;
-    margin: auto;
     width: 100%;
     height: auto;
+    max-width: 1600px;
 `
 const IMAGE_NUM = 2;
 
@@ -77,7 +76,7 @@ const ContentMain = () => {
 
     return (
     <ContentMainContainer>
-        <Button onClick={handleCarouselLeft}>{"<"}</Button>
+        <Button onClick={handleCarouselLeft} style={{marginLeft: "3%"}}>{"<"}</Button>
         <ImageContainer ref={imageRef}>
             <Image src={image1} alt={source.image1}/>
             <Image src={image2} alt={source.image2}/>
