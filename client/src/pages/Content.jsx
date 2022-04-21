@@ -1,5 +1,16 @@
+import PostsComponent from "../components/content/PostsComponent";
+import ContentMain from "../components/content/ContentMain";
+import { useParams } from "react-router-dom";
+
 function Content() {
-    return <div>Content.js</div>
+    const page = useParams().page;
+    // console.log(page);
+    return (
+        <>
+            <ContentMain/>
+            <PostsComponent/>
+        </>
+    )
 }
 
 export default Content;
