@@ -6,20 +6,6 @@
 $ npm install
 ```
 
-서버 실행<br>
-
-```bash
-$ npm run start
-```
-
-서버 실행 (코드 변경시 자동으로 재실행)<br>
-
-```bash
-$ npm run start:dev
-```
-
-## 데이터베이스
-
 데이터베이스 생성<br>
 
 ```bash
@@ -36,4 +22,16 @@ npx sequelize-cli db:migrate
 
 ```bash
 npx sequelize-cli db:seed:all
+```
+
+서버 실행<br>
+
+```bash
+$ npm run start
+```
+
+서버 실행 (코드 변경시 자동으로 재실행)<br>
+
+```bash
+$ npm run start:dev
 ```
