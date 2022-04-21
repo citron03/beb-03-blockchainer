@@ -1,14 +1,25 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import image1 from './../../assets/images/cats-eyes-g037a20d76_1280.jpg';
 import image2 from './../../assets/images/easter-tree-g1f28a53d6_1280.jpg';
+import image3 from './../../assets/images/tulips-ga6f43c0dc_1280.jpg';
+import source from "../../assets/images/source";
 import { useState, useRef, useEffect } from 'react';
+
+const move = keyframes`
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+`
 
 const ContentMainContainer = styled.section`
     display: flex;
-    border-top: 1px solid #dfe6e9;
-    margin: 0.5rem;
+    margin: 100px 0.5rem 0.5rem 0.5rem;
     padding: 0.5rem;
     overflow: hidden;
+    animation: ${move} 1.5s;
 `;
 
 const Button = styled.button`
@@ -35,33 +46,43 @@ const ImageContainer = styled.div`
     width: 100%;
     height: auto;
 `
+const IMAGE_NUM = 2;
 
 const ContentMain = () => {
 
     const [imgIndex, setImgIndex] = useState(0);
     const imageRef = useRef();
 
-    const handleCarousel = () => {
-        if(imgIndex === 1){
+    const handleCarouselLeft = () => {
+        if(imgIndex === 0){
+            setImgIndex(IMAGE_NUM);
+        } else {
+            setImgIndex((prev) => prev - 1);
+        }
+    }
+
+    const handleCarouselRight = () => {
+        if(imgIndex === IMAGE_NUM){
             setImgIndex(0);
         } else{
-            setImgIndex(1);
+            setImgIndex((prev) => prev + 1);
         }
     }
 
     useEffect(() => {
-        imageRef.current.style.transition = "all 0.5s ease-in-out";
+        imageRef.current.style.transition = "all 1s ease";
         imageRef.current.style.transform = `translateX(-${imgIndex}00%)`; 
       }, [imgIndex]);
 
     return (
     <ContentMainContainer>
-        <Button onClick={handleCarousel}>{"<"}</Button>
+        <Button onClick={handleCarouselLeft}>{"<"}</Button>
         <ImageContainer ref={imageRef}>
-            <Image src={image1} alt="https://pixabay.com/ko/photos/%ea%b3%a0%ec%96%91%ec%9d%b4%ec%9d%98-%eb%88%88-%ea%b3%a0%ec%96%91%ec%9d%b4-%ea%b2%80%ec%9d%80-%ec%83%89-2944820/"/>
-            <Image src={image2} alt="https://pixabay.com/ko/photos/%eb%b6%80%ed%99%9c%ec%a0%88-%eb%82%98%eb%ac%b4-%eb%b6%80%ed%99%9c%ec%a0%88-7106933/"/>
+            <Image src={image1} alt={source.image1}/>
+            <Image src={image2} alt={source.image2}/>
+            <Image src={image3} alt={source.image3}/>
         </ImageContainer>
-        <Button onClick={handleCarousel}>{">"}</Button>
+        <Button onClick={handleCarouselRight}>{">"}</Button>
     </ContentMainContainer>
     );
 }

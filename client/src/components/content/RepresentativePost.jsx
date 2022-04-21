@@ -12,8 +12,8 @@ const RepresentativePostContainer = styled.div`
 `;
 
 const Image = styled.img`
-    width: 30rem;
-    height: 20rem;  
+    width: 100%;
+    height: auto;  
 `
 
 const RepresentativePost = ({post}) => {
