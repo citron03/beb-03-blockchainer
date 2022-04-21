@@ -2,7 +2,7 @@ import dummyPosts from "../../assets/dymmydata/dummyPosts";
 import styled, { keyframes, css } from "styled-components";
 import PostComponent from "./PostComponent";
 import RepresentativePost from "./RepresentativePost";
-import Trending from "./Trending";
+import SideMenu from "./SideMenu";
 import { useEffect, useState } from "react";
 import Pagination from "./Pagination";
 
@@ -67,7 +67,7 @@ function PostsComponent() {
                         })
                     }
                 </PostsContainer>
-                <Trending/>
+                <SideMenu/>
             </ContentContainer>
             <Pagination/>
         </>

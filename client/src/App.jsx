@@ -10,6 +10,8 @@ import Nav from "./components/Nav.jsx";
 import GlobalStyle from './GlobalStyle';
 import FindUsername from './pages/FindUsername';
 import FindPassword from './pages/FindPassword';
+import Write from './pages/Write';
+import Modify from './pages/Modify';
 
 function App() {
 
@@ -41,6 +43,12 @@ function App() {
           </Route>
           <Route path="/postdetail/:post_id">
             <PostDetail />
+          </Route>
+          <Route path="/write">
+            <Write />
+          </Route>
+          <Route path="/modify/:post_id">
+            <Modify />
           </Route>
         </Switch>
     </Router>
