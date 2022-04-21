@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Post = sequelize.define(
-    "post",
+    "Posts",
     {
       title: {
         type: DataTypes.STRING,

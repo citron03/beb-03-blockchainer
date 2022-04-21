@@ -11,7 +11,7 @@ app.use("/account", accountRouter);
 app.use("/page", pageRouter);
 
 db.sequelize
-  .sync({ force: true })
+  .sync()
   .then(() => {
     console.log("dababase connected");
   })

@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Nft = sequelize.define(
-    "nft",
+    "Nfts",
     {
       ifps: {
         type: DataTypes.STRING,
