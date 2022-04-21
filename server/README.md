@@ -6,19 +6,19 @@
 $ npm install
 ```
 
-데이터베이스 생성<br>
+데이터베이스 세팅<br>
 
 ```bash
 $ npx sequelize db:create
+$ npx sequelize db:migrate
+$ npx sequelize-cli db:seed:all
 ```
 
-서버 실행 및 테이블 생성<br>
+서버 실행<br>
 
 ```bash
 $ npm run start
 ```
-
-## 그외 기능
 
 서버 실행 (nodemon)<br>
 
@@ -26,8 +26,4 @@ $ npm run start
 $ npm run start:dev
 ```
 
-더미데이터 가져오기<br>
 
-```bash
-npx sequelize-cli db:seed:all
-```
