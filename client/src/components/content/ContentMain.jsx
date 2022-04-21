@@ -20,6 +20,7 @@ const ContentMainContainer = styled.section`
     padding: 0.5rem;
     overflow: hidden;
     animation: ${move} 1.5s;
+    width: 100%;
 `;
 
 const Button = styled.button`
