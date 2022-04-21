@@ -1,25 +1,22 @@
 const express = require("express");
-const { User } = require("./models");
 const app = express();
 const db = require("./models");
-const port = 3000;
+const port = 4000;
+
+const accountRouter = require("./routes/account");
+const pageRouter = require("./routes/page");
+
+app.use(express.json());
+app.use("/account", accountRouter);
+app.use("/page", pageRouter);
 
 db.sequelize
   .sync({ force: true })
   .then(() => {
-    console.log("db 연결 성공 ");
+    console.log("dababase connected");
   })
   .catch(console.error);
 
-app.get("/", (req, res) => {
-  res.send("server connected");
-});
-
 app.listen(port, () => {
   console.log(`server is listening at localhost:${port}`);
-});
-
-app.post("/", (req, res) => {
-  console.log(req);
-  res.send(req.username);
 });
