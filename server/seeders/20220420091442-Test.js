@@ -1,4 +1,5 @@
 "use strict";
+const db = require("../models");
 
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -11,6 +12,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
+
     await queryInterface.bulkInsert(
       "users",
       [

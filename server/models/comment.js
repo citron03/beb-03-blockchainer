@@ -1,31 +1,26 @@
-"use strict";
-const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Comment extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      Comment.belongsTo(models.User, {
-        foreignKey: "writer",
-      });
-      Comment.belongsTo(models.Post, {
-        foreignKey: "post_id",
-      });
-    }
-  }
-  Comment.init(
+  const Comment = sequelize.define(
+    "Comments",
     {
-      content: DataTypes.STRING,
-      writer: DataTypes.INTEGER,
-      post_id: DataTypes.INTEGER,
+      content: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      writer: {
+        type: DataTypes.INTEGER,
+      },
+      post_id: {
+        type: DataTypes.INTEGER,
+      },
     },
     {
-      sequelize,
-      modelName: "Comment",
+      charset: "utf8",
+      collate: "utf8_general_ci",
     }
   );
+  Comment.associate = (db) => {
+    Comment.belongsTo(db.User, { foreignKey: "writer", targetKey: "id" });
+    Comment.belongsTo(db.Post, { foreignKey: "post_id", targetKey: "id" });
+  };
   return Comment;
 };
