@@ -3,7 +3,9 @@ import axios from "axios";
 import { useState } from "react";
 
 const WriteCommentConatiner = styled.div`
-    
+    width: 40%;
+    height: 3rem;
+    display: flex;
 `
 
 const Input = styled.input`
@@ -25,13 +27,14 @@ const Input = styled.input`
 const CommentButton = styled.button`
     background-color: #f5f6fa;
     border-color: #f5f6fa;
+    width: 3rem;
     font-size: 0.8rem;
     padding: 0.5rem;
-    margin: 0.3rem;
+    margin: 0.3rem 0.3rem 0.3rem 1.5rem;
     border-radius: 2rem;
 `;
 
-const WriteComment = (content = "", setUpdate = null, post_id, comment_id = null) => {
+const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = null} ) => {
 
     const [newContent, setNewContent] = useState(content);
 
@@ -41,18 +44,20 @@ const WriteComment = (content = "", setUpdate = null, post_id, comment_id = null
 
         if(setUpdate){
             // 업데이트
+            url += "commentupdate";
             const payload = {
                 post_id,
                 content : newContent,
                 comment_id
             }
             console.log(payload);
-            // axios.post(url, payload). then(el => {
+            // axios.put(url, payload). then(el => {
             //     console.log(el);
             // })
             setUpdate(false);
         } else {
             // 새 등록
+            url += "commentposting";
             const payload = {
                 post_id,
                 content : newContent
@@ -61,16 +66,17 @@ const WriteComment = (content = "", setUpdate = null, post_id, comment_id = null
             // axios.post(url, payload). then(el => {
             //     console.log(el);
             // })
+            setNewContent("");
         }
     }
 
     return (
     <WriteCommentConatiner>
-        <CommentButton onClick={handleCommentPost}>등록</CommentButton>
         <Input placeholder="Please enter your comment" 
             value={newContent} 
             onChange={(e) => setNewContent(e.target.value)}
         />
+        <CommentButton onClick={handleCommentPost}>등록</CommentButton>
     </WriteCommentConatiner>)
 }
 

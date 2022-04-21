@@ -4,8 +4,11 @@ import Comment from "./Comment";
 
 const CommentsContainer = styled.div`
     padding: 1rem;
-    border-top: 0.1rem solid #95afc0;
-    margin-top: 2rem;
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 const Comments = ({post_id}) => {
