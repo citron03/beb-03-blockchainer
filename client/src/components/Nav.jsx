@@ -11,6 +11,10 @@ const NavHeader = styled.header`
   left: 0;
   align-items: center!important;
   display: flex!important;
+
+  &.scrolled {
+    height: 70px;
+  }
 `;
 
 const Navdiv = styled.div`
@@ -62,11 +66,17 @@ const MyLi = styled.li`
 const A = styled.a`
   text-decoration: none;
   color: inherit;
+
+  &:hover {
+    color: grey;
+  }
 `;
+
+
 
 const Nav = () => {
   return (
-    <NavHeader>
+    <NavHeader id='nav_header'>
       <Navdiv>
         <MyLink to="/">
           <h2>BLOCKCHAINER</h2>
@@ -75,27 +85,27 @@ const Nav = () => {
           <MyUl>
             <MyLi>
               <MyLink to="/">
-              Home
+              <A>Home</A>
               </MyLink>
             </MyLi>
             <MyLi>
               <MyLink to="/content/1">
-              Content
+              <A>Content</A>
               </MyLink>
             </MyLi>
             <MyLi>
               <MyLink to="/register">
-              Register
+              <A>Register</A>
               </MyLink>
             </MyLi>
             <MyLi>
               <MyLink to="/login">
-              Login
+              <A>Login</A>
               </MyLink>
             </MyLi>
             <MyLi>
               <MyLink to="/mypage">
-              Mypage
+              <A>Mypage</A>
               </MyLink>
             </MyLi>
           </MyUl>

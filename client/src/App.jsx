@@ -14,6 +14,14 @@ import Write from './pages/Write';
 import Modify from './pages/Modify';
 
 function App() {
+  window.addEventListener("scroll", () => {
+    // console.log(window.scrollX, window.scrollY);
+    if (window.scrollY > 90) {
+      document.querySelector("#nav_header").classList.add("scrolled");
+    } else {
+      document.querySelector("#nav_header").classList.remove("scrolled");
+    }
+  });
 
   return (
     <Router>
