@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import dummyPosts from "../assets/dymmydata/dummyPosts";
-import Post from "../components/PostDetail/Post";
+import Post from "../components/postDetail/Post";
 
 const PostDetail = () => {
     const id = useParams().post_id;

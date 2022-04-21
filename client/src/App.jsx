@@ -8,6 +8,7 @@ import Content from "./pages/Content.jsx";
 import PostDetail from "./pages/PostDetail.jsx";
 import Nav from "./components/Nav.jsx";
 import GlobalStyle from './GlobalStyle';
+import Write from './pages/Write';
 
 function App() {
 
@@ -33,6 +34,9 @@ function App() {
           </Route>
           <Route path="/postdetail/:post_id">
             <PostDetail />
+          </Route>
+          <Route path="/write">
+            <Write />
           </Route>
         </Switch>
     </Router>

@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
-const TrendingContainer = styled.div`
+const SideMenuContainer = styled.div`
     border-left: 1px solid #dfe6e9;
     margin: 1rem;
     padding: 1rem 1rem 1rem 2rem;
@@ -18,9 +19,21 @@ const Trend = styled.li`
     margin: 0.5rem;
 `
 
-const Trending = () => {
+const PostButton = styled.button`
+    background-color: #f5f6fa;
+    border-color: #f5f6fa;
+    padding: 0.8rem;
+    margin: 0.5rem;
+    border-radius: 2rem;
+`;
+
+const SideMenu = () => {
+
+    const history = useHistory();
+
     return (
-    <TrendingContainer>
+    <SideMenuContainer>
+        <PostButton onClick={() => history.push('/write')}>글쓰기</PostButton>
         <h1>Trending</h1>
         <TrendList>
             <Trend>
@@ -32,9 +45,15 @@ const Trending = () => {
             <Trend>
                 트랜드_3
             </Trend>
+            <Trend>
+                트랜드_4
+            </Trend>
+            <Trend>
+                트랜드_5
+            </Trend>
         </TrendList>
-    </TrendingContainer>
+    </SideMenuContainer>
     );
 }
 
-export default Trending;
+export default SideMenu;
