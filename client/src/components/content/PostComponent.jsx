@@ -22,6 +22,7 @@ const PostComponentContainer = styled.div`
 
 const PostTextDiv = styled.div`
     color: black;
+    overflow: hidden;
 `;
 
 const PostComponent = ({data}) => {
