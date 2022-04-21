@@ -7,11 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       content: {
-        type: DataTypes.STRING,
-      },
-      address: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: DataTypes.TEXT,
       },
       writer: {
         type: DataTypes.INTEGER,
