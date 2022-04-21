@@ -28,7 +28,7 @@ function App() {
           <Route path="/mypage">
             <Mypage />
           </Route>
-          <Route path="/content">
+          <Route path="/content/:page">
             <Content />
           </Route>
           <Route path="/postdetail/:post_id">
