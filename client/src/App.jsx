@@ -8,6 +8,8 @@ import Content from "./pages/Content.jsx";
 import PostDetail from "./pages/PostDetail.jsx";
 import Nav from "./components/Nav.jsx";
 import GlobalStyle from './GlobalStyle';
+import FindUsername from './pages/FindUsername';
+import FindPassword from './pages/FindPassword';
 
 function App() {
 
@@ -24,6 +26,12 @@ function App() {
           </Route>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/findusername">
+            <FindUsername />
+          </Route>
+          <Route path="/findpassword">
+            <FindPassword />
           </Route>
           <Route path="/mypage">
             <Mypage />

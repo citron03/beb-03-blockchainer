@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { Redirect, Link } from 'react-router-dom';
 import styled from "styled-components";
 
 const Main = styled.main`
@@ -117,7 +118,9 @@ const A = styled.a`
 
 
 const Login = () => {
-  const errorMsg = ['로그인 성공', '존재하지 않는 username입니다.', '잘못된 비밀번호입니다.'];
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
+  const errorMsg = ['로그인 성공', 'username 또는 비밀번호를 잘못 입력했습니다.', 'username을 입력해주세요', '비밀번호를 입력해주세요'];
   const [inputs, setInputs] = useState({
     username: "",
     password: ""
@@ -125,8 +128,9 @@ const Login = () => {
   const [error, setError] = useState();
   /*
     0: 로그인 성공,
-    1: username unexists,
-    2: invalid password
+    1: 로그인 실패,
+    2: username 미입력,
+    3: password 미입력
   */
 
   const handleInputs = (e) => {
@@ -140,22 +144,33 @@ const Login = () => {
   const handleLogin = () => {
     console.log('Login Clicked!');
 
-    // 백엔드로 로그인 요청 전송
-    const url = "http://localhost:4000/login";
-    const payload = {
-      username: inputs.username,
-      password: inputs.password
-    }
+    // 입력 여부 검사
+    if (inputs.username === "") {
+      setError(2);
+      usernameRef.current.focus();
+    } else if (inputs.password === "") {
+      setError(3);
+      passwordRef.current.focus();
+    } else {
+    // // 백엔드로 로그인 요청 전송
+    // const url = "http://localhost:4000/login";
+    // const payload = {
+    //   username: inputs.username,
+    //   password: inputs.password
+    // }
     // axios.post(url, payload)
     // .then((res) => {
-    //     console.log(res);
+    //   console.log(res);
+    //   // 응답 결과에 따라 error 상태 저장
+    //   setError(1)
     // })
-    
-    // 응답 결과에 따라 error 상태 저장
+      setError(1);
+    }
   }
 
   return (
     <Main>
+      {error === 0 ? <Redirect to ="/mypage" /> : null}
       <Section>
         <Container>
           <Div>
@@ -166,21 +181,35 @@ const Login = () => {
           <Div>
             <FormDiv>
               <h3>Username</h3>
-              <Input type="text" name="username" placeholder="username" onChange={handleInputs}/>
+              <Input type="text" name="username" placeholder="username" onChange={handleInputs} ref={usernameRef}/>
               <h3>Password</h3>
-              <Input type="password" name="password" placeholder="password" onChange={handleInputs}/>
+              <Input type="password" name="password" placeholder="password" onChange={handleInputs} ref={passwordRef}/>
               <MsgDiv>
                 {error === 1 ? <Message>{errorMsg[1]}</Message> : (
-                  error === 2 ? <Message>{errorMsg[2]}</Message> : null
+                  error === 2 ? <Message>{errorMsg[2]}</Message> : (
+                    error === 3 ? <Message>{errorMsg[3]}</Message> : null
+                  )
                 )}
               </MsgDiv>
               <ButtonDiv>
                 <Button type="button" onClick={handleLogin}>로그인</Button>
               </ButtonDiv>
               <Ul>
-                <Li><A href="" >아이디 찾기</A></Li>
-                <Li><A href="" >비밀번호 찾기</A></Li>
-                <Li><A href="" >회원가입</A></Li>
+                <Li>
+                  <Link to="/findusername">
+                    <A href="" >아이디 찾기</A>
+                  </Link>
+                </Li>
+                <Li>
+                  <Link to="/findpassword">
+                    <A href="" >비밀번호 찾기</A>
+                  </Link>
+                </Li>
+                <Li>
+                  <Link to="/register">
+                    <A href="" >회원가입</A>
+                  </Link>
+                </Li>
               </Ul>
             </FormDiv>
           </Div>
