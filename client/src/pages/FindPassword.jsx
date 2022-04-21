@@ -129,7 +129,7 @@ const FindPassword = () => {
   const emailRef = useRef(null);
   const usernameRef = useRef(null);
   const regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
-  const errorMsg = ['', 'Email을 입력해주세요.', 'Email 형식이 아닙니다.', 'username을 입력해주세요', '회원 정보가 존재하지 않습니다.']
+  const errorMsg = ['', 'Email을 입력해주세요', 'Email 형식이 아닙니다', 'username을 입력해주세요', '회원 정보가 존재하지 않습니다']
   const [error, setError] = useState();
   const [inputs, setInputs] = useState({
     email: "",
@@ -210,15 +210,16 @@ const FindPassword = () => {
             <FormDiv>
               <h3>Email</h3>
               <Input type="email" name="email" placeholder="가입한 email을 입력해주세요" onChange={handleInputs} ref={emailRef} />
+              <MsgDiv>
+                {error === 1 ? (<Message>{errorMsg[1]}</Message>) : (
+                  error === 2 ? (<Message>{errorMsg[2]}</Message>) : null
+                )}
+              </MsgDiv>
               <h3>Username</h3>
               <Input type="text" name="username" placeholder="가입한 username을 입력해주세요" onChange={handleInputs} ref={usernameRef}/>
               <MsgDiv>
-                {error === 1 ? (<Message>{errorMsg[1]}</Message>): (
-                  error === 2 ? (<Message>{errorMsg[2]}</Message>) : (
-                    error === 3 ? (<Message>{errorMsg[3]}</Message>) : (
-                      error === 4 ? (<Message>{errorMsg[4]}</Message>) : null
-                    )
-                  )
+                {error === 3 ? (<Message>{errorMsg[3]}</Message>) : (
+                  error === 4 ? (<Message>{errorMsg[4]}</Message>) : null
                 )}
               </MsgDiv>
               <ButtonDiv>

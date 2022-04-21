@@ -66,7 +66,7 @@ const MsgDiv = styled.div`
   margin-bottom: 1rem!important;
 `;
 
-const Message = styled.h3`
+const Message = styled.p`
   color: red;
 `;
 
@@ -120,7 +120,7 @@ const A = styled.a`
 const Login = () => {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
-  const errorMsg = ['로그인 성공', 'username 또는 비밀번호를 잘못 입력했습니다.', 'username을 입력해주세요', '비밀번호를 입력해주세요'];
+  const errorMsg = ['로그인 성공', 'username을 입력해주세요', '비밀번호를 입력해주세요', 'username 또는 비밀번호를 잘못 입력했습니다'];
   const [inputs, setInputs] = useState({
     username: "",
     password: ""
@@ -146,10 +146,10 @@ const Login = () => {
 
     // 입력 여부 검사
     if (inputs.username === "") {
-      setError(2);
+      setError(1);
       usernameRef.current.focus();
     } else if (inputs.password === "") {
-      setError(3);
+      setError(2);
       passwordRef.current.focus();
     } else {
     // // 백엔드로 로그인 요청 전송
@@ -164,7 +164,7 @@ const Login = () => {
     //   // 응답 결과에 따라 error 상태 저장
     //   setError(1)
     // })
-      setError(1);
+      setError(3);
     }
   }
 
@@ -181,14 +181,15 @@ const Login = () => {
           <Div>
             <FormDiv>
               <h3>Username</h3>
-              <Input type="text" name="username" placeholder="username" onChange={handleInputs} ref={usernameRef}/>
+              <Input type="text" name="username" placeholder="username" onChange={handleInputs} ref={usernameRef} />
+              <MsgDiv>
+                {error === 1 ? <Message>{errorMsg[1]}</Message> : null}
+              </MsgDiv>
               <h3>Password</h3>
               <Input type="password" name="password" placeholder="password" onChange={handleInputs} ref={passwordRef}/>
               <MsgDiv>
-                {error === 1 ? <Message>{errorMsg[1]}</Message> : (
-                  error === 2 ? <Message>{errorMsg[2]}</Message> : (
-                    error === 3 ? <Message>{errorMsg[3]}</Message> : null
-                  )
+                {error === 2 ? <Message>{errorMsg[2]}</Message> : (
+                  error === 3 ? <Message>{errorMsg[3]}</Message> : null
                 )}
               </MsgDiv>
               <ButtonDiv>

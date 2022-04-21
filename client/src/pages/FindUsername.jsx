@@ -128,7 +128,7 @@ const Board = styled.div`
 const FindUsername = () => {
   const emailRef = useRef(null);
   const regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
-  const errorMsg = ['', 'Email을 입력해주세요.', 'Email 형식이 아닙니다.', '회원 정보가 존재하지 않습니다.']
+  const errorMsg = ['', 'Email을 입력해주세요', 'Email 형식이 아닙니다', '회원 정보가 존재하지 않습니다']
   const [inputs, setInputs] = useState({
     email: "",
     username: "test1234",
