@@ -18,9 +18,11 @@ const ContentMainContainer = styled.section`
     display: flex;
     align-items: center;
     margin-top: 100px;
+    margin-bottom: 2rem;
     animation: ${move} 1.5s;
     width: 100%;
     overflow: hidden;
+    max-width: 1600px;
 `;
 
 const Button = styled.button`
@@ -76,7 +78,7 @@ const ContentMain = () => {
 
     return (
     <ContentMainContainer>
-        <Button onClick={handleCarouselLeft} style={{marginLeft: "3%"}}>{"<"}</Button>
+        <Button onClick={handleCarouselLeft}>{"<"}</Button>
         <ImageContainer ref={imageRef}>
             <Image src={image1} alt={source.image1}/>
             <Image src={image2} alt={source.image2}/>
