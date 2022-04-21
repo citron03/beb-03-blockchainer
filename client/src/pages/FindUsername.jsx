@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useRef, useState } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
 
 const Main = styled.main`
@@ -66,7 +66,7 @@ const MsgDiv = styled.div`
   margin-bottom: 1rem!important;
 `;
 
-const Message = styled.h3`
+const Message = styled.p`
   color: red;
 `;
 
@@ -116,88 +116,97 @@ const A = styled.a`
   margin: 0 1rem;
 `;
 
+const Board = styled.div`
+  width: 100%;
+  border-radius: 2rem!important;
+  border: solid 1px #e6e6e6;
+  background-color: white;
+  padding: 1rem 2rem;
+  margin-top: 2rem;
+`;
 
-const Login = () => {
-  const usernameRef = useRef(null);
-  const passwordRef = useRef(null);
-  const errorMsg = ['로그인 성공', 'username 또는 비밀번호를 잘못 입력했습니다.', 'username을 입력해주세요', '비밀번호를 입력해주세요'];
+const FindUsername = () => {
+  const emailRef = useRef(null);
+  const regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
+  const errorMsg = ['', 'Email을 입력해주세요.', 'Email 형식이 아닙니다.', '회원 정보가 존재하지 않습니다.']
   const [inputs, setInputs] = useState({
-    username: "",
-    password: ""
-  })
-  const [error, setError] = useState();
-  /*
-    0: 로그인 성공,
-    1: 로그인 실패,
-    2: username 미입력,
-    3: password 미입력
-  */
+    email: "",
+    username: "test1234",
+    createdAt: "2022.04.20"
+  });
+  const [error, setError] = useState("");
 
-  const handleInputs = (e) => {
-    const { name, value } = e.target;
+  const handleEmail = (e) => {
     setInputs({
       ...inputs,
-      [name]: value
-    })
+      email: e.target.value
+    });
   }
 
-  const handleLogin = () => {
-    console.log('Login Clicked!');
-
-    // 입력 여부 검사
-    if (inputs.username === "") {
-      setError(2);
-      usernameRef.current.focus();
-    } else if (inputs.password === "") {
-      setError(3);
-      passwordRef.current.focus();
-    } else {
-    // // 백엔드로 로그인 요청 전송
-    // const url = "http://localhost:4000/login";
-    // const payload = {
-    //   username: inputs.username,
-    //   password: inputs.password
-    // }
-    // axios.post(url, payload)
-    // .then((res) => {
-    //   console.log(res);
-    //   // 응답 결과에 따라 error 상태 저장
-    //   setError(1)
-    // })
+  const handleClick = () => {
+    if (inputs.email === "") {
+      emailRef.current.focus();
       setError(1);
+    } else if (!regEmail.test(inputs.email)) {
+      emailRef.current.focus();
+      setError(2);
+    } else {
+      // // 백엔드로 요청 전송
+      // const url = "http://localhost:4000/account/findusername";
+      // const payload = { email: email };
+      // axios.post(url, payload)
+      // .then((res) => {
+      //   // 존재하지 않는 회원일 때
+      //   setError(3);
+
+      //   // 아이디 찾기 성공 - username, createdAt 설정
+      //   setInputs({
+      //     ...inputs,
+      //     username: "",
+      //     createdAt: ""
+      //   })
+      //   setError(0);
+      // })
+      
+
+      setError(0);
     }
   }
 
   return (
     <Main>
-      {error === 0 ? <Redirect to ="/mypage" /> : null}
       <Section>
         <Container>
           <Div>
             <TitleDiv>
-              <Title>로그인</Title>
+              <Title>아이디 찾기</Title>
             </TitleDiv>
           </Div>
           <Div>
             <FormDiv>
-              <h3>Username</h3>
-              <Input type="text" name="username" placeholder="username" onChange={handleInputs} ref={usernameRef}/>
-              <h3>Password</h3>
-              <Input type="password" name="password" placeholder="password" onChange={handleInputs} ref={passwordRef}/>
+              <h3>Email</h3>
+              <Input type="email" name="email" placeholder="가입한 email을 입력해주세요" onChange={handleEmail} ref={emailRef}/>
               <MsgDiv>
-                {error === 1 ? <Message>{errorMsg[1]}</Message> : (
-                  error === 2 ? <Message>{errorMsg[2]}</Message> : (
-                    error === 3 ? <Message>{errorMsg[3]}</Message> : null
+                {error === 1 ? (<Message>{errorMsg[1]}</Message>): (
+                  error === 2 ? (<Message>{errorMsg[2]}</Message>) : (
+                    error === 3 ? (<Message>{errorMsg[3]}</Message>) : null
                   )
                 )}
               </MsgDiv>
               <ButtonDiv>
-                <Button type="button" onClick={handleLogin}>로그인</Button>
+                <Button type="button" onClick={handleClick}>아이디 찾기</Button>
               </ButtonDiv>
+              {error === 0 ?
+                (<Board>
+                  <h4>회원가입 정보</h4>
+                  <p>Email: {inputs.email}</p>
+                  <p>Username: {inputs.username}</p>
+                  <p>회원가입 날짜: {inputs.createdAt}</p>
+                </Board>) : null}
               <Ul>
                 <Li>
-                  <Link to="/findusername">
-                    <A href="" >아이디 찾기</A>
+                  <Link to="/login">
+                    <A href="" >로그인</A>
                   </Link>
                 </Li>
                 <Li>
@@ -219,4 +228,4 @@ const Login = () => {
   );
 }
 
-export default Login;
+export default FindUsername;
