@@ -17,6 +17,10 @@ db.sequelize
   })
   .catch(console.error);
 
+app.get("/", (req, res) => {
+  res.send("server conneted");
+});
+
 app.listen(port, () => {
   console.log(`server is listening at localhost:${port}`);
 });
