@@ -29,8 +29,14 @@ const Pagination = () => {
     const pages = getPages(lastPage, parseInt(nowPage));
 
     useEffect(() => {
-        getPageCount().then(el => 
-            setLastPage(el));
+        getPageCount()
+            .then(el => {
+                if(el % 12 === 0){
+                    setLastPage(parseInt(el / 12));
+                } else {
+                    setLastPage(parseInt(el / 12) + 1);
+                }
+            })
     }, []);
     
     return (
