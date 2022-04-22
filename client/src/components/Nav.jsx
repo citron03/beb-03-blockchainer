@@ -49,6 +49,10 @@ const MyLink = styled(NavLink)`
   white-space: nowrap;
   text-decoration: none;
   color: inherit;
+
+  &:hover {
+    color: grey;
+  }
 `;
 
 const MyUl = styled.ul`
@@ -85,27 +89,27 @@ const Nav = () => {
           <MyUl>
             <MyLi>
               <MyLink to="/">
-              <A>Home</A>
+              Home
               </MyLink>
             </MyLi>
             <MyLi>
               <MyLink to="/content/1">
-              <A>Content</A>
+              Content
               </MyLink>
             </MyLi>
             <MyLi>
               <MyLink to="/register">
-              <A>Register</A>
+              Register
               </MyLink>
             </MyLi>
             <MyLi>
               <MyLink to="/login">
-              <A>Login</A>
+              Login
               </MyLink>
             </MyLi>
             <MyLi>
               <MyLink to="/mypage">
-              <A>Mypage</A>
+              Mypage
               </MyLink>
             </MyLi>
           </MyUl>
