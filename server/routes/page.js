@@ -21,7 +21,7 @@ router.get("/count", async (req, res) => {
 });
 
 router.get("/list/:page", async (req, res) => {
-  let contentperpage = 4; // 여기를 수정해주세요!
+  let contentperpage = 12; // 한 페이지당 띄울 게시글 수
   let totalcontent = await Post.count({
     where: {},
   });
