@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Pagination from "./Pagination";
 
 const PostsContainer = styled.div`
+    flex: 3 1 0;
     display: grid;
     grid-auto-flow: column;
     grid-template-rows: repeat(4, 1fr);

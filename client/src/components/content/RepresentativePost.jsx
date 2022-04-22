@@ -4,21 +4,20 @@ import image from './../../assets/images/easter-tree-g1f28a53d6_1280.jpg';
 
 const RepresentativePostContainer = styled.div`
     border-right: 1px solid #dfe6e9;
-    width: 30rem;
+    width: 100%;
     height: 50.5rem;  
-    padding: 1rem 3rem 1rem 1rem;
-    margin: 1rem;
+    padding: 1rem;
     color: black;
 `;
 
 const Image = styled.img`
     width: 100%;
-    height: auto;  
+    height: auto;
 `
 
 const RepresentativePost = ({post}) => {
     return (
-        <Link to={`/postdetail/${post.post_id}`}>
+        <Link to={`/postdetail/${post.post_id}`} style={{ flex: "2 1 0"}}>
             <RepresentativePostContainer>
                 대표 포스트
                 <h1>{post.title}</h1>

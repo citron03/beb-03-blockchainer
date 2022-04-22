@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
 const SideMenuContainer = styled.div`
+    flex: 0.7 1 0;
     border-left: 1px solid #dfe6e9;
     margin: 1rem;
     padding: 1rem 1rem 1rem 2rem;
