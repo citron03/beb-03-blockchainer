@@ -1,3 +1,8 @@
 .env
+<<<<<<< HEAD
+node_modules/
+package-lock.json
+=======
 .history
 node_modules/
+>>>>>>> abd23568e74e166146424ccf444af69f27f15756

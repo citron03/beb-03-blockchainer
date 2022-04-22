@@ -17,7 +17,7 @@ app.get('/auth', controller.auth);
 app.post('/login', controller.signin);
 
 db.sequelize
-  .sync({ force: true })
+  .sync()
   .then(() => {
     console.log('dababase connected');
   })

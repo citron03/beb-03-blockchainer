@@ -1,25 +1,28 @@
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  const Nft = sequelize.define(
-    "nft",
+  class Nft extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      Nft.belongsTo(models.User, {
+        foreignKey: "owner",
+      });
+    }
+  }
+  Nft.init(
     {
-      ifps: {
-        type: DataTypes.STRING,
-      },
-      price: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      owner: {
-        type: DataTypes.INTEGER,
-      },
+      ifps: DataTypes.STRING,
+      price: DataTypes.INTEGER,
+      owner: DataTypes.INTEGER,
     },
     {
-      charset: "utf8",
-      collate: "utf8_general_ci",
+      sequelize,
+      modelName: "Nft",
     }
   );
-  Nft.associate = (db) => {
-    Nft.belongsTo(db.User, { foreignKey: "owner", targetKey: "id" });
-  };
   return Nft;
 };
