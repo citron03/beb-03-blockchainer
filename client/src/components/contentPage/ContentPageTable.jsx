@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import Pagination from "../content/Pagination";
 import Table from "./Table";
-import dummyPosts from "../../assets/dymmydata/dummyPosts";
+import { useState, useEffect } from "react";
+import fetchPosts from "./fetchData/fetchPosts";
+import { useParams } from "react-router-dom";
 
 const TableContainer = styled.div`
     margin: 100px 1rem 1rem 1rem;
@@ -16,11 +18,23 @@ const Td = styled.td`
 `
 
 const ContentPageTable = () => {
+
+    const page = useParams().page;
+    const [postsArr, setPostsArr] = useState([]);
+
+    useEffect(() => {
+        if(page){
+            fetchPosts(page)
+                .then(el => setPostsArr(el.data.data))
+                .catch(err => console.log(err));
+        }
+    }, [page])
+
     return (
     <>
         <TableContainer>
             <h2>게시글</h2>
-            <table style={{borderCollapse: "collapse"}}>
+            <table style={{borderCollapse: "collapse", width: "100%"}}>
                 <tbody>
                     <tr>
                         <Td>id</Td>
@@ -30,8 +44,8 @@ const ContentPageTable = () => {
                         <Td>작성자</Td>
                     </tr>
                     {
-                        dummyPosts.map(el => {
-                            return (<Table key={el.post_id} data={el} />)
+                        postsArr.map(el => {
+                            return (<Table key={el.id} data={el} />)
                         })
                     }
                 </tbody>

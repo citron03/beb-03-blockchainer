@@ -17,7 +17,7 @@ const Image = styled.img`
 
 const RepresentativePost = ({post}) => {
     return (
-        <Link to={`/postdetail/${post.post_id}`} style={{ flex: "2 1 0"}}>
+        <Link to={`/postdetail/${post.id}`} style={{ flex: "2 1 0"}}>
             <RepresentativePostContainer>
                 대표 포스트
                 <h1>{post.title}</h1>
