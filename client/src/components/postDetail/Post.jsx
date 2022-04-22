@@ -111,7 +111,7 @@ const Post = ({data}) => {
                 </ButtonDiv>
             </PostHeader>
             {/* <Image src={image} alt="https://pixabay.com/ko/photos/%eb%b6%80%ed%99%9c%ec%a0%88-%eb%82%98%eb%ac%b4-%eb%b6%80%ed%99%9c%ec%a0%88-7106933/" /> */}
-            <Paragraph>내용 : {data.content}</Paragraph>
+            <Paragraph>{data.content}</Paragraph>
         </PostContainer>
         <AllCommentsSection>
             <Comments post_id={data.post_id}/>
