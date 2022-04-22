@@ -12,6 +12,7 @@ import FindUsername from './pages/FindUsername';
 import FindPassword from './pages/FindPassword';
 import Write from './pages/Write';
 import Modify from './pages/Modify';
+import ContentPage from './pages/ContentPage';
 
 function App() {
   window.addEventListener("scroll", () => {
@@ -46,8 +47,11 @@ function App() {
           <Route path="/mypage">
             <Mypage />
           </Route>
-          <Route path="/content/:page">
+          <Route exact path="/content">
             <Content />
+          </Route>
+          <Route path="/content/:page">
+            <ContentPage/>
           </Route>
           <Route path="/postdetail/:post_id">
             <PostDetail />
