@@ -96,16 +96,19 @@ router.post("/findusername", async (req, res) => {
       message: "Find username Successed",
       data: {
         username: matchuser.dataValues.username,
+        createdAt: matchuser.dataValues.createdAt
       },
     });
   }
 });
 
 router.post("/findpassword", async (req, res) => {
+  let reqemail = req.body.email;
   let reqUsername = req.body.username;
   const matchuser = await User.findOne({
     where: {
       username: reqUsername,
+      email: reqemail,
     },
   });
   if (!matchuser) {
@@ -117,6 +120,7 @@ router.post("/findpassword", async (req, res) => {
       message: "Find password Successed",
       data: {
         password: matchuser.dataValues.password,
+        createdAt: matchuser.dataValues.createdAt
       },
     });
   }
