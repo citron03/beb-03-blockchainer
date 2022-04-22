@@ -15,7 +15,7 @@ router.post("/checkusername", async (req, res) => {
       message: "ok",
     });
   } else {
-    res.status(400).json({
+    res.status(409).json({
       message: "Error: username Already Exists",
     });
   }
@@ -34,7 +34,7 @@ router.post("/register", async (req, res) => {
     default: {},
   }).then(([user, created]) => {
     if (!created) {
-      res.status(400).json({
+      res.status(409).json({
         message: "Error: Email Already Exists",
       });
     } else {
@@ -88,7 +88,7 @@ router.post("/findusername", async (req, res) => {
   });
   console.log(matchuser);
   if (!matchuser) {
-    res.status(400).json({
+    res.status(404).json({
       message: "Error: username unexists",
     });
   } else {
@@ -103,13 +103,15 @@ router.post("/findusername", async (req, res) => {
 
 router.post("/findpassword", async (req, res) => {
   let reqUsername = req.body.username;
+  let reqemail = req.body.email;
   const matchuser = await User.findOne({
     where: {
       username: reqUsername,
+      email: reqemail,
     },
   });
   if (!matchuser) {
-    res.status(400).json({
+    res.status(404).json({
       message: "Error: user unexists",
     });
   } else {
