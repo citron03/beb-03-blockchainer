@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import NewsPost from "./NewsPost";
 
 const HomeLeftContainer = styled.div`
     display: flex;
@@ -11,7 +12,7 @@ const HomeLeftContainer = styled.div`
 `;
 
 const DummyDiv = styled.div`
-    height: 30%;
+    flex: 1 1 0;
     margin: 1rem;
     background-color: white;
 `
@@ -20,7 +21,7 @@ const HomeLeft = () => {
     return (
         <HomeLeftContainer>
             <DummyDiv>Left Side</DummyDiv>
-            <DummyDiv>최신 게시글</DummyDiv>
+            <NewsPost/>
             <DummyDiv>???</DummyDiv>
         </HomeLeftContainer>
     );

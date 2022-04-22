@@ -1,13 +1,7 @@
 import { useParams } from "react-router-dom";
-import dummyPosts from "../assets/dymmydata/dummyPosts";
 import Post from "../components/postDetail/Post";
-import axios from "axios";
 import { useState, useEffect } from "react";
-
-const fetchPost = async (id) => {
-    const getPost = await axios.get(`http://localhost:4000/page/content/${id}`);
-    return getPost;
-}
+import fetchPost from "../components/postDetail/fetchPost/fetchPost";
 
 const PostDetail = () => {
     const id = useParams().post_id;
