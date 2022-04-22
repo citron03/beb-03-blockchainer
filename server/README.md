@@ -11,6 +11,12 @@ $ npm install
 ```bash
 $ npx sequelize db:create
 $ npx sequelize db:migrate
+
+```
+
+더미데이터 불러오기<br>
+
+```bash
 $ npx sequelize-cli db:seed:all
 ```
 
@@ -25,5 +31,3 @@ $ npm run start
 ```bash
 $ npm run start:dev
 ```
-
-
