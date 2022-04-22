@@ -3,14 +3,19 @@ import axios from "axios";
 import { useState } from "react";
 
 const WriteCommentConatiner = styled.div`
-    width: 40%;
+    width: 50%;
     height: 3rem;
     display: flex;
+    margin: 1.3rem;
+    padding-left: 4.5rem;
+    justify-content: center;
 `
 
-const Input = styled.input`
+const TextArea = styled.textarea`
   display: block;
   width: 100%;
+  min-width: 200px;
+  height: 5rem;
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
@@ -22,16 +27,16 @@ const Input = styled.input`
   border-radius: 0;
   box-shadow: none;
   font-size: 15px;
+  margin-right: 1rem;
 `;
 
 const CommentButton = styled.button`
     background-color: #f5f6fa;
     border-color: #f5f6fa;
-    width: 3rem;
     font-size: 0.8rem;
-    padding: 0.5rem;
-    margin: 0.3rem 0.3rem 0.3rem 1.5rem;
     border-radius: 2rem;
+    width: fit-content;
+    min-width: 3rem;
 `;
 
 const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = null} ) => {
@@ -72,7 +77,7 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
 
     return (
     <WriteCommentConatiner>
-        <Input placeholder="Please enter your comment" 
+        <TextArea placeholder="Please enter your comment" 
             value={newContent} 
             onChange={(e) => setNewContent(e.target.value)}
         />

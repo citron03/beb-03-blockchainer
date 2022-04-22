@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const CommentContainer = styled.div`
     padding: 1rem;
-    border-bottom: 1px solid #dfe6e9;
+    border-bottom: 1px solid #95afc0;
 `;
 
 const CommentSpan = styled.span`
