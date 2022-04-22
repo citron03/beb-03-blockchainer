@@ -34,7 +34,14 @@ router.get("/list/:page", async (req, res) => {
       },
     },
   });
-  res.json({ message: "page loading Successed", data: result });
+  try {
+    res.status(200).json({ message: "page loading Successed", data: result });
+  } catch (err) {
+    console.log(err);
+    res.stauts(404).json({
+      message: "Error: page loading Failed",
+    });
+  }
 });
 
 router.get("/content/:id", async (req, res) => {
