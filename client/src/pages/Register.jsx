@@ -142,7 +142,7 @@ const Register = () => {
     console.log(name, value);
     
     // 중복확인된 username을 변경했을 때 
-    if (name === 'username' && isChecked === true) {
+    if (name === 'username' && (isChecked === true || error === 6)) {
       setIsChecked(false);
       setError(5);
     }
@@ -154,32 +154,35 @@ const Register = () => {
   }
 
   // username 중복 체크
-  const handleCheck = (e) => {
-    // setIsChecked(true);
-    // setError();
+  const handleCheck = async () => {
     // username 유효성 검사
     if (inputs.username === "") {
       setError(3);
       inputRef.current[1].focus();
-    } else if (invalidUsername.test(inputs.username) || inputs.username.length > 12 || inputs.username.length < 8) {
+    } else if (invalidUsername.test(inputs.username) || inputs.username.length > 12 || inputs.username.length < 6) {
       setError(4);
       inputRef.current[1].focus();
     } else {
-      // // 백엔드로 요청 전송
-      // const url = "http://localhost:4000/auth/username";
-      // const payload = { username: inputs.username };
-      // axios.post(url, payload)
-      // .then((res) => {
-      //   // 사용 가능하면 isChecked 설정
-      //   setIsChecked(true);
-      //   setError();
-      //   // 중복된 username이면 error 설정
-      //   setError(6);
-      // })
+      // 백엔드로 요청 전송
+      const url = "http://localhost:4000/account/checkusername";
+      const payload = { username: inputs.username };
+      await axios.post(url, payload)
+      .then((res) => {
+        console.log(res);
+        // 사용 가능하면 isChecked 설정
+        if (res.status === 200) {
+          setIsChecked(true);
+          setError();
+        }
+      })
+      .catch((e) => {
+        // 중복된 username이면 error 설정
+        setError(6);
+      })
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async () => {
     console.log("clicked");
 
     // 유효성 검사
@@ -192,7 +195,7 @@ const Register = () => {
     } else if (inputs.username === "") {
       setError(3);
       inputRef.current[1].focus();
-    } else if (invalidUsername.test(inputs.username) || inputs.username.length > 12 || inputs.username.length < 8) {
+    } else if (invalidUsername.test(inputs.username) || inputs.username.length > 12 || inputs.username.length < 6) {
       setError(4);
       inputRef.current[1].focus();
     } else if (isChecked === false) {
@@ -211,19 +214,23 @@ const Register = () => {
       console.log('폼 입력 성공');
       
       // 백엔드로 요청 전송
-      // const url = "http://localhost:4000/register";
-      // const payload = {
-      //   email: inputs.email,
-      //   username: inputs.username,
-      //   password: inputs.password
-      // }
-      // axios.post(url, payload)
-      // .then((res) => {
-      //   // 이미 존재하는 회원일 경우, username이 이미 존재할 경우 error 설정
-      //   setError(10);
-      //   // 회원가입 성공
-      //   setError(0);
-      // })
+      const url = "http://localhost:4000/account/register";
+      const payload = {
+        email: inputs.email,
+        username: inputs.username,
+        password: inputs.password
+      }
+      await axios.post(url, payload)
+      .then((res) => {
+        // 회원가입 성공
+        if (res.status === 201) {
+          setError(0);
+        }
+      })
+      .catch((e) => {
+        // 이미 존재하는 회원일 경우 error 설정
+        setError(10);
+      })
       
     }
   }

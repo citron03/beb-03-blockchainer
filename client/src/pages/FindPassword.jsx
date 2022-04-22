@@ -131,69 +131,66 @@ const FindPassword = () => {
   const regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
   const errorMsg = ['', 'Email을 입력해주세요', 'Email 형식이 아닙니다', 'username을 입력해주세요', '회원 정보가 존재하지 않습니다']
   const [error, setError] = useState();
-  const [inputs, setInputs] = useState({
+  const [user, setUser] = useState({
     email: "",
     username: "",
-    password: "test*******",
-    createdAt: "2022.04.20"
+    password: "",
+    createdAt: ""
   });
 
-  const handleInputs = (e) => {
+  const handleuser = (e) => {
     const { name, value } = e.target;
 
     if (error === 0) {
       setError();
     }
 
-    setInputs({
-      ...inputs,
+    setUser({
+      ...user,
       [name]: value
     })
   }
 
-  const handleClick = () => {
-    if (inputs.email === "") {
+  const handleClick = async () => {
+    if (user.email === "") {
       emailRef.current.focus();
       setError(1);
-    } else if (!regEmail.test(inputs.email)) {
+    } else if (!regEmail.test(user.email)) {
       emailRef.current.focus();
       setError(2);
-    } else if (inputs.username === "") {
+    } else if (user.username === "") {
       usernameRef.current.focus();
       setError(3);
     } else {
-      // // 백엔드로 요청 전송
-      // const url = "http://localhost:4000/account/findusername";
-      // const payload = {
-      //   email: inputs.email,
-      //   username: inputs.username
-      // };
-      // axios.post(url, post)
-      // .then((res) => {
-      //   // password, createdAt 설정
-      //   setInputs({
-      //     ...inputs,
-      //     password: "",
-      //     createdAt: ""
-      //   })
-      //   setError(0);
-
-      //   // 존재하지 않는 회원일 때
-      //   setError(4);
-      // })
-
-      // 비밀번호 앞 3자리 빼고 가리기
-      let str = "asdfasdf123";
-      let replace = '';
-      for (let i = 3; i < str.length; i++) {
-        replace += '*';
-      }
-      setInputs({
-        ...inputs,
-        password: str.substring(0, 3).concat(replace)
-      });
-
-      setError(0);
+      // 백엔드로 요청 전송
+      const url = "http://localhost:4000/account/findpassword";
+      const payload = {
+        email: user.email,
+        username: user.username
+      };
+      await axios.post(url, payload)
+      .then((res) => {
+        console.log(res);
+        // password, createdAt 설정
+        // 비밀번호 앞 3자리 빼고 가리기
+        if (res.status === 200) {
+          let str = res.data.data.password;
+          let replace = '';
+          for (let i = 3; i < str.length; i++) {
+            replace += '*';
+          }
+          setUser({
+            ...user,
+            password: str.substring(0, 3).concat(replace),
+            createdAt: res.data.data.createdAt.split('T')[0]
+          });
+          setError(0);  
+        }
+      })
+      .catch((e) => {
+        // 존재하지 않는 회원일 때
+        setError(4);
+      })
     }
   }
 
@@ -209,14 +206,14 @@ const FindPassword = () => {
           <Div>
             <FormDiv>
               <h3>Email</h3>
-              <Input type="email" name="email" placeholder="가입한 email을 입력해주세요" onChange={handleInputs} ref={emailRef} />
+              <Input type="email" name="email" placeholder="가입한 email을 입력해주세요" onChange={handleuser} ref={emailRef} />
               <MsgDiv>
                 {error === 1 ? (<Message>{errorMsg[1]}</Message>) : (
                   error === 2 ? (<Message>{errorMsg[2]}</Message>) : null
                 )}
               </MsgDiv>
               <h3>Username</h3>
-              <Input type="text" name="username" placeholder="가입한 username을 입력해주세요" onChange={handleInputs} ref={usernameRef}/>
+              <Input type="text" name="username" placeholder="가입한 username을 입력해주세요" onChange={handleuser} ref={usernameRef}/>
               <MsgDiv>
                 {error === 3 ? (<Message>{errorMsg[3]}</Message>) : (
                   error === 4 ? (<Message>{errorMsg[4]}</Message>) : null
@@ -228,10 +225,10 @@ const FindPassword = () => {
               {error === 0 ?
                 (<Board>
                   <h4>회원가입 정보</h4>
-                  <p>Email: {inputs.email}</p>
-                  <p>Username: {inputs.username}</p>
-                  <p>비밀번호: {inputs.password}</p>
-                  <p>회원가입 날짜: {inputs.createdAt}</p>
+                  <p>Email: {user.email}</p>
+                  <p>Username: {user.username}</p>
+                  <p>비밀번호: {user.password}</p>
+                  <p>회원가입 날짜: {user.createdAt}</p>
                 </Board>) : null}
               <Ul>
                 <Li>
