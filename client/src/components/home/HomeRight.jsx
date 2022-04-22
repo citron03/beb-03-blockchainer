@@ -11,7 +11,7 @@ const HomeRightContainer = styled.div`
 `;
 
 const DummyDiv = styled.div`
-    height: 30%;
+    flex: 1 1 0;
     margin: 1rem;
     background-color: white;
 `
