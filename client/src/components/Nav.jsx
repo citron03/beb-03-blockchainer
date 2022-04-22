@@ -1,7 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
 import { removeToken } from '../Redux/tokenSlice';
 import { useHistory } from 'react-router-dom';
 
@@ -82,19 +81,26 @@ const A = styled.a`
 
 const Button = styled.button`
   background: #212529;
-  border: 0;
-  padding: 10px 30px;
+  border: 0.1rem solid transparent;
+  padding: 10px 15px;
   color: #fff;
-  transition: 0.4s;
   cursor: pointer;
+  border-radius: 0.3rem;
+  margin-right: 1rem;
+  
+  &:hover {
+    border: 0.1rem solid black;
+    background-color: white;
+    color: black;
+    transition: color 0.3;
+  }
 `;
 
 
-const Nav = ({ accessToken }) => {
+const Nav = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const tokenSelector = useSelector((state) => state.token);
-  const [login, setLogin] = useState(false);
+  const accessToken = useSelector((state) => state.token.accessToken);
 
   const handleLogout = () => {
     dispatch(removeToken());
@@ -103,7 +109,7 @@ const Nav = ({ accessToken }) => {
 
   return (
     <NavHeader id='nav_header'>
-      {console.log(tokenSelector)}
+      {console.log(accessToken)}
       <Navdiv>
         <MyLink to="/">
           <h2>BLOCKCHAINER</h2>
@@ -120,20 +126,7 @@ const Nav = ({ accessToken }) => {
               Content
               </MyLink>
             </MyLi>
-            {tokenSelector.accessToken === "" ? (
-              <>
-              <MyLi>
-                <MyLink to="/register">
-                Register
-                </MyLink>
-              </MyLi>
-              <MyLi>
-                <MyLink to="/login">
-                Login
-                </MyLink>
-              </MyLi>
-              </>
-            ) : (
+            {accessToken !== "" ? (
               <>
                 <MyLi>
                   <MyLink to="/mypage">
@@ -141,29 +134,18 @@ const Nav = ({ accessToken }) => {
                   </MyLink>
                 </MyLi>
               </>
+            ) : (
+              null
             )}
-            {/* <MyLi>
-              <MyLink to="/register">
-              Register
-              </MyLink>
-            </MyLi>
-            <MyLi>
-              <MyLink to="/login">
-              Login
-              </MyLink>
-            </MyLi>
-            <MyLi>
-              <MyLink to="/mypage">
-              Mypage
-              </MyLink>
-            </MyLi> */}
           </MyUl>
         </Navbar>
         <div>
-          {tokenSelector.accessToken !== "" ? (
+          {accessToken !== "" ? (
             <Button type="button" onClick={handleLogout}>Logout</Button>
           ): (
-            <Button type="button">Login</Button>
+            <NavLink to="/login">
+              <Button type="button">Login</Button>
+            </NavLink>
           )}
           <A href="https://github.com/codestates/beb-03-blockchainer" target="_blank">Github</A>
         </div>
