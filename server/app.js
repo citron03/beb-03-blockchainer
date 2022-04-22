@@ -4,21 +4,17 @@ const db = require("./models");
 const port = 4000;
 const cors = require("cors");
 
-const accountRouter = require("./routes/account");
-const pageRouter = require("./routes/page");
-const contentRouter = require("./routes/content");
-const commentRouter = require("./routes/comment");
-const controller = require("./controller");
+
+const accountRouter = require('./routes/account');
+const pageRouter = require('./routes/page');
+const authRouter = require('./routes/auth');
 
 app.use(cors());
 app.use(express.json());
-app.use("/account", accountRouter);
-app.use("/page", pageRouter);
-app.use("/content", contentRouter);
-app.use("/comment", commentRouter);
+app.use('/account', accountRouter);
+app.use('/page', pageRouter);
+app.use('/auth', authRouter);
 
-app.get("/auth", controller.auth);
-app.post("/login", controller.signin);
 
 db.sequelize
   .sync()

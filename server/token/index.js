@@ -13,7 +13,7 @@ module.exports = {
     return res
       .status(200)
       .cookie('jwt', accessToken)
-      .json({ message: 'Making Token!' });
+      .json({ data: { accessToken: accessToken }, message: 'Making Token!' });
   },
 
   isAuthorized: (req) => {
