@@ -96,6 +96,7 @@ router.post("/findusername", async (req, res) => {
       message: "Find username Successed",
       data: {
         username: matchuser.dataValues.username,
+        createdAt: matchuser.dataValues.createdAt
       },
     });
   }
@@ -119,6 +120,7 @@ router.post("/findpassword", async (req, res) => {
       message: "Find password Successed",
       data: {
         password: matchuser.dataValues.password,
+        createdAt: matchuser.dataValues.createdAt
       },
     });
   }
