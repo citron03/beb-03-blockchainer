@@ -129,53 +129,60 @@ const FindUsername = () => {
   const emailRef = useRef(null);
   const regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
   const errorMsg = ['', 'Email을 입력해주세요', 'Email 형식이 아닙니다', '회원 정보가 존재하지 않습니다']
-  const [inputs, setInputs] = useState({
+  const [user, setUser] = useState({
     email: "",
     username: "test1234",
     createdAt: "2022.04.20"
   });
-  const [error, setError] = useState("");
+  const [error, setError] = useState(); // 0: 성공, 1: empty email, 2: invalid email, 3: user unexists
 
   const handleEmail = (e) => {
-    setInputs({
-      ...inputs,
+    if (error === 0) {
+      setError();
+    }
+
+    setUser({
+      ...user,
       email: e.target.value
     });
   }
 
-  const handleClick = () => {
-    if (inputs.email === "") {
+  const handleClick = async () => {
+    if (user.email === "") {
       emailRef.current.focus();
       setError(1);
-    } else if (!regEmail.test(inputs.email)) {
+    } else if (!regEmail.test(user.email)) {
       emailRef.current.focus();
       setError(2);
     } else {
-      // // 백엔드로 요청 전송
-      // const url = "http://localhost:4000/account/findusername";
-      // const payload = { email: email };
-      // axios.post(url, payload)
-      // .then((res) => {
-      //   // 존재하지 않는 회원일 때
-      //   setError(3);
-
-      //   // 아이디 찾기 성공 - username, createdAt 설정
-      //   setInputs({
-      //     ...inputs,
-      //     username: "",
-      //     createdAt: ""
-      //   })
-      //   setError(0);
-      // })
-      
-
-      setError(0);
+      // 백엔드로 요청 전송
+      const url = "http://localhost:4000/account/findusername";
+      const payload = { email: user.email };
+      await axios.post(url, payload)
+      .then((res) => {
+        console.log(res);
+        // 아이디 찾기 성공 - username, createdAt 설정
+        if (res.status === 200) {
+          setUser({
+            ...user,
+            username: res.data.data.username,
+            createdAt: res.data.data.createdAt.split('T')[0]
+          })
+          setError(0);
+        }
+      })
+      .catch((e) => {
+        // 존재하지 않는 회원일 때
+        console.log(e);
+        setError(3);
+      })
     }
   }
 
   return (
     <Main>
       <Section>
+        {console.log(error)}
         <Container>
           <Div>
             <TitleDiv>
@@ -199,9 +206,9 @@ const FindUsername = () => {
               {error === 0 ?
                 (<Board>
                   <h4>회원가입 정보</h4>
-                  <p>Email: {inputs.email}</p>
-                  <p>Username: {inputs.username}</p>
-                  <p>회원가입 날짜: {inputs.createdAt}</p>
+                  <p>Email: {user.email}</p>
+                  <p>Username: {user.username}</p>
+                  <p>회원가입 날짜: {user.createdAt}</p>
                 </Board>) : null}
               <Ul>
                 <Li>

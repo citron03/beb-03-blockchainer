@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Post } = require("../models");
+const { Op } = require("sequelize");
 
 router.get("/count", async (req, res) => {
   let count = await Post.count({
@@ -13,23 +14,39 @@ router.get("/count", async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(400).json({
+    res.status(404).json({
       message: "Error: loading Failed",
     });
   }
 });
 
 router.get("/list/:page", async (req, res) => {
-  let contentperpage = 12; // 나중에 프론트와 협의후 수정
+  let contentperpage = 12; // 한 페이지당 띄울 게시글 수
   let totalcontent = await Post.count({
     where: {},
   });
+  let viewdata = (req.params.page - 1) * contentperpage;
 
-  await Post.findAll({
-    where: {},
+  let result = await Post.findAll({
+    where: {
+      id: {
+        [Op.between]: [viewdata + 1, viewdata + contentperpage],
+      },
+    },
   });
-  console.log(totalcontent);
-  console.log(req.params.page);
-  console.log("yes");
+  res.json({ message: "page loading Successed", data: result });
+});
+
+router.get("/content/:id", async (req, res) => {
+  let content = await Post.findOne({
+    where: {
+      id: req.params.id,
+    },
+  });
+  if (content) {
+    res.status(200).json({ message: "post loading Successed", data: content });
+  } else {
+    res.status(404).json({ message: "Error: post loading Failed" });
+  }
 });
 module.exports = router;
