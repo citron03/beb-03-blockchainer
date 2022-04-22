@@ -6,15 +6,13 @@ const cors = require('cors');
 
 const accountRouter = require('./routes/account');
 const pageRouter = require('./routes/page');
-const controller = require('./controller');
+const authRouter = require('./routes/auth');
 
 app.use(cors());
 app.use(express.json());
 app.use('/account', accountRouter);
 app.use('/page', pageRouter);
-
-app.get('/auth', controller.auth);
-app.post('/login', controller.signin);
+app.use('/auth', authRouter);
 
 db.sequelize
   .sync()
