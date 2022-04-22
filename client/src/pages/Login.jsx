@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useRef, useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setToken } from '../Redux/tokenSlice';
 
 const Main = styled.main`
@@ -119,8 +119,7 @@ const ALink = styled(Link)`
 `;
 
 const Login = () => {
-  const tokenSelector = useSelector((state) => state.token.accesToken);
-  const usernameSelector = useSelector((state) => state.token.username);
+  
   const dispatch = useDispatch();
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
@@ -173,16 +172,17 @@ const Login = () => {
 
         if (res.status === 200) {
           // 로그인 성공
-          const accessToken = res.data.data.accesToken;
+          const accessToken = res.data.data.accessToken;
           dispatch(setToken({
-            accessToken,
+            accessToken: String(accessToken),
             username: inputs.username
           }));
-          console.log(tokenSelector, usernameSelector);
           setError(0);
         }
-        // // 응답 결과에 따라 error 상태 저장
-        // setError(1)
+      })
+      .catch(() => {
+        // 응답 결과에 따라 error 상태 저장
+        setError(3);
       })
       
     }
@@ -190,7 +190,7 @@ const Login = () => {
 
   return (
     <Main>
-      {error === 0 ? <Redirect to="/mypage" /> : null}
+      {error === 0 ? <Redirect to="/" /> : null}
       <Section>
         <Container>
           <Div>

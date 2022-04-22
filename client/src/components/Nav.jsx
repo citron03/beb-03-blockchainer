@@ -1,5 +1,9 @@
 import { NavLink } from 'react-router-dom';
 import styled from "styled-components";
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { removeToken } from '../Redux/tokenSlice';
+import { useHistory } from 'react-router-dom';
 
 const NavHeader = styled.header`
   height: 90px;
@@ -76,11 +80,30 @@ const A = styled.a`
   }
 `;
 
+const Button = styled.button`
+  background: #212529;
+  border: 0;
+  padding: 10px 30px;
+  color: #fff;
+  transition: 0.4s;
+  cursor: pointer;
+`;
 
 
-const Nav = () => {
+const Nav = ({ accessToken }) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const tokenSelector = useSelector((state) => state.token);
+  const [login, setLogin] = useState(false);
+
+  const handleLogout = () => {
+    dispatch(removeToken());
+    history.push('/');
+  }
+
   return (
     <NavHeader id='nav_header'>
+      {console.log(tokenSelector)}
       <Navdiv>
         <MyLink to="/">
           <h2>BLOCKCHAINER</h2>
@@ -97,7 +120,29 @@ const Nav = () => {
               Content
               </MyLink>
             </MyLi>
-            <MyLi>
+            {tokenSelector.accessToken === "" ? (
+              <>
+              <MyLi>
+                <MyLink to="/register">
+                Register
+                </MyLink>
+              </MyLi>
+              <MyLi>
+                <MyLink to="/login">
+                Login
+                </MyLink>
+              </MyLi>
+              </>
+            ) : (
+              <>
+                <MyLi>
+                  <MyLink to="/mypage">
+                  Mypage
+                  </MyLink>
+                </MyLi>
+              </>
+            )}
+            {/* <MyLi>
               <MyLink to="/register">
               Register
               </MyLink>
@@ -111,10 +156,15 @@ const Nav = () => {
               <MyLink to="/mypage">
               Mypage
               </MyLink>
-            </MyLi>
+            </MyLi> */}
           </MyUl>
         </Navbar>
         <div>
+          {tokenSelector.accessToken !== "" ? (
+            <Button type="button" onClick={handleLogout}>Logout</Button>
+          ): (
+            <Button type="button">Login</Button>
+          )}
           <A href="https://github.com/codestates/beb-03-blockchainer" target="_blank">Github</A>
         </div>
       </Navdiv>
