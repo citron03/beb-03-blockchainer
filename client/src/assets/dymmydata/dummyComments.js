@@ -14,7 +14,7 @@ const dummyComments = [
     {
         "comment_id" : "3",
         "writer" : "kimcoding",
-        "content" : "123 3456 123123",
+        "content" : "12\n3 3456\n 123123 asdsad 줄바꿈 테스트\n",
         "updated_at" : "2022-04-21-13:16"
     }
 ];
