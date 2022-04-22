@@ -1,9 +1,9 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const lightwallet = require("eth-lightwallet");
-const { User } = require("../models");
+const lightwallet = require('eth-lightwallet');
+const { User } = require('../models');
 
-router.post("/checkusername", async (req, res) => {
+router.post('/checkusername', async (req, res) => {
   let reqUsername = req.body.username;
   const existuser = await User.findOne({
     where: {
@@ -12,16 +12,16 @@ router.post("/checkusername", async (req, res) => {
   });
   if (!existuser) {
     res.status(200).json({
-      message: "ok",
+      message: 'ok',
     });
   } else {
     res.status(409).json({
-      message: "Error: username Already Exists",
+      message: 'Error: username Already Exists',
     });
   }
 });
 
-router.post("/register", async (req, res) => {
+router.post('/register', async (req, res) => {
   let reqUsername, reqPassword, reqemail;
   reqUsername = req.body.username;
   reqPassword = req.body.password;
@@ -35,7 +35,7 @@ router.post("/register", async (req, res) => {
   }).then(([user, created]) => {
     if (!created) {
       res.status(409).json({
-        message: "Error: Email Already Exists",
+        message: 'Error: Email Already Exists',
       });
     } else {
       let mnemonic;
@@ -58,7 +58,7 @@ router.post("/register", async (req, res) => {
                 username: reqUsername,
                 password: reqPassword,
                 address: address,
-                balance: "0",
+                balance: '0',
               },
               {
                 where: { email: reqemail },
@@ -66,7 +66,7 @@ router.post("/register", async (req, res) => {
             )
               .then((result) => {
                 res.status(201).json({
-                  message: "Register Successed",
+                  message: 'Register Successed',
                 });
               })
               .catch((err) => {
@@ -79,7 +79,7 @@ router.post("/register", async (req, res) => {
   });
 });
 
-router.post("/findusername", async (req, res) => {
+router.post('/findusername', async (req, res) => {
   let reqemail = req.body.email;
   const matchuser = await User.findOne({
     where: {
@@ -89,20 +89,20 @@ router.post("/findusername", async (req, res) => {
   console.log(matchuser);
   if (!matchuser) {
     res.status(404).json({
-      message: "Error: username unexists",
+      message: 'Error: username unexists',
     });
   } else {
     res.status(200).json({
-      message: "Find username Successed",
+      message: 'Find username Successed',
       data: {
         username: matchuser.dataValues.username,
-        createdAt: matchuser.dataValues.createdAt
+        createdAt: matchuser.dataValues.createdAt,
       },
     });
   }
 });
 
-router.post("/findpassword", async (req, res) => {
+router.post('/findpassword', async (req, res) => {
   let reqUsername = req.body.username;
   let reqemail = req.body.email;
   const matchuser = await User.findOne({
@@ -113,14 +113,14 @@ router.post("/findpassword", async (req, res) => {
   });
   if (!matchuser) {
     res.status(404).json({
-      message: "Error: user unexists",
+      message: 'Error: user unexists',
     });
   } else {
     res.status(200).json({
-      message: "Find password Successed",
+      message: 'Find password Successed',
       data: {
         password: matchuser.dataValues.password,
-        createdAt: matchuser.dataValues.createdAt
+        createdAt: matchuser.dataValues.createdAt,
       },
     });
   }
