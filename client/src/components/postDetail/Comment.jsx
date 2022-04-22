@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const CommentContainer = styled.div`
     padding: 1rem;
-    border-bottom: 1px solid #dfe6e9;
+    border-bottom: 1px solid #95afc0;
 `;
 
 const CommentSpan = styled.span`
@@ -22,9 +22,12 @@ const CommentButton = styled.button`
     border-radius: 2rem;
 `;
 
+const Paragraph = styled.p`
+    white-space: pre-line;
+`
+
 const Comment = ({data, post_id}) => {
 
-    const [content, setContent] = useState(data.content);
     const [update, setUpdate] = useState(false);
 
     const handleDeleteComment = () => {
@@ -41,14 +44,14 @@ const Comment = ({data, post_id}) => {
     return (
     <>
     {update ? 
-        <WriteComment content={content} comment_id={data.comment_id} setUpdate={setUpdate} post_id={post_id}/>
+        <WriteComment content={data.content} comment_id={data.comment_id} setUpdate={setUpdate} post_id={post_id}/>
         : 
         <CommentContainer>
             <CommentSpan>작성자 : {data.writer}</CommentSpan>
             <CommentSpan>마지막 댓글 수정 날짜 : {data.updated_at}</CommentSpan>
             <CommentButton onClick={() => setUpdate(true)}>수정</CommentButton>
             <CommentButton onClick={handleDeleteComment}>삭제</CommentButton>
-            <p>{data.content}</p>
+            <Paragraph>{data.content}</Paragraph>
         </CommentContainer>
     }
     </>

@@ -3,8 +3,7 @@ import styled from "styled-components";
 import Comment from "./Comment";
 
 const CommentsContainer = styled.div`
-    padding: 1rem;
-    margin-top: 1rem;
+    padding: 0.3rem;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -14,7 +13,7 @@ const CommentsContainer = styled.div`
 const Comments = ({post_id}) => {
     return (
     <CommentsContainer>
-        <h2>Comments</h2>
+        <h3>Comments</h3>
         {dummyComments.map((el) => {
             return <Comment key={el.comment_id} data={el} post_id={post_id}/>
         })}
