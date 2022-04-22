@@ -3,10 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit'
-import rootReducer from './Reducers'
-
-const store = configureStore({ reducer: rootReducer })
+import { store } from './Redux/store.js';
 
 ReactDOM.render(
   <Provider store={store}>
