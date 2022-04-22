@@ -14,7 +14,7 @@ module.exports = {
      */
 
     await queryInterface.bulkInsert(
-      "users",
+      "Users",
       [
         {
           username: "mrs.robinson",
@@ -65,7 +65,7 @@ module.exports = {
       {}
     );
 
-    await queryInterface.bulkInsert("posts", [
+    await queryInterface.bulkInsert("Posts", [
       {
         title: "안녕하세요",
         content: "가입인사올립니다",

@@ -94,6 +94,7 @@ const AllCommentsSection = styled.section`
 const Paragraph = styled.p`
     margin: 1rem 20% 0 20%;
     white-space: pre-line;
+    word-wrap: break-word;
 `
 
 const Post = ({data}) => {
@@ -101,7 +102,7 @@ const Post = ({data}) => {
     return (
     <>
         <PostContainer>
-            <UpdatedDate>최종 업데이트 날짜 : {data.updated_at}</UpdatedDate>
+            <UpdatedDate>마지막 수정 : {data.updatedAt}</UpdatedDate>
             <Title>제목 : {data.title}</Title>
             <PostHeader>
                 <p>작성자 : {data.writer}</p>

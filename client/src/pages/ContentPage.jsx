@@ -1,5 +1,4 @@
-import styled from "styled-components";
-import ContentPageTable from "../components/ContentPage/ContentPageTable";
+import ContentPageTable from "../components/contentPage/ContentPageTable";
 
 const ContentPage = () => {
     return (<ContentPageTable/>);
