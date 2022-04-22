@@ -93,7 +93,7 @@ const Nav = () => {
               </MyLink>
             </MyLi>
             <MyLi>
-              <MyLink to="/content/1">
+              <MyLink to="/content">
               Content
               </MyLink>
             </MyLi>
