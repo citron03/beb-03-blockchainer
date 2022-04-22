@@ -107,7 +107,7 @@ const Li = styled.li`
   }
 `;
 
-const A = styled.a`
+const ALink = styled(Link)`
   display: inline-block;
   font-size: 1rem;
   line-height: 17px;
@@ -232,19 +232,19 @@ const FindPassword = () => {
                 </Board>) : null}
               <Ul>
                 <Li>
-                  <Link to="/login">
-                    <A href="" >로그인</A>
-                  </Link>
+                  <ALink to="/login">
+                    로그인
+                  </ALink>
                 </Li>
                 <Li>
-                  <Link to="/findusername">
-                    <A href="" >아이디 찾기</A>
-                  </Link>
+                  <ALink to="/findusername">
+                    아이디 찾기
+                  </ALink>
                 </Li>
                 <Li>
-                  <Link to="/register">
-                    <A href="" >회원가입</A>
-                  </Link>
+                  <ALink to="/register">
+                    회원가입
+                  </ALink>
                 </Li>
               </Ul>
             </FormDiv>
