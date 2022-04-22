@@ -10,6 +10,7 @@ const PostsContainer = styled.div`
     display: grid;
     grid-auto-flow: column;
     grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: repeat(3, minmax(200px, 300px));
     max-height: 55rem;
     margin: 2rem;
 `

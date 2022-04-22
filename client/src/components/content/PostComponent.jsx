@@ -3,7 +3,6 @@ import styled from "styled-components";
 import handleTitle from "./useData/handleTitle";
 
 const PostComponentContainer = styled.div`
-    width: 15rem;
     height: fit-content;
     min-height: 8rem;
     border-bottom: 0.1rem solid #57606f;
@@ -23,6 +22,7 @@ const PostComponentContainer = styled.div`
 
 const PostTextDiv = styled.div`
     color: black;
+    overflow: hidden;
 `;
 
 const PostComponent = ({data}) => {

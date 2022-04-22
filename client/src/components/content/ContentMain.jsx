@@ -16,11 +16,13 @@ const move = keyframes`
 
 const ContentMainContainer = styled.section`
     display: flex;
-    margin: 100px 0.5rem 0.5rem 0.5rem;
-    padding: 0.5rem;
-    overflow: hidden;
+    align-items: center;
+    margin-top: 100px;
+    margin-bottom: 2rem;
     animation: ${move} 1.5s;
     width: 100%;
+    overflow: hidden;
+    max-width: 1600px;
 `;
 
 const Button = styled.button`
@@ -36,16 +38,15 @@ const Button = styled.button`
 
 const Image = styled.img`
     width: 100%;
-    height: auto;
-    margin-right: 10vw;
-    margin-left: 10vw;
+    padding-left: 10%;
+    padding-right: 10%;
 `;
 
 const ImageContainer = styled.div`
     display: flex;
-    margin: auto;
     width: 100%;
     height: auto;
+    max-width: 1600px;
 `
 const IMAGE_NUM = 2;
 
