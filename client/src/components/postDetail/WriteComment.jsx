@@ -44,34 +44,41 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
     const [newContent, setNewContent] = useState(content);
 
     const handleCommentPost = () => {
-
-        let url = "http://localhost:4000/";
-
+        let url = "http://localhost:4000/comment/";
         if(setUpdate){
             // 업데이트
-            url += "commentupdate";
-            const payload = {
-                post_id,
-                content : newContent,
-                comment_id
+            if(newContent !== '' || comment_id){
+                url += "update";
+                const payload = {
+                    content: newContent,
+                    id: comment_id
+                }
+                axios.patch(url, payload)
+                .then(el => {
+                    console.log(el);
+                    setUpdate(false); // 리랜더링
+                })
+            } else {
+                alert("내용을 입력하세요!");
             }
-            console.log(payload);
-            // axios.put(url, payload). then(el => {
-            //     console.log(el);
-            // })
-            setUpdate(false);
         } else {
             // 새 등록
-            url += "commentposting";
-            const payload = {
-                post_id,
-                content : newContent
+            if(newContent !== "" || post_id){
+                url += "posting";
+                const payload = {
+                    writer: 999, // 임시 작성자
+                    postid : post_id,
+                    content : newContent
+                }
+                axios.post(url, payload)
+                .then(el => {
+                    console.log(el);
+                    setNewContent(""); // 화면 리렌더링
+                })
+                .catch(err => console.log(err));
+            } else {
+                alert("내용을 입력하세요!");
             }
-            console.log(payload);
-            // axios.post(url, payload). then(el => {
-            //     console.log(el);
-            // })
-            setNewContent("");
         }
     }
 

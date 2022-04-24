@@ -84,6 +84,8 @@ const Paragraph = styled.p`
 
 const Post = ({data}) => {
     const history = useHistory();
+    // 데이터의 댓글을 Comments 컴포넌트로 내려 보내준다.
+    // console.log(data);
     return (
     <>
         <PostContainer>
@@ -99,8 +101,8 @@ const Post = ({data}) => {
             <Paragraph>{data.content}</Paragraph>
         </PostContainer>
         <AllCommentsSection>
-            <Comments post_id={data.post_id}/>
-            <WriteComment post_id={data.post_id}/>
+            <Comments post_id={data.id}/> 
+            <WriteComment post_id={data.id}/>
         </AllCommentsSection>
     </>
     );

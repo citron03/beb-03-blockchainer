@@ -31,14 +31,20 @@ const Comment = ({data, post_id}) => {
     const [update, setUpdate] = useState(false);
 
     const handleDeleteComment = () => {
-        const url = "http://localhost:4000/commentdelete";
+        if(!data.comment_id){
+            console.log("ERROR");
+            return;
+        }
+        const url = "http://localhost:4000/comment/delete";
         const payload = {
             id: data.comment_id
         }
         console.log(payload);
-        // axios.delete(url, payload). then(el => {
-        //     console.log(el);
-        // })
+        axios.delete(url, payload)
+            .then(el => {
+                console.log(el);
+            })
+            .catch(err => console.log(err));
     }
 
     return (
