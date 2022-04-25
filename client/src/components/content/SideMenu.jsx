@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import { useSelector } from 'react-redux'
 
 const SideMenuContainer = styled.div`
     flex: 0.7 1 0;
@@ -31,10 +32,12 @@ const PostButton = styled.button`
 const SideMenu = () => {
 
     const history = useHistory();
+    const userName = useSelector(state => state.token.username);
 
     return (
     <SideMenuContainer>
-        <PostButton onClick={() => history.push('/write')}>글쓰기</PostButton>
+        {userName.length > 0 ?  
+        <PostButton onClick={() => history.push('/write')}>글쓰기</PostButton> : null}
         <h1>Trending</h1>
         <TrendList>
             <Trend>
