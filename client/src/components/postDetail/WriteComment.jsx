@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setReload } from "../../Redux/reload";
 
 const WriteCommentConatiner = styled.div`
     width: 50%;
@@ -42,7 +44,9 @@ const CommentButton = styled.button`
 const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = null, userName} ) => {
 
     const [newContent, setNewContent] = useState(content);
-    
+    const reload = useSelector(state => state.reload.controller);
+    const dispatch = useDispatch();
+
     const handleCommentPost = () => {
         let url = "http://localhost:4000/comment/";
         if(setUpdate){
@@ -71,10 +75,14 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
                     post_id,
                     content : newContent
                 }
+                
                 axios.post(url, payload)
                     .then(el => {
                         console.log(el);
                         setNewContent(""); // 화면 리렌더링
+                        dispatch(setReload({
+                            controller: !reload
+                        }));
                     })
                     .catch(err => console.log(err));
             } else {
