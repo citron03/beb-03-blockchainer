@@ -10,12 +10,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.hasMany(models.Post, {
         foreignKey: "writer",
+        sourceKey: "username",
       });
       User.hasMany(models.Nft, {
         foreignKey: "owner",
       });
       User.hasMany(models.Comment, {
         foreignKey: "writer",
+        sourceKey: "username",
       });
     }
   }
