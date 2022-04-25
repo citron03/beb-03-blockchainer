@@ -4,5 +4,5 @@ const { User } = require('../models');
 require('dotenv').config();
 
 router.get('/post/:username', async (req, res) => {
-  console.log(res);
+  console.log(req);
 });
