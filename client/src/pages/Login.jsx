@@ -2,6 +2,8 @@ import axios from 'axios';
 import { useRef, useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { setToken } from '../Redux/tokenSlice';
 
 const Main = styled.main`
   margin-top: 90px;
@@ -117,6 +119,8 @@ const ALink = styled(Link)`
 `;
 
 const Login = () => {
+  
+  const dispatch = useDispatch();
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const errorMsg = [
@@ -156,26 +160,37 @@ const Login = () => {
       setError(2);
       passwordRef.current.focus();
     } else {
-      // // 백엔드로 로그인 요청 전송
-      // const url = "http://localhost:4000/login";
-      // const payload = {
-      //   username: inputs.username,
-      //   password: inputs.password
-      // }
-      // axios.post(url, payload)
-      // .then((res) => {
-      //   console.log(res);
-      //   // 응답 결과에 따라 error 상태 저장
-      //   setError(1)
-      // })
-      setError(3);
+      // 백엔드로 로그인 요청 전송
+      const url = "http://localhost:4000/auth/login";
+      const payload = {
+        username: inputs.username,
+        password: inputs.password
+      }
+      axios.post(url, payload)
+      .then((res) => {
+        console.log(res);
+
+        if (res.status === 200) {
+          // 로그인 성공
+          const accessToken = res.data.data.accessToken;
+          dispatch(setToken({
+            accessToken: String(accessToken),
+            username: inputs.username
+          }));
+          setError(0);
+        }
+      })
+      .catch(() => {
+        // 응답 결과에 따라 error 상태 저장
+        setError(3);
+      })
+      
     }
-    setError(1);
   };
 
   return (
     <Main>
-      {error === 0 ? <Redirect to="/mypage" /> : null}
+      {error === 0 ? <Redirect to="/" /> : null}
       <Section>
         <Container>
           <Div>
