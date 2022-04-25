@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setReload } from "../../Redux/reload";
 
 const WriteContainer = styled.div`
     margin-top: 100px;
@@ -80,6 +81,8 @@ const WriteForm = () => {
     const [content, setContent] = useState("");
     const history = useHistory();
     const userName = useSelector(state => state.token.username);
+    const reload = useSelector(state => state.reload.controller);
+    const dispatch = useDispatch();
 
     // useEffect(() => {
     //     console.log(JSON.stringify(content));
@@ -101,6 +104,9 @@ const WriteForm = () => {
           axios.post(url, payload)
           .then(el => {
             // console.log(el)
+            dispatch(setReload({
+              controller: !reload
+            }));                        
             history.goBack();
           })
           .catch(err => console.log(err));

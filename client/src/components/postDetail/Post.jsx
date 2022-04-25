@@ -3,7 +3,8 @@ import Comments from "./Comments";
 import WriteComment from "./WriteComment";
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from "react-redux";
+import { setReload } from "../../Redux/reload";
 
 const PostContainer = styled.div`
     display: flex;
@@ -72,7 +73,8 @@ const Paragraph = styled.p`
 const Post = ({data}) => {
     const history = useHistory({ forceRefresh: true });
     const userName = useSelector(state => state.token.username);
-    // console.log(data, userName);
+    const reload = useSelector(state => state.reload.controller);
+    const dispatch = useDispatch();
 
     const handleDeletePost = (post_id, history) => {
         const url = "http://localhost:4000/content/delete";
@@ -82,7 +84,10 @@ const Post = ({data}) => {
         axios.post(url, payload)
             .then(el => {
                 console.log(el);
-                history.goBack();
+                dispatch(setReload({
+                    controller: !reload
+                }));    
+                history.push("/content");
             })
             .catch(err => console.log(err));
     }

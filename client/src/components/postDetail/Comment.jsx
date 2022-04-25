@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { useState } from "react";
 import WriteComment from "./WriteComment";
 import axios from 'axios';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setReload } from "../../Redux/reload";
 
 const CommentContainer = styled.div`
     padding: 1rem;
@@ -31,27 +32,35 @@ const Comment = ({data, post_id}) => {
 
     const [update, setUpdate] = useState(false);
     const userName = useSelector(state => state.token.username);
+    const reload = useSelector(state => state.reload.controller);
+    const dispatch = useDispatch();
+
     const handleDeleteComment = () => {
-        if(!data.comment_id){
-            console.log("ERROR");
-            return;
+        if(data.id){
+            const url = "http://localhost:4000/comment/delete";
+            const payload = {
+                id: data.id
+            }
+            axios.post(url, payload)
+                .then(el => {
+                    console.log(el);
+                    // 삭제 후 동기화
+                    setTimeout(() => {
+                        dispatch(setReload({
+                            controller: !reload
+                        }));
+                    }, 300);
+                })
+                .catch(err => console.log(err));
+        } else {
+            alert("ERROR");
         }
-        const url = "http://localhost:4000/comment/delete";
-        const payload = {
-            id: data.comment_id
-        }
-        console.log(payload);
-        axios.delete(url, payload)
-            .then(el => {
-                console.log(el);
-            })
-            .catch(err => console.log(err));
     }
 
     return (
     <>
     {update ? 
-        <WriteComment content={data.content} comment_id={data.comment_id} setUpdate={setUpdate} post_id={post_id}/>
+        <WriteComment content={data.content} comment_id={data.id} setUpdate={setUpdate} post_id={post_id}/>
         : 
         <CommentContainer>
             <CommentSpan>작성자 : {data.writer}</CommentSpan>

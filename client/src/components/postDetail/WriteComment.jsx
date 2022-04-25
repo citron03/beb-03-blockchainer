@@ -61,7 +61,10 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
                 axios.patch(url, payload)
                     .then(el => {
                         console.log(el);
-                        setUpdate(false); // 리랜더링
+                        setUpdate(false); 
+                        dispatch(setReload({
+                            controller: !reload
+                        }));                        
                     })
             } else {
                 alert("내용을 입력하세요!");
@@ -79,7 +82,7 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
                 axios.post(url, payload)
                     .then(el => {
                         console.log(el);
-                        setNewContent(""); // 화면 리렌더링
+                        setNewContent(""); 
                         dispatch(setReload({
                             controller: !reload
                         }));

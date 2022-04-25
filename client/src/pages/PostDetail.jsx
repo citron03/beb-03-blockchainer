@@ -10,10 +10,13 @@ const PostDetail = () => {
     const reload = useSelector(state => state.reload.controller);
 
     useEffect(() => {
-        console.log(reload);
-        fetchPost(id)
-            .then(el => setData(el.data.data))
+        if(id){
+            fetchPost(id)
+            .then(el => { 
+                setData(el.data.data) 
+            })
             .catch(err => console.log(err));
+        }
     }, [id, reload])
 
     return (
