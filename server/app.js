@@ -1,7 +1,8 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const db = require("./models");
+const db = require('./models');
 const port = 4000;
+<<<<<<< HEAD
 const cors = require("cors");
 
 const accountRouter = require("./routes/account");
@@ -19,11 +20,24 @@ app.use("/comment", commentRouter);
 app.use("/server", serverRouter);
 app.use("/page", pageRouter);
 app.use("/auth", authRouter);
+=======
+const cors = require('cors');
+
+const accountRouter = require('./routes/account');
+const pageRouter = require('./routes/page');
+const authRouter = require('./routes/auth');
+
+app.use(cors());
+app.use(express.json());
+app.use('/account', accountRouter);
+app.use('/page', pageRouter);
+app.use('/auth', authRouter);
+>>>>>>> bbed3b1 (병합전)
 
 db.sequelize
-  .sync()
+  .sync({ force: true })
   .then(() => {
-    console.log("dababase connected");
+    console.log('dababase connected');
   })
   .catch(console.error);
 
