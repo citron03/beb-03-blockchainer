@@ -24,21 +24,15 @@ router.get("/count", async (req, res) => {
 
 router.get("/list/:page", async (req, res) => {
   let contentperpage = 12; // 한 페이지당 띄울 게시글 수
-  let totalcontent = await Post.count({
-    where: {},
-  });
-  let viewdata = (req.params.page - 1) * contentperpage;
+  let offset = contentperpage * (req.params.page - 1);
 
   let result = await Post.findAll({
     include: {
       model: User,
       attributes: ["username"],
     },
-    where: {
-      id: {
-        [Op.between]: [viewdata + 1, viewdata + contentperpage],
-      },
-    },
+    offset: offset,
+    limit: contentperpage,
   });
   try {
     res.status(200).json({ message: "page loading Successed", data: result });
@@ -54,7 +48,7 @@ router.get("/content/:id", async (req, res) => {
   let content = await Post.findOne({
     include: {
       model: Comment,
-      attributes: ["content"],
+      attributes: ["writer", "content", "createdAt", "updatedAt"],
     },
     where: {
       id: req.params.id,
