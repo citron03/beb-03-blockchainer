@@ -31,7 +31,6 @@ const Comment = ({data, post_id}) => {
 
     const [update, setUpdate] = useState(false);
     const userName = useSelector(state => state.token.username);
-
     const handleDeleteComment = () => {
         if(!data.comment_id){
             console.log("ERROR");
@@ -45,6 +44,7 @@ const Comment = ({data, post_id}) => {
         axios.delete(url, payload)
             .then(el => {
                 console.log(el);
+                window.location = document.referrer;
             })
             .catch(err => console.log(err));
     }

@@ -91,9 +91,10 @@ const WriteForm = () => {
     const handlePosting = () => {
         const url = "http://localhost:4000/content/posting";
         const payload = {
-            writer : 999, // 임시 작성자
+            writer : 1, // 임시 작성자
             title, content
         }
+        console.log(payload);
         if (title !== '' && content !== ''){
           axios.post(url, payload)
           .then(el => {

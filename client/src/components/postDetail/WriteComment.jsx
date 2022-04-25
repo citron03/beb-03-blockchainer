@@ -42,7 +42,7 @@ const CommentButton = styled.button`
 const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = null, userName} ) => {
 
     const [newContent, setNewContent] = useState(content);
-
+    
     const handleCommentPost = () => {
         let url = "http://localhost:4000/comment/";
         if(setUpdate){
@@ -54,10 +54,10 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
                     id: comment_id
                 }
                 axios.patch(url, payload)
-                .then(el => {
-                    console.log(el);
-                    setUpdate(false); // 리랜더링
-                })
+                    .then(el => {
+                        console.log(el);
+                        setUpdate(false); // 리랜더링
+                    })
             } else {
                 alert("내용을 입력하세요!");
             }
@@ -71,11 +71,11 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
                     content : newContent
                 }
                 axios.post(url, payload)
-                .then(el => {
-                    console.log(el);
-                    setNewContent(""); // 화면 리렌더링
-                })
-                .catch(err => console.log(err));
+                    .then(el => {
+                        console.log(el);
+                        setNewContent(""); // 화면 리렌더링
+                    })
+                    .catch(err => console.log(err));
             } else {
                 alert("내용을 입력하세요!");
             }
