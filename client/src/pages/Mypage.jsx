@@ -3,6 +3,9 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import profile from '../assets/images/profile.png';
+import ListTable from '../components/ListTable';
+import dummyPosts from '../assets/dymmydata/dummyPosts';
+import dummyComments from '../assets/dymmydata/dummyComments';
 
 const Main = styled.main`
 margin-top: 90px;
@@ -32,7 +35,8 @@ const Div = styled.div`
   }
 
   &.profile {
-    margin-bottom: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
     flex-direction: row;
   }
 `;
@@ -80,7 +84,10 @@ const TabLi = styled.li`
 `;
 
 const Desc = styled.div`
+  display: flex;
+  justify-content: center;
   text-align: center;
+  margin: 1rem 0;
 `;
 
 const Image = styled.img`
@@ -115,21 +122,19 @@ const Mypage = () => {
   const tokenSelector = useSelector((state) => state.token);
   const username = tokenSelector.username;
   const [currentTab, setCurrentTab] = useState(0);
-  const [dataList, setDataList] = useState([[], [], []]);
+  const [dataList, setDataList] = useState([[dummyPosts], [dummyComments], []]);
 
-  const menuArr = [
-    { name: '내가 쓴 글', content: 'Tab menu ONE' },
-    { name: '내가 쓴 댓글', content: 'Tab menu TWO' },
-    { name: 'NFT', content: 'Tab menu THREE' },
-  ];
+  const menuArr = ['내가 쓴 글', '내가 쓴 댓글', 'NFT'];
 
   const selectMenuHandler = (index) => {
     setCurrentTab(index);
     if (dataList[index].length === 0) {
-
+      const data = getMypageData(index);
+      // setDataList()
     }
   }
 
+  // 백엔드로 요청 전송
   const getMypageData = (index) => {
     switch (index) {
       case 0:
@@ -166,13 +171,14 @@ const Mypage = () => {
                   if (index === currentTab) {
                     classText += ' focused';
                   }
-                  return <TabLi onClick={() => {selectMenuHandler(index)}} className={classText} key={index}>{el.name}</TabLi>
+                  return <TabLi onClick={() => {selectMenuHandler(index)}} className={classText} key={index}>{el}</TabLi>
                 })}
               </TabMenu>
-              <Desc>
-                <p>{menuArr[currentTab].content}</p>
-              </Desc>
           </Div>
+          <Desc>
+            {currentTab === 2 ? (<div></div>) :
+              (<ListTable dataList={dataList[currentTab]} currentTab={currentTab}/>)}
+          </Desc>
         </Container>
       </Section>
     </Main>
