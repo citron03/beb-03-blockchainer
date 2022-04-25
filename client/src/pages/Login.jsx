@@ -178,6 +178,10 @@ const Login = () => {
             username: inputs.username
           }));
           setError(0);
+          localStorage.setItem('user', JSON.stringify({
+            accessToken: String(accessToken),
+            username: inputs.username
+          }));
         }
       })
       .catch(() => {

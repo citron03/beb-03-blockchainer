@@ -13,8 +13,12 @@ import FindPassword from './pages/FindPassword';
 import Write from './pages/Write';
 import Modify from './pages/Modify';
 import ContentPage from './pages/ContentPage';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setToken } from './Redux/tokenSlice';
 
 function App() {
+  const dispatch = useDispatch();
   window.addEventListener("scroll", () => {
     // console.log(window.scrollX, window.scrollY);
     if (window.scrollY > 90) {
@@ -23,6 +27,20 @@ function App() {
       document.querySelector("#nav_header").classList.remove("scrolled");
     }
   });
+
+  useEffect(() => {
+    try {
+      const user = localStorage.getItem('user');
+      console.log(user);
+      dispatch(setToken(user));
+      if (!user) {
+        return;
+      }
+    } catch (e) {
+      console.log('localStorage is not working');
+    }
+    
+  })
 
   return (
     <Router>
