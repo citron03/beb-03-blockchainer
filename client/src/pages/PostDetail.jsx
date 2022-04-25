@@ -12,10 +12,10 @@ const PostDetail = () => {
     useEffect(() => {
         if(id){
             fetchPost(id)
-            .then(el => { 
-                setData(el.data.data) 
-            })
-            .catch(err => console.log(err));
+                .then(el => { 
+                    setData(el.data.data) 
+                })
+                .catch(err => console.log(err));
         }
     }, [id, reload])
 
