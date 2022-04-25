@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setReload } from "../../Redux/reload";
 
 const WriteCommentConatiner = styled.div`
     width: 50%;
@@ -42,40 +44,50 @@ const CommentButton = styled.button`
 const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = null, userName} ) => {
 
     const [newContent, setNewContent] = useState(content);
+    const reload = useSelector(state => state.reload.controller);
+    const dispatch = useDispatch();
 
     const handleCommentPost = () => {
         let url = "http://localhost:4000/comment/";
         if(setUpdate){
             // 업데이트
-            if(newContent !== '' || comment_id){
+            if((newContent !== '' || comment_id) && userName !== ''){
                 url += "update";
                 const payload = {
                     content: newContent,
                     id: comment_id
                 }
+                console.log(payload);
                 axios.patch(url, payload)
-                .then(el => {
-                    console.log(el);
-                    setUpdate(false); // 리랜더링
-                })
+                    .then(el => {
+                        console.log(el);
+                        setUpdate(false); 
+                        dispatch(setReload({
+                            controller: !reload
+                        }));                        
+                    })
             } else {
                 alert("내용을 입력하세요!");
             }
         } else {
             // 새 등록
-            if(newContent !== "" || post_id){
+            if((newContent !== "" || post_id) && userName !== ""){
                 url += "posting";
                 const payload = {
-                    writer: 1, // 임시 작성자
+                    writer: userName, 
                     post_id,
                     content : newContent
                 }
+                
                 axios.post(url, payload)
-                .then(el => {
-                    console.log(el);
-                    setNewContent(""); // 화면 리렌더링
-                })
-                .catch(err => console.log(err));
+                    .then(el => {
+                        console.log(el);
+                        setNewContent(""); 
+                        dispatch(setReload({
+                            controller: !reload
+                        }));
+                    })
+                    .catch(err => console.log(err));
             } else {
                 alert("내용을 입력하세요!");
             }

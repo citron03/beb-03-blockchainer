@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setReload } from "../../Redux/reload";
 
 const WriteContainer = styled.div`
     margin-top: 100px;
@@ -78,6 +80,9 @@ const WriteForm = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const history = useHistory();
+    const userName = useSelector(state => state.token.username);
+    const reload = useSelector(state => state.reload.controller);
+    const dispatch = useDispatch();
 
     // useEffect(() => {
     //     console.log(JSON.stringify(content));
@@ -91,13 +96,17 @@ const WriteForm = () => {
     const handlePosting = () => {
         const url = "http://localhost:4000/content/posting";
         const payload = {
-            writer : 999, // 임시 작성자
+            writer : userName, // 임시 작성자
             title, content
         }
-        if (title !== '' && content !== ''){
+        console.log(payload);
+        if (title !== '' && content !== '' && userName !== ''){
           axios.post(url, payload)
           .then(el => {
             // console.log(el)
+            dispatch(setReload({
+              controller: !reload
+            }));                        
             history.goBack();
           })
           .catch(err => console.log(err));

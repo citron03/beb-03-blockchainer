@@ -44,14 +44,13 @@ const ContentPageTable = () => {
     const [postsArr, setPostsArr] = useState([]);
     const history = useHistory();
     const userName = useSelector(state => state.token.username);
+    const reload = useSelector(state => state.reload.controller);
 
     useEffect(() => {
-        if(page){
-            fetchPosts(page)
-                .then(el => setPostsArr(el.data.data))
-                .catch(err => console.log(err));
-        }
-    }, [page])
+        fetchPosts(page)
+            .then(el => setPostsArr(el.data.data))
+            .catch(err => console.log(err));
+    }, [page, reload])
 
     return (
     <>

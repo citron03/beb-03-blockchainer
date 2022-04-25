@@ -23,8 +23,8 @@ const Comments = ({post_id, data}) => {
     return (
     <CommentsContainer>
         <h3>Comments</h3>
-        {commentsArr.map((el, idx) => {
-            return <Comment key={idx} data={el} post_id={post_id}/>
+        {commentsArr.map((el) => {
+            return <Comment key={el.id} data={el} post_id={post_id}/>
         })}
     </CommentsContainer>);
 }
