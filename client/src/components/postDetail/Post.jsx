@@ -3,6 +3,7 @@ import Comments from "./Comments";
 import WriteComment from "./WriteComment";
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
+import { useSelector } from 'react-redux'
 
 const PostContainer = styled.div`
     display: flex;
@@ -52,20 +53,6 @@ const PostHeader = styled.div`
     background-color: #f8f6f6;
 `
 
-const handleDeletePost = (post_id, history) => {
-    const url = "http://localhost:4000/content/delete";
-    const payload = {
-        id: post_id
-    }    
-    // delete 메소드는 body로 데이터를 보내지 않는다.
-    axios.delete(url, payload)
-        .then(el => {
-            console.log(el);
-            history.goBack();
-        })
-        .catch(err => console.log(err));
-}
-
 const AllCommentsSection = styled.section`
     display: flex;
     flex-direction: column;
@@ -83,7 +70,22 @@ const Paragraph = styled.p`
 `
 
 const Post = ({data}) => {
-    const history = useHistory();
+    const history = useHistory({ forceRefresh: true });
+    const userName = useSelector(state => state.token.username);
+    console.log(data, userName);
+
+    const handleDeletePost = (post_id, history) => {
+        const url = "http://localhost:4000/content/delete";
+        const payload = {
+            id: post_id
+        }    
+        axios.post(url, payload)
+            .then(el => {
+                console.log(el);
+                history.goBack();
+            })
+            .catch(err => console.log(err));
+    }
     return (
     <>
         <PostContainer>
@@ -91,16 +93,19 @@ const Post = ({data}) => {
             <Title>제목 : {data.title}</Title>
             <PostHeader>
                 <p>작성자 : {data.writer}</p>
-                <ButtonDiv>
-                    <Button onClick={() => handleDeletePost(data.id, history)}>삭제</Button>
-                    <Button onClick={() => history.push(`/modify/${data.id}`)}>수정</Button>
-                </ButtonDiv>
+                {userName === data.writer ? 
+                    <ButtonDiv>
+                        <Button onClick={() => handleDeletePost(data.id, history)}>삭제</Button>
+                        <Button onClick={() => history.push(`/modify/${data.id}`)}>수정</Button>
+                    </ButtonDiv>                
+                    : null}
             </PostHeader>
             <Paragraph>{data.content}</Paragraph>
         </PostContainer>
         <AllCommentsSection>
-            <Comments post_id={data.post_id}/>
-            <WriteComment post_id={data.post_id}/>
+            <Comments post_id={data.id} data={data.Comments}/> 
+            {userName.length > 0 ?
+                <WriteComment post_id={data.id} userName={userName}/> : null}
         </AllCommentsSection>
     </>
     );

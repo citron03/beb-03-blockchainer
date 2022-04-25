@@ -1,6 +1,5 @@
 import PostsComponent from "../components/content/PostsComponent";
 import ContentMain from "../components/content/ContentMain";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const ContentSection = styled.section`
@@ -11,8 +10,6 @@ const ContentSection = styled.section`
 `;
 
 function Content() {
-    const page = useParams().page;
-    // console.log(page);
     return (
         <ContentSection>
             <ContentMain/>
