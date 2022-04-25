@@ -72,7 +72,7 @@ const Paragraph = styled.p`
 const Post = ({data}) => {
     const history = useHistory({ forceRefresh: true });
     const userName = useSelector(state => state.token.username);
-    console.log(data, userName);
+    // console.log(data, userName);
 
     const handleDeletePost = (post_id, history) => {
         const url = "http://localhost:4000/content/delete";

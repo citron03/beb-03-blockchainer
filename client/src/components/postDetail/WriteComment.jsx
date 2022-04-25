@@ -47,12 +47,13 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
         let url = "http://localhost:4000/comment/";
         if(setUpdate){
             // 업데이트
-            if(newContent !== '' || comment_id){
+            if((newContent !== '' || comment_id) && userName !== ''){
                 url += "update";
                 const payload = {
                     content: newContent,
                     id: comment_id
                 }
+                console.log(payload);
                 axios.patch(url, payload)
                     .then(el => {
                         console.log(el);
@@ -63,10 +64,10 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
             }
         } else {
             // 새 등록
-            if(newContent !== "" || post_id){
+            if((newContent !== "" || post_id) && userName !== ""){
                 url += "posting";
                 const payload = {
-                    writer: 1, // 임시 작성자
+                    writer: userName, 
                     post_id,
                     content : newContent
                 }

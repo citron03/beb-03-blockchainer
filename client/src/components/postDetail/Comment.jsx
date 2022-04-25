@@ -44,7 +44,6 @@ const Comment = ({data, post_id}) => {
         axios.delete(url, payload)
             .then(el => {
                 console.log(el);
-                window.location = document.referrer;
             })
             .catch(err => console.log(err));
     }
@@ -56,7 +55,7 @@ const Comment = ({data, post_id}) => {
         : 
         <CommentContainer>
             <CommentSpan>작성자 : {data.writer}</CommentSpan>
-            <CommentSpan>마지막 댓글 수정 날짜 : {data.updated_at}</CommentSpan>
+            <CommentSpan>마지막 댓글 수정 날짜 : {data.updatedAt}</CommentSpan>
             {userName === data.writer ?
                 <> 
                     <CommentButton onClick={() => setUpdate(true)}>수정</CommentButton>
