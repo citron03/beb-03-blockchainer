@@ -11,6 +11,7 @@ const commentRouter = require('./routes/comment');
 const serverRouter = require('./routes/server');
 const pageRouter = require('./routes/page');
 const authRouter = require('./routes/auth');
+const mypageRouter = require('./routes/mypage');
 
 app.use(cors());
 app.use(express.json());
@@ -20,9 +21,10 @@ app.use('/comment', commentRouter);
 app.use('/server', serverRouter);
 app.use('/page', pageRouter);
 app.use('/auth', authRouter);
+app.use('/mypage', mypageRouter);
 
 db.sequelize
-  .sync({ force: true })
+  .sync({})
   .then(() => {
     console.log('dababase connected');
   })
