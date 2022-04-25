@@ -48,7 +48,7 @@ router.get("/content/:id", async (req, res) => {
   let content = await Post.findOne({
     include: {
       model: Comment,
-      attributes: ["id", "writer", "content", "createdAt", "updatedAt"],
+      attributes: ["writer", "content", "createdAt", "updatedAt"],
     },
     where: {
       id: req.params.id,
