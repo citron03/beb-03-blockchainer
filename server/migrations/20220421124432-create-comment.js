@@ -14,7 +14,7 @@ module.exports = {
           type: Sequelize.STRING,
         },
         writer: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.STRING,
         },
         post_id: {
           type: Sequelize.INTEGER,

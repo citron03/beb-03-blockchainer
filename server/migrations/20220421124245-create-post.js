@@ -17,7 +17,7 @@ module.exports = {
           type: Sequelize.TEXT,
         },
         writer: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.STRING,
         },
         createdAt: {
           allowNull: false,
