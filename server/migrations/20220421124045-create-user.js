@@ -11,8 +11,8 @@ module.exports = {
           type: Sequelize.INTEGER,
         },
         username: {
-          type: Sequelize.STRING,
           primaryKey: true,
+          type: Sequelize.STRING,
           defaultValue: '',
         },
         password: {
