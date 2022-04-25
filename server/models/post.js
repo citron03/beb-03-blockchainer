@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       Post.belongsTo(models.User, {
         foreignKey: "writer",
+        targetKey: "username",
       });
     }
   }
@@ -20,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       title: DataTypes.STRING,
       content: DataTypes.TEXT,
-      writer: DataTypes.INTEGER,
+      writer: DataTypes.STRING,
     },
     {
       sequelize,
