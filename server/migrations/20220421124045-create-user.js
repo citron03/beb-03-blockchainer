@@ -13,11 +13,7 @@ module.exports = {
         username: {
           type: Sequelize.STRING,
           primaryKey: true,
-<<<<<<< HEAD
-          defaultValue: "",
-=======
           defaultValue: '',
->>>>>>> dbdb541 (commit)
         },
         password: {
           type: Sequelize.STRING,
