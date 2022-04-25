@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Post } = require("../models");
+const { User } = require("../models");
 const { Op } = require("sequelize");
 
 router.get("/count", async (req, res) => {
@@ -28,6 +29,11 @@ router.get("/list/:page", async (req, res) => {
   let viewdata = (req.params.page - 1) * contentperpage;
 
   let result = await Post.findAll({
+    include: {
+      model: User,
+      attributes: ["username"],
+    },
+
     where: {
       id: {
         [Op.between]: [viewdata + 1, viewdata + contentperpage],
