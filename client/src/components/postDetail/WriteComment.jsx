@@ -45,6 +45,7 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
 
     const [newContent, setNewContent] = useState(content);
     const reload = useSelector(state => state.reload.controller);
+    const buttonName = setUpdate ? "수정" : "등록";
     const dispatch = useDispatch();
 
     const handleCommentPost = () => {
@@ -100,7 +101,7 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
             value={newContent} 
             onChange={(e) => setNewContent(e.target.value)}
         />
-        <CommentButton onClick={handleCommentPost}>등록</CommentButton>
+        <CommentButton onClick={handleCommentPost}>{buttonName}</CommentButton>
     </WriteCommentConatiner>)
 }
 
