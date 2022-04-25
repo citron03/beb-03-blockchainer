@@ -47,7 +47,7 @@ router.patch("/update", async (req, res) => {
   }
 });
 
-router.delete("/delete", async (req, res) => {
+router.post("/delete", async (req, res) => {
   await Post.destroy({
     where: {
       id: req.body.id,
