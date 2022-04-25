@@ -1,5 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import styled from "styled-components";
+import { useSelector, useDispatch } from 'react-redux';
+import { removeToken } from '../Redux/tokenSlice';
+import { useHistory } from 'react-router-dom';
 
 const NavHeader = styled.header`
   height: 90px;
@@ -76,11 +79,37 @@ const A = styled.a`
   }
 `;
 
+const Button = styled.button`
+  background: #212529;
+  border: 0.1rem solid transparent;
+  padding: 10px 15px;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 0.3rem;
+  margin-right: 1rem;
+  
+  &:hover {
+    border: 0.1rem solid black;
+    background-color: white;
+    color: black;
+    transition: color 0.3;
+  }
+`;
 
 
 const Nav = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const accessToken = useSelector((state) => state.token.accessToken);
+
+  const handleLogout = () => {
+    dispatch(removeToken());
+    history.push('/');
+  }
+
   return (
     <NavHeader id='nav_header'>
+      {console.log(accessToken)}
       <Navdiv>
         <MyLink to="/">
           <h2>BLOCKCHAINER</h2>
@@ -97,24 +126,27 @@ const Nav = () => {
               Content
               </MyLink>
             </MyLi>
-            <MyLi>
-              <MyLink to="/register">
-              Register
-              </MyLink>
-            </MyLi>
-            <MyLi>
-              <MyLink to="/login">
-              Login
-              </MyLink>
-            </MyLi>
-            <MyLi>
-              <MyLink to="/mypage">
-              Mypage
-              </MyLink>
-            </MyLi>
+            {accessToken !== "" ? (
+              <>
+                <MyLi>
+                  <MyLink to="/mypage">
+                  Mypage
+                  </MyLink>
+                </MyLi>
+              </>
+            ) : (
+              null
+            )}
           </MyUl>
         </Navbar>
         <div>
+          {accessToken !== "" ? (
+            <Button type="button" onClick={handleLogout}>Logout</Button>
+          ): (
+            <NavLink to="/login">
+              <Button type="button">Login</Button>
+            </NavLink>
+          )}
           <A href="https://github.com/codestates/beb-03-blockchainer" target="_blank">Github</A>
         </div>
       </Navdiv>
