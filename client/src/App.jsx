@@ -30,11 +30,10 @@ function App() {
 
   useEffect(() => {
     try {
-      const user = localStorage.getItem('user');
+      const user = JSON.parse(localStorage.getItem('user'));
       console.log(user);
-      dispatch(setToken(user));
-      if (!user) {
-        return;
+      if (user) {
+        dispatch(setToken(user));
       }
     } catch (e) {
       console.log('localStorage is not working');
