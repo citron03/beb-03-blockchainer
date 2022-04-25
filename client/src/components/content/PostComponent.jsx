@@ -28,7 +28,7 @@ const PostTextDiv = styled.div`
 const PostComponent = ({data}) => {
     return (
         <PostComponentContainer>
-            <Link to={`/postdetail/${data.post_id}`}>
+            <Link to={`/postdetail/${data.id}`}>
                 <PostTextDiv>
                     <h2>{handleTitle(data.title)}</h2>
                     <p>{data.writer}</p>

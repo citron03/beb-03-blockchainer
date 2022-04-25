@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useSelector } from 'react-redux';
 
 const Main = styled.main`
 margin-top: 90px;
@@ -35,6 +36,7 @@ const Title = styled.h1`
 `;
 
 const Mypage = () => {
+  const tokenSelector = useSelector((state) => state.token);
   return (
     <Main>
       <Section>
@@ -43,6 +45,7 @@ const Mypage = () => {
             <TitleDiv>
               <Title>Mypage</Title>
             </TitleDiv>
+            {console.log(tokenSelector)}
           </Div>
         </Container>
       </Section>

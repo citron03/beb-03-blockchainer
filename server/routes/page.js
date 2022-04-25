@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Post } = require("../models");
+const { User } = require("../models");
 const { Op } = require("sequelize");
 
 router.get("/count", async (req, res) => {
@@ -28,13 +29,25 @@ router.get("/list/:page", async (req, res) => {
   let viewdata = (req.params.page - 1) * contentperpage;
 
   let result = await Post.findAll({
+    include: {
+      model: User,
+      attributes: ["username"],
+    },
+
     where: {
       id: {
         [Op.between]: [viewdata + 1, viewdata + contentperpage],
       },
     },
   });
-  res.json({ message: "page loading Successed", data: result });
+  try {
+    res.status(200).json({ message: "page loading Successed", data: result });
+  } catch (err) {
+    console.log(err);
+    res.stauts(404).json({
+      message: "Error: page loading Failed",
+    });
+  }
 });
 
 router.get("/content/:id", async (req, res) => {

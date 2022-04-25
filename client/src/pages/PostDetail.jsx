@@ -1,10 +1,18 @@
 import { useParams } from "react-router-dom";
-import dummyPosts from "../assets/dymmydata/dummyPosts";
 import Post from "../components/postDetail/Post";
+import { useState, useEffect } from "react";
+import fetchPost from "../components/postDetail/fetchPost/fetchPost";
 
 const PostDetail = () => {
     const id = useParams().post_id;
-    const data = dummyPosts.filter(el => el.post_id === id)[0];
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        fetchPost(id)
+            .then(el => setData(el.data.data))
+            .catch(err => console.log(err));
+    }, [id])
+
     return (
         <Post data={data}/>
     );

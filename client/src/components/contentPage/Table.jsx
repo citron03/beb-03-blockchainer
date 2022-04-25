@@ -14,16 +14,15 @@ const Td = styled.td`
 `
 
 const Table = ({data}) => {
-
     const history = useHistory();
 
     const handleLink = () => {
-        history.push(`/postdetail/${data.post_id}`)
+        history.push(`/postdetail/${data.id}`)
     }    
 
     return (
     <Tr onClick={handleLink}>
-        <Td>{data.post_id}</Td>
+        <Td>{data.id}</Td>
         <Td>{data.title}</Td>
         {/* <Td>{data.created_at}</Td>
         <Td>{data.updated_at}</Td> */}

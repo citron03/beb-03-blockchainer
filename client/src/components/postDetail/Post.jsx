@@ -1,5 +1,4 @@
-import styled, { keyframes } from "styled-components";
-import image from './../../assets/images/easter-tree-g1f28a53d6_1280.jpg';
+import styled from "styled-components";
 import Comments from "./Comments";
 import WriteComment from "./WriteComment";
 import axios from 'axios';
@@ -21,21 +20,6 @@ const Title = styled.h1`
     border-bottom: 1px solid black;
     padding: 0 1rem 1rem 1rem;
     margin: 0;
-`;
-
-const fadein = keyframes`
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-`
-
-const Image = styled.img`
-    animation: ${fadein} 3s;
-    width: 70vw;
-    height: auto;
 `;
 
 const UpdatedDate = styled.span`
@@ -69,16 +53,17 @@ const PostHeader = styled.div`
 `
 
 const handleDeletePost = (post_id, history) => {
-    const url = "http://localhost:4000/delete";
+    const url = "http://localhost:4000/content/delete";
     const payload = {
-        // writer,
         id: post_id
-    }
-    console.log(payload);
-    // axios.delete(url, payload). then(el => {
-    //     console.log(el);
-    // })
-    history.goBack();
+    }    
+    // delete 메소드는 body로 데이터를 보내지 않는다.
+    axios.delete(url, payload)
+        .then(el => {
+            console.log(el);
+            history.goBack();
+        })
+        .catch(err => console.log(err));
 }
 
 const AllCommentsSection = styled.section`
@@ -94,6 +79,7 @@ const AllCommentsSection = styled.section`
 const Paragraph = styled.p`
     margin: 1rem 20% 0 20%;
     white-space: pre-line;
+    word-wrap: break-word;
 `
 
 const Post = ({data}) => {
@@ -101,16 +87,15 @@ const Post = ({data}) => {
     return (
     <>
         <PostContainer>
-            <UpdatedDate>최종 업데이트 날짜 : {data.updated_at}</UpdatedDate>
+            <UpdatedDate>마지막 수정 : {data.updatedAt}</UpdatedDate>
             <Title>제목 : {data.title}</Title>
             <PostHeader>
                 <p>작성자 : {data.writer}</p>
                 <ButtonDiv>
-                    <Button onClick={() => handleDeletePost(data.post_id, history)}>삭제</Button>
-                    <Button onClick={() => history.push(`/modify/${data.post_id}`)}>수정</Button>
+                    <Button onClick={() => handleDeletePost(data.id, history)}>삭제</Button>
+                    <Button onClick={() => history.push(`/modify/${data.id}`)}>수정</Button>
                 </ButtonDiv>
             </PostHeader>
-            {/* <Image src={image} alt="https://pixabay.com/ko/photos/%eb%b6%80%ed%99%9c%ec%a0%88-%eb%82%98%eb%ac%b4-%eb%b6%80%ed%99%9c%ec%a0%88-7106933/" /> */}
             <Paragraph>{data.content}</Paragraph>
         </PostContainer>
         <AllCommentsSection>

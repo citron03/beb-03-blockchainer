@@ -1,10 +1,10 @@
-import dummyPosts from "../../assets/dymmydata/dummyPosts";
 import styled, { keyframes, css } from "styled-components";
 import PostComponent from "./PostComponent";
 import RepresentativePost from "./RepresentativePost";
 import SideMenu from "./SideMenu";
 import { useEffect, useState } from "react";
 import Pagination from "./Pagination";
+import fetchPosts from './../contentPage/fetchData/fetchPosts';
 
 const PostsContainer = styled.div`
     flex: 3 1 0;
@@ -38,9 +38,14 @@ const ContentContainer = styled.section`
 
 function PostsComponent() {
 
-    const [representativePost, ...posts] = dummyPosts;
+    const [posts, setPosts] = useState([]);
     const [isVisible, setIsVisible] = useState(false);
     const [target, setTarget] = useState(false);
+
+    useEffect(() => {
+        fetchPosts(1)
+            .then(el => setPosts(el.data.data));
+    }, []);
 
     useEffect(() => {
         if(target){
@@ -60,18 +65,21 @@ function PostsComponent() {
 
     return (
         <>
-            <ContentContainer ref={setTarget} isVisible={isVisible}>
-                <RepresentativePost post={representativePost} />
-                <PostsContainer>
-                    {
-                        posts.map((el) => {
-                            return <PostComponent key={el.post_id} data={el}/>
-                        })
-                    }
-                </PostsContainer>
-                <SideMenu/>
-            </ContentContainer>
-            <Pagination/>
+            {posts.length > 0 ?
+                <>
+                    <ContentContainer ref={setTarget} isVisible={isVisible}>
+                        <RepresentativePost post={posts[0]} />
+                        <PostsContainer>
+                            {
+                                posts.map((el) => {
+                                    return <PostComponent key={el.id} data={el}/>
+                                })
+                            }
+                        </PostsContainer>
+                        <SideMenu/>
+                    </ContentContainer>
+                    <Pagination/>
+                </> : null}
         </>
     )
 }

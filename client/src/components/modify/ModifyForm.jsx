@@ -1,6 +1,8 @@
 import styled from "styled-components";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from "react-router-dom";
 import axios from 'axios';
+import { useHistory } from "react-router-dom";
 
 const ModifyContainer = styled.div`
     margin-top: 100px;
@@ -74,9 +76,11 @@ const Button = styled.button`
 
 const ModifyForm = ({data}) => {
 
-    const [title, setTitle] = useState(data.title || "");
-    const [content, setContent] = useState(data.content || "");
-
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const postId = useParams().post_id;
+    const history = useHistory();
+    
     // useEffect(() => {
     //     console.log(JSON.stringify(content));
     // }, [content]);
@@ -86,16 +90,29 @@ const ModifyForm = ({data}) => {
         setTitle("");
     }
 
+    useEffect(() => {
+      if(data.title){
+        setContent(data.content);
+        setTitle(data.title);
+      }
+    }, [data])
+
     const handleUpdate = () => {
-        const url = "http://localhost:4000/update";
+        const url = "http://localhost:4000/content/update";
         const payload = {
-            id: data.id,
+            id: postId,
             title, content
         }
-        console.log(payload);
-        // axios.post(url, payload). then(el => {
-        //     console.log(el);
-        // })
+        if (title !== '' && content !== ''){
+            axios.patch(url, payload)
+              .then(el => {
+                  console.log(el);
+                  history.push(`/postdetail/${postId}`);
+              })
+              .catch(err => console.log(err));
+        } else {
+          alert("제목과 내용 모두 작성해주세요!");
+        }
     }
 
     return (

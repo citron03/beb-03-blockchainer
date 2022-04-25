@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useState } from 'react';
 import axios from 'axios';
+import { useHistory } from "react-router-dom";
 
 const WriteContainer = styled.div`
     margin-top: 100px;
@@ -76,6 +77,7 @@ const WriteForm = () => {
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const history = useHistory();
 
     // useEffect(() => {
     //     console.log(JSON.stringify(content));
@@ -87,15 +89,21 @@ const WriteForm = () => {
     }
 
     const handlePosting = () => {
-        const url = "http://localhost:4000/posting";
+        const url = "http://localhost:4000/content/posting";
         const payload = {
-            // writer,
+            writer : 999, // 임시 작성자
             title, content
         }
-        console.log(payload);
-        // axios.post(url, payload). then(el => {
-        //     console.log(el);
-        // })
+        if (title !== '' && content !== ''){
+          axios.post(url, payload)
+          .then(el => {
+            // console.log(el)
+            history.goBack();
+          })
+          .catch(err => console.log(err));
+        } else {
+          alert("제목과 내용 모두 작성해주세요!");
+        }
     }
 
     return (
