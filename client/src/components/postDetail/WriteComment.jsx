@@ -39,7 +39,7 @@ const CommentButton = styled.button`
     min-width: 3rem;
 `;
 
-const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = null} ) => {
+const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = null, userName} ) => {
 
     const [newContent, setNewContent] = useState(content);
 
@@ -66,8 +66,8 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
             if(newContent !== "" || post_id){
                 url += "posting";
                 const payload = {
-                    writer: 999, // 임시 작성자
-                    postid : post_id,
+                    writer: 1, // 임시 작성자
+                    post_id,
                     content : newContent
                 }
                 axios.post(url, payload)

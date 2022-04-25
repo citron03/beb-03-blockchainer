@@ -71,9 +71,8 @@ const Paragraph = styled.p`
 
 const Post = ({data}) => {
     const history = useHistory({ forceRefresh: true });
-    // 데이터의 댓글을 Comments 컴포넌트로 내려 보내준다.
     const userName = useSelector(state => state.token.username);
-    // console.log(data, userName);
+    console.log(data, userName);
 
     const handleDeletePost = (post_id, history) => {
         const url = "http://localhost:4000/content/delete";
@@ -104,8 +103,9 @@ const Post = ({data}) => {
             <Paragraph>{data.content}</Paragraph>
         </PostContainer>
         <AllCommentsSection>
-            <Comments post_id={data.id}/> 
-            <WriteComment post_id={data.id}/>
+            <Comments post_id={data.id} data={data.Comments}/> 
+            {userName.length > 0 ?
+                <WriteComment post_id={data.id} userName={userName}/> : null}
         </AllCommentsSection>
     </>
     );

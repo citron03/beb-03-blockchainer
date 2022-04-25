@@ -1,7 +1,6 @@
-import dummyComments from "../../assets/dymmydata/dummyComments";
 import styled from "styled-components";
 import Comment from "./Comment";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const CommentsContainer = styled.div`
     padding: 0.3rem;
@@ -11,15 +10,21 @@ const CommentsContainer = styled.div`
     align-items: center;
 `;
 
-const Comments = ({post_id}) => {
+const Comments = ({post_id, data}) => {
 
     const [commentsArr, setCommentsArr] = useState([]);
+
+    useEffect(() => {
+        if(Array.isArray(data)){
+            setCommentsArr(data);
+        }
+    }, [data]);
 
     return (
     <CommentsContainer>
         <h3>Comments</h3>
-        {commentsArr.map((el) => {
-            return <Comment key={el.comment_id} data={el} post_id={post_id}/>
+        {commentsArr.map((el, idx) => {
+            return <Comment key={idx} data={el} post_id={post_id}/>
         })}
     </CommentsContainer>);
 }
