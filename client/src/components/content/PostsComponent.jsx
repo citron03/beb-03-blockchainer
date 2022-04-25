@@ -5,6 +5,8 @@ import SideMenu from "./SideMenu";
 import { useEffect, useState } from "react";
 import Pagination from "./Pagination";
 import fetchPosts from './../contentPage/fetchData/fetchPosts';
+import { useSelector, useDispatch } from "react-redux";
+import { setReload } from "../../Redux/reload";
 
 const PostsContainer = styled.div`
     flex: 3 1 0;
@@ -41,11 +43,18 @@ function PostsComponent() {
     const [posts, setPosts] = useState([]);
     const [isVisible, setIsVisible] = useState(false);
     const [target, setTarget] = useState(false);
-
+    const reload = useSelector(state => state.reload.controller);
+    const dispatch = useDispatch();
+    
     useEffect(() => {
         fetchPosts(1)
-            .then(el => setPosts(el.data.data));
-    }, []);
+            .then(el => {
+                setPosts(el.data.data);
+                dispatch(setReload({
+                    controller: !reload
+                }));
+            });
+    }, [reload]);
 
     useEffect(() => {
         if(target){
