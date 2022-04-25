@@ -104,7 +104,7 @@ const Nav = () => {
 
   const handleLogout = () => {
     dispatch(removeToken());
-    history.push('/');
+    history.push(-1);
   }
 
   return (
