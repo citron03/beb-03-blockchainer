@@ -3,9 +3,11 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import profile from '../assets/images/profile.png';
-import ListTable from '../components/ListTable';
+import ListTable from '../components/mypage/ListTable';
 import dummyPosts from '../assets/dymmydata/dummyPosts';
 import dummyComments from '../assets/dymmydata/dummyComments';
+import dummyNfts from '../assets/dymmydata/dummyNfts';
+import ItemList from '../components/nft/ItemList';
 
 const Main = styled.main`
 margin-top: 90px;
@@ -122,7 +124,7 @@ const Mypage = () => {
   const tokenSelector = useSelector((state) => state.token);
   const username = tokenSelector.username;
   const [currentTab, setCurrentTab] = useState(0);
-  const [dataList, setDataList] = useState([[dummyPosts], [dummyComments], []]);
+  const [dataList, setDataList] = useState([[dummyPosts], [dummyComments], [dummyNfts]]);
 
   const menuArr = ['내가 쓴 글', '내가 쓴 댓글', 'NFT'];
 
@@ -176,7 +178,8 @@ const Mypage = () => {
               </TabMenu>
           </Div>
           <Desc>
-            {currentTab === 2 ? (<div></div>) :
+            {currentTab === 2 ?
+              (<ItemList dataList={dataList[currentTab]}></ItemList>) :
               (<ListTable dataList={dataList[currentTab]} currentTab={currentTab}/>)}
           </Desc>
         </Container>

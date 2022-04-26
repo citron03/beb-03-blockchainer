@@ -26,6 +26,10 @@ const Table = styled.table`
     text-overflow: ellipsis;
     padding: 1rem 0;
   }
+
+  & tbody tr:hover {
+    background-color: #f2f2f2;
+  }
 `
 
 const ListTable = ({ dataList, currentTab }) => {
@@ -40,6 +44,7 @@ const ListTable = ({ dataList, currentTab }) => {
             <th scope="col" className="title">글 제목</th>
             <th scope="col">작성일</th>
             <th scope="col">수정일</th>
+            <th scope="col">토큰 보상</th>
           </tr>) : 
           (
           <tr>
@@ -47,6 +52,7 @@ const ListTable = ({ dataList, currentTab }) => {
             <th scope="col" className="title">댓글 내용</th>
             <th scope="col">글 제목</th>
             <th scope="col">최종 수정일</th>
+            <th scope="col">토큰 보상</th>
           </tr>
           )}
       </thead>
@@ -54,20 +60,22 @@ const ListTable = ({ dataList, currentTab }) => {
         {dataList[0].map((el, index) => {
           if (currentTab === 0) {
             return (
-              <tr>
+              <tr key={index}>
                 <th>{index + 1}</th>
                 <td>{el.title}</td>
                 <td>{el.created_at}</td>
                 <td>{el.updated_at}</td>
+                <td>+3</td>
               </tr>
             )
           } else if (currentTab === 1) {
             return (
-              <tr>
+              <tr key={index}>
                 <th>{index + 1}</th>
                 <td>{el.content}</td>
                 <td>{el.created_at}</td>
                 <td>{el.updated_at}</td>
+                <td>+1</td>
               </tr>
             )
           }
