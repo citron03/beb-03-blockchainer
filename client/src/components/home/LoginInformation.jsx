@@ -18,10 +18,10 @@ const Button = styled.button`
   padding: 10px 15px;
   color: #fff;
   cursor: pointer;
-  border-radius: 0.3rem;
-  margin-right: 1rem;
+  border-radius: 1rem;
+  margin: 0.5rem 1rem;
   font-size: 1.5rem;
-
+  height: 4rem;
   &:hover {
     border: 0.1rem solid black;
     background-color: white;
@@ -30,6 +30,9 @@ const Button = styled.button`
   }
 `;
 
+const ButtonDiv = styled.div`
+    display: flex;
+`
 
 const LoginInformation = () => {
     const history = useHistory();
@@ -38,16 +41,20 @@ const LoginInformation = () => {
     return (
     <LoginInformationContainer>
         {userName.length > 0 ?
-            <>
+            <div>
                 <LoginText>{userName}님, 안녕하세요!</LoginText>
-                <Button onClick={() => history.push("/mypage")}>Mypage</Button>
-                <Button onClick={() => history.push("/write")}>글작성</Button>
-            </>
+                <ButtonDiv>
+                    <Button onClick={() => history.push("/mypage")}>Mypage</Button>
+                    <Button onClick={() => history.push("/write")}>글작성</Button>
+                </ButtonDiv>
+            </div>
             :
-            <>
+            <div>
                 <LoginText>로그인이 필요합니다.</LoginText>
-                <Button onClick={() => history.push("/register")}>회원가입</Button>
-            </>}
+                <ButtonDiv>
+                    <Button onClick={() => history.push("/register")}>회원가입</Button>
+                </ButtonDiv>                
+            </div>}
     </LoginInformationContainer>);
 }
 
