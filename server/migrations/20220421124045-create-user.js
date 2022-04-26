@@ -24,6 +24,9 @@ module.exports = {
         address: {
           type: Sequelize.STRING,
         },
+        privatekey: {
+          type: Sequelize.STRING,
+        },
         balance: {
           type: Sequelize.FLOAT,
         },
