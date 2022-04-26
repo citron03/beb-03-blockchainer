@@ -63,7 +63,7 @@ router.post("/ethfaucet", async (req, res) => {
   );
   const transaction = {
     to: server.address,
-    value: "100000000000000000", // 1 ETH
+    value: "1000000000000000000", // 1 ETH
     gas: "30000",
     nonce: nonce,
   };
@@ -73,9 +73,7 @@ router.post("/ethfaucet", async (req, res) => {
     process.env.FAUCET_SECRET
   );
 
-  const ethbalance = await web3.eth.getBalance(
-    "0xC9D7b3D0c73d80f7B10d52D99a4E5Bc28936E3B2" // server account의 주소
-  );
+  const ethbalance = await web3.eth.getBalance(server.address);
 
   web3.eth.sendSignedTransaction(
     signedTx.rawTransaction,
