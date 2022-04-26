@@ -16,3 +16,4 @@
 * react-router-dom ^5.3.0
 * axios ^0.26.1
 
+#### 이 웹사이트에 사용된 모든 이미지의 출처는 https://pixabay.com/ko/입니다.

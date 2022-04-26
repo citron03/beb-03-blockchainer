@@ -13,6 +13,7 @@ import FindPassword from './pages/FindPassword';
 import Write from './pages/Write';
 import Modify from './pages/Modify';
 import ContentPage from './pages/ContentPage';
+import Footer from './components/Footer';
 
 function App() {
   window.addEventListener("scroll", () => {
@@ -63,6 +64,7 @@ function App() {
             <Modify />
           </Route>
         </Switch>
+        <Footer/>
     </Router>
   );
 }

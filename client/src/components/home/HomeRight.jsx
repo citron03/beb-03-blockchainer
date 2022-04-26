@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import Advertisement from "./Advertisement";
+import LoginInformation from "./LoginInformation";
 
 const HomeRightContainer = styled.div`
     display: flex;
     flex-direction: column;
-    background-color: #d9d9ef;
     width: 100%;
     height: 100%;
     flex: 1.5 1 0;
@@ -19,9 +20,9 @@ const DummyDiv = styled.div`
 const HomeRight = () => {
     return (
         <HomeRightContainer>
-            <DummyDiv>Right Side</DummyDiv>
-            <DummyDiv>Login Information</DummyDiv>
-            <DummyDiv>???</DummyDiv>
+            <LoginInformation/>
+            <DummyDiv>실시간 인기글</DummyDiv>
+            <Advertisement/>
         </HomeRightContainer>
     );
 }

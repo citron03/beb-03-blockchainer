@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import NewsPost from "./NewsPost";
+import NewestPost from "./NewestPost";
+import NewestNft from "./NewestNft";
+import Search from "./Search";
 
 const HomeLeftContainer = styled.div`
     display: flex;
     flex-direction: column;
-    background-color: #f3dbdb;
     width: 100%;
     height: 100%;
     flex: 3 1 0;
@@ -20,9 +21,9 @@ const DummyDiv = styled.div`
 const HomeLeft = () => {
     return (
         <HomeLeftContainer>
-            <DummyDiv>Left Side</DummyDiv>
-            <NewsPost/>
-            <DummyDiv>???</DummyDiv>
+            <Search/>
+            <NewestPost/>
+            <NewestNft/>
         </HomeLeftContainer>
     );
 }
