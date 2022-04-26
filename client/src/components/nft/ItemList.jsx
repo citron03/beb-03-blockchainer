@@ -13,8 +13,7 @@ const ItemList = ({ dataList }) => {
 
   return (
     <ListContainer>
-      {console.log(dataList[0])}
-      {dataList[0].map((nft) => {
+      {dataList.map((nft) => {
         return (
           <Item nft={nft} key={nft.nftId}/>
         );

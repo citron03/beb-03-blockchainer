@@ -27,7 +27,7 @@ const DescP = styled.p`
 
   &.name {
     font-weight: bold;
-
+    font-size: 1.5rem;
   }
 
   &.description {
@@ -52,7 +52,6 @@ const Item = ({ nft }) => {
 
   return (
     <ItemDiv nftId={nft.nftId}>
-      {console.log(metadata)}
       <Image src={metadata.image} />
       <DescDiv>
       <DescP className="name">{metadata.name}</DescP>
