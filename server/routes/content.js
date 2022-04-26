@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Post } = require("../models");
+const { Comment } = require("../models");
 
 router.post("/posting", async (req, res) => {
   const newPost = await Post.create({
@@ -48,6 +49,11 @@ router.patch("/update", async (req, res) => {
 });
 
 router.post("/delete", async (req, res) => {
+  await Comment.destroy({
+    where: {
+      post_id: req.body.id,
+    },
+  });
   await Post.destroy({
     where: {
       id: req.body.id,

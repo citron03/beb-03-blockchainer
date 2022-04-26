@@ -47,6 +47,11 @@ router.post("/ethfaucet", async (req, res) => {
 
   const accounts = await web3.eth.getAccounts();
   console.log(accounts);
+  web3.eth.accounts.privateKeyToAccount(
+    "0x33643e4e48578610802dbf35722f2642ded9429055623c8159cbcdde2fdf326a"
+  ); // serverAccount의 privatekey가 들어가는 자리입니다. 일단 각자 넣어주시고 나중에 변수로 저장해서 쓸 수 있도록 하겠습니다.
+
+  const nonce = await web3.eth.getTransactionCount(myAddress, "latest");
 });
 
 module.exports = router;
