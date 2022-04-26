@@ -1,6 +1,5 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-<<<<<<< HEAD
 const { User } = require("../models");
 const Web3 = require("web3");
 const rpcURL = "https://ropsten.infura.io/v3/"; // 원격 이더리움 노드에 접속할 수 있는 주소
@@ -49,12 +48,5 @@ router.post("/ethfaucet", async (req, res) => {
   const accounts = await web3.eth.getAccounts();
   console.log(accounts);
 });
-=======
-const { User } = require('../models');
-
-router.post('/createaccount', async (req, res) => {});
-
-router.post('/ethfaucet', async (req, res) => {});
->>>>>>> 11306c3e6d60256602607e0327db0c1588a9da75
 
 module.exports = router;
