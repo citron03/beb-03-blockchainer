@@ -32,7 +32,7 @@ const ListTable = ({ dataList, currentTab }) => {
 
   return (
     <Table className="table">
-      {console.log(dataList)}
+      {/* {console.log(dataList)} */}
       <thead>
         {currentTab === 0 ?
           (<tr>
@@ -52,8 +52,6 @@ const ListTable = ({ dataList, currentTab }) => {
       </thead>
       <tbody>
         {dataList[0].map((el, index) => {
-          console.log(el, index);
-
           if (currentTab === 0) {
             return (
               <tr>

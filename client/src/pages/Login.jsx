@@ -80,11 +80,19 @@ const ButtonDiv = styled.div`
 
 const Button = styled.button`
   background: #212529;
-  border: 0;
-  padding: 10px 30px;
+  border: 0.1rem solid transparent;
+  padding: 10px 15px;
   color: #fff;
-  transition: 0.4s;
   cursor: pointer;
+  border-radius: 0.3rem;
+  margin-right: 1rem;
+  
+  &:hover {
+    border: 0.1rem solid black;
+    background-color: white;
+    color: black;
+    transition: color 0.3;
+  }
 `;
 
 const Ul = styled.ul`
@@ -178,6 +186,10 @@ const Login = () => {
             username: inputs.username
           }));
           setError(0);
+          localStorage.setItem('user', JSON.stringify({
+            accessToken: String(accessToken),
+            username: inputs.username
+          }));
         }
       })
       .catch(() => {

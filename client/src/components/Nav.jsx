@@ -104,6 +104,10 @@ const Nav = () => {
 
   const handleLogout = () => {
     dispatch(removeToken());
+    localStorage.setItem('user', JSON.stringify({
+      accessToken: '',
+      username: ''
+    }));
     history.push(-1);
   }
 
