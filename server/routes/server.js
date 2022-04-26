@@ -1,9 +1,9 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { User } = require("../models");
+const { User } = require('../models');
 
-router.post("/createaccount", async (req, res) => {});
+router.post('/createaccount', async (req, res) => {});
 
-router.post("/ethfaucet", async (req, res) => {});
+router.post('/ethfaucet', async (req, res) => {});
 
 module.exports = router;
