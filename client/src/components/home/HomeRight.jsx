@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Advertisement from "./Advertisement";
 import LoginInformation from "./LoginInformation";
+import PostRank from "./PostRank";
 
 const HomeRightContainer = styled.div`
     display: flex;
@@ -11,17 +12,11 @@ const HomeRightContainer = styled.div`
     margin: 1rem;
 `;
 
-const DummyDiv = styled.div`
-    flex: 1 1 0;
-    margin: 1rem;
-    background-color: white;
-`
-
 const HomeRight = () => {
     return (
         <HomeRightContainer>
             <LoginInformation/>
-            <DummyDiv>실시간 인기글</DummyDiv>
+            <PostRank/>
             <Advertisement/>
         </HomeRightContainer>
     );

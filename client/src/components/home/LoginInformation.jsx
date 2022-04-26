@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const LoginInformationContainer = styled.section`
     flex: 1 1 0;
     text-align: left;
-    margin: 1rem;
+    margin: 1rem 1rem 1rem 3rem;
 `;
 
 const LoginText = styled.p`

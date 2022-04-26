@@ -12,12 +12,6 @@ const HomeLeftContainer = styled.div`
     margin: 1rem;
 `;
 
-const DummyDiv = styled.div`
-    flex: 1 1 0;
-    margin: 1rem;
-    background-color: white;
-`
-
 const HomeLeft = () => {
     return (
         <HomeLeftContainer>

@@ -17,9 +17,13 @@ const ImageDiv = styled.div`
     box-shadow: 1px 0.5px gray;
     border-radius: 10px;
     text-align: center;
+    overflow: hidden;
     &:hover {
         transform: translate(-1px, -1px);
         cursor: pointer;
+    }
+    &:active {
+        background-color: #fbf7f7;
     }
 `;
 
@@ -48,12 +52,21 @@ const tmpData = [
     }
 ]
 
+const NftTitle = styled.h3`
+    text-align: center;
+    margin: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #636e72;
+`
+
 const NewestNft = () => {
 
     const [data, setData] = useState(tmpData);
 
     return (
     <NewestNftContainer>
+        <NftTitle>Newest Nfts</NftTitle>
         <AllImageDiv>
             {data.length > 0 ? 
                 data.map((el, idx) => {

@@ -11,12 +11,13 @@ const fetchPost = async (id) => {
 }
 
 const NewsPostContainer = styled.section`
-    flex: 1 1 0;
+    flex: 3 1 0;
     margin: 1rem;
     background-color: white;
-    overflow: hidden;
+    /* overflow: hidden; */
     border: 1px solid black;
     border-radius: 8px;
+    /* min-height: 300px; */
 `
 
 const Paragraph = styled.p`

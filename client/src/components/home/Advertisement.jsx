@@ -20,12 +20,16 @@ const Image = styled.img`
     height: 250px;
 `
 
+const AdTitle = styled.h3`
+    
+`
+
 const Advertisement = () => {
     return (
     <AdvertisementContainer>
         <Image src={image} alt={source.image3} />
         <AdTexts>
-            <h3>광고</h3>
+            <AdTitle>광고 타이틀</AdTitle>
             <p>더미 광고입니다.</p>
         </AdTexts>
     </AdvertisementContainer>);
