@@ -43,6 +43,12 @@ router.get('/comment/:username', async (req, res) => {
     });
   } else {
     await Comment.findAll({
+      include: [
+        {
+          model: Post,
+          attributes: ['id'],
+        },
+      ],
       where: {
         writer: commentUserName,
       },
@@ -55,7 +61,7 @@ router.get('/comment/:username', async (req, res) => {
   }
 });
 
-router.get('/balance/:username', async (req, res) => {
+router.get('/userinfo/:username', async (req, res) => {
   const balanceUserName = req.params.username;
 
   const userInfo = await User.findOne({
@@ -69,7 +75,7 @@ router.get('/balance/:username', async (req, res) => {
   } else {
     res.status(200).send({
       message: 'mypage balance loading Successed',
-      data: { balance: userInfo.balance },
+      data: { balance: userInfo.balance, email: userInfo.email },
     });
   }
 });
