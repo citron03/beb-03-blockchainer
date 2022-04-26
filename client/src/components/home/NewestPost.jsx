@@ -26,6 +26,12 @@ const Paragraph = styled.p`
     word-wrap: break-word;
     padding-left: 1rem;
     padding-right: 1rem;
+    text-align: center;
+`
+const PostHeaderDiv = styled.div`
+    border-bottom: 1px solid gray;
+    width: fit-content;
+    padding: 0.8rem;
 `
 
 const NewsPost = () => {
@@ -36,7 +42,7 @@ const NewsPost = () => {
         // fetchPost()
         //     .then(el => setNewestPost(el))
         //     .catch(err => console.log(err));
-        setNewestPost(dummyPosts[4]);
+        setNewestPost(dummyPosts[0]);
     }, [])
 
     return (
@@ -44,8 +50,10 @@ const NewsPost = () => {
         <h3 style={{padding: "1rem"}}>Newest Post</h3>
         {newestPost.title ? 
             <>
-                <span style={{padding: "1rem", fontSize: "1.2rem"}}>{newestPost.title}</span>
-                <span style={{padding: "1rem"}}>작성자 : {newestPost.writer}</span>
+                <PostHeaderDiv>
+                    <span style={{padding: "1rem", fontSize: "1.2rem"}}>{newestPost.title}</span>
+                    <span style={{padding: "1rem"}}>작성자 : {newestPost.writer}</span>
+                </PostHeaderDiv>
                 <Paragraph>{newestPost.content}</Paragraph>
             </>
         : null}
