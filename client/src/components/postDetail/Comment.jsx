@@ -49,7 +49,7 @@ const Comment = ({data, post_id}) => {
                         dispatch(setReload({
                             controller: !reload
                         }));
-                    }, 300);
+                    }, 200);
                 })
                 .catch(err => console.log(err));
         } else {
