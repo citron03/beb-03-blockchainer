@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import WriteComment from "./WriteComment";
 import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
@@ -35,7 +35,8 @@ const Comment = ({data, post_id}) => {
     const reload = useSelector(state => state.reload.controller);
     const dispatch = useDispatch();
 
-    const handleDeleteComment = () => {
+    // useCallback 적용
+    const handleDeleteComment = useCallback(() => {
         if(data.id){
             const url = "http://localhost:4000/comment/delete";
             const payload = {
@@ -43,7 +44,7 @@ const Comment = ({data, post_id}) => {
             }
             axios.post(url, payload)
                 .then(el => {
-                    console.log(el);
+                    // console.log(el);
                     // 삭제 후 동기화
                     setTimeout(() => {
                         dispatch(setReload({
@@ -55,7 +56,7 @@ const Comment = ({data, post_id}) => {
         } else {
             alert("ERROR");
         }
-    }
+    }, [data, dispatch, reload]);
 
     return (
     <>

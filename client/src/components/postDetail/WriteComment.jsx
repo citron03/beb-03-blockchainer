@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import axios from "axios";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setReload } from "../../Redux/reload";
 
@@ -39,6 +39,7 @@ const CommentButton = styled.button`
     border-radius: 2rem;
     width: fit-content;
     min-width: 3rem;
+    margin: 0.5rem;
 `;
 
 const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = null, userName} ) => {
@@ -48,20 +49,20 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
     const buttonName = setUpdate ? "수정" : "등록";
     const dispatch = useDispatch();
 
-    const handleCommentPost = () => {
+    const handleCommentPost = useCallback(() => {
         let url = "http://localhost:4000/comment/";
         if(setUpdate){
             // 업데이트
-            if((newContent !== '' || comment_id) && userName !== ''){
+            if(newContent !== '' && comment_id && userName !== ''){
                 url += "update";
                 const payload = {
                     content: newContent,
                     id: comment_id
                 }
-                console.log(payload);
+                
                 axios.patch(url, payload)
                     .then(el => {
-                        console.log(el);
+                        // console.log(el);
                         setUpdate(false); 
                         dispatch(setReload({
                             controller: !reload
@@ -72,7 +73,7 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
             }
         } else {
             // 새 등록
-            if((newContent !== "" || post_id) && userName !== ""){
+            if(newContent !== "" && post_id && userName !== ""){
                 url += "posting";
                 const payload = {
                     writer: userName, 
@@ -82,7 +83,7 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
                 
                 axios.post(url, payload)
                     .then(el => {
-                        console.log(el);
+                        // console.log(el);
                         setNewContent(""); 
                         dispatch(setReload({
                             controller: !reload
@@ -93,7 +94,7 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
                 alert("내용을 입력하세요!");
             }
         }
-    }
+    }, [reload, dispatch, comment_id, newContent, post_id, setUpdate, userName]);
 
     return (
     <WriteCommentConatiner>
@@ -102,6 +103,8 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
             onChange={(e) => setNewContent(e.target.value)}
         />
         <CommentButton onClick={handleCommentPost}>{buttonName}</CommentButton>
+        {setUpdate ? 
+            <CommentButton onClick={() => setUpdate(false)}>취소</CommentButton> : null}
     </WriteCommentConatiner>)
 }
 
