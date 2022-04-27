@@ -13,6 +13,13 @@ const Td = styled.td`
     padding: 2rem;
 `
 
+const parseDate = (input) => {
+    const date = new Date(input);
+    const str = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()} 
+    ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    return str;
+  }
+
 const Table = ({data}) => {
     const history = useHistory();
 
@@ -22,11 +29,11 @@ const Table = ({data}) => {
 
     return (
     <Tr onClick={handleLink}>
-        <Td>{data.id}</Td>
-        <Td>{data.title}</Td>
-        {/* <Td>{data.created_at}</Td>
-        <Td>{data.updated_at}</Td> */}
-        <Td>{data.writer}</Td>
+        <Td style={{width: "10%"}}>{data.id}</Td>
+        <Td style={{width: "55%"}}>{data.title}</Td>
+        <Td style={{width: "15%"}}>{data.writer}</Td>
+        <Td style={{width: "10%"}}>{parseDate(data.createdAt)}</Td>
+        <Td style={{width: "10%"}}>{parseDate(data.updatedAt)}</Td>
     </Tr>
     );
 }

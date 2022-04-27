@@ -3,7 +3,7 @@ import dummyPosts from "../../assets/dymmydata/dummyPosts";
 import { useState } from "react";
 
 const PostRankContainer = styled.section`
-    border-left: 1px solid #636e72;
+    /* border-left: 1px solid #636e72; */
     margin: 1rem;
     padding: 0.5rem;
     max-width: 400px;

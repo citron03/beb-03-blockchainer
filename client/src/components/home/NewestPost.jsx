@@ -3,6 +3,7 @@ import getPageCount from "../content/useData/getPageCount";
 import axios from "axios";
 import { useEffect, useState } from 'react';
 import dummyPosts from './../../assets/dymmydata/dummyPosts'
+import { Link } from 'react-router-dom';
 
 const fetchPost = async (id) => {
     const getLastPosId = await getPageCount();
@@ -14,10 +15,8 @@ const NewsPostContainer = styled.section`
     flex: 3 1 0;
     margin: 1rem;
     background-color: white;
-    /* overflow: hidden; */
-    border: 1px solid black;
+    /* border: 1px solid black; */
     border-radius: 8px;
-    /* min-height: 300px; */
 `
 
 const Paragraph = styled.p`
@@ -34,6 +33,43 @@ const PostHeaderDiv = styled.div`
     padding: 0.8rem;
 `
 
+const NewestPostDiv = styled.div`
+    max-height: 70vh;
+    display: block;
+    overflow: auto;
+    &::-webkit-scrollbar {
+        background-color: #f6f2f2;
+        width: 0.4rem;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: black;
+        border-radius: 3rem;
+    }
+`
+
+const ContainerHeader = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`
+
+const ContainerTitle = styled.h3`
+    padding: 1rem;
+`
+
+const Shortcuts = styled.span`
+    margin: 1.5rem;
+    cursor: pointer;
+    & a {
+        color: black;
+    }
+    &:hover {
+        & a {
+            color: gray;
+        }
+    }
+`
+
 const NewsPost = () => {
 
     const [newestPost, setNewestPost] = useState({});
@@ -47,15 +83,22 @@ const NewsPost = () => {
 
     return (
     <NewsPostContainer>
-        <h3 style={{padding: "1rem"}}>Newest Post</h3>
+        <ContainerHeader>
+            <ContainerTitle>Newest Post</ContainerTitle>
+            <Shortcuts>
+                <Link to={`/postdetail/1`}>
+                    바로 가기            
+                </Link>
+            </Shortcuts>
+        </ContainerHeader>
         {newestPost.title ? 
-            <>
+            <NewestPostDiv>
                 <PostHeaderDiv>
                     <span style={{padding: "1rem", fontSize: "1.2rem"}}>{newestPost.title}</span>
                     <span style={{padding: "1rem"}}>작성자 : {newestPost.writer}</span>
                 </PostHeaderDiv>
                 <Paragraph>{newestPost.content}</Paragraph>
-            </>
+            </NewestPostDiv>
         : null}
     </NewsPostContainer>);
 }
