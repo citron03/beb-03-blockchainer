@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import parseDate from '../parsingData/parseDate';
 
 const Table = styled.table`
   width: 60%;
@@ -43,13 +44,6 @@ const ListTable = ({ dataList, currentTab }) => {
   const handleClick = (id) => {
     // console.log(id);
     history.push(`/postdetail/${id}`);
-  }
-
-  const parseDate = (input) => {
-    const date = new Date(input);
-    const str = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()} 
-    ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-    return str;
   }
 
   return (
