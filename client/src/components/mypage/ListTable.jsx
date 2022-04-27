@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 const Table = styled.table`
   width: 60%;
@@ -16,7 +17,11 @@ const Table = styled.table`
   }
 
   & thead tr th.title {
-    width: 45%;
+    width: 35%;
+  }
+
+  & tbody tr td.date {
+    font-size: 0.9rem;
   }
 
   & tbody tr td {
@@ -33,6 +38,19 @@ const Table = styled.table`
 `
 
 const ListTable = ({ dataList, currentTab }) => {
+  const history = useHistory();
+
+  const handleClick = (id) => {
+    // console.log(id);
+    history.push(`/postdetail/${id}`);
+  }
+
+  const parseDate = (input) => {
+    const date = new Date(input);
+    const str = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()} 
+    ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    return str;
+  }
 
   return (
     <Table className="table">
@@ -59,28 +77,27 @@ const ListTable = ({ dataList, currentTab }) => {
       <tbody>
         {dataList.map((el, index) => {
           if (currentTab === 0) {
+            
             return (
-              <tr key={index}>
+              <tr key={index} onClick={() => { handleClick(el.id) }}>
                 <th>{index + 1}</th>
                 <td>{el.title}</td>
-                <td>{el.createdAt}</td>
-                <td>{el.updatedAt}</td>
+                <td className="date">{parseDate(el.createdAt)}</td>
+                <td className="date">{parseDate(el.updatedAt)}</td>
                 <td>+3</td>
               </tr>
             )
           } else if (currentTab === 1) {
             return (
-              <tr key={index}>
+              <tr key={index} onClick={() => { handleClick(el.post_id) }}>
                 <th>{index + 1}</th>
                 <td>{el.content}</td>
-                <td>{el.post_id}</td>
-                <td>{el.createdAt}</td>
+                <td>{el.Post.title}</td>
+                <td className="date">{parseDate(el.createdAt)}</td>
                 <td>+1</td>
               </tr>
             )
           }
-
-          
         })}
       </tbody>
     </Table>
