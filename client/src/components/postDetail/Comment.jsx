@@ -28,6 +28,13 @@ const Paragraph = styled.p`
     white-space: pre-line;
 `
 
+const parseDate = (input) => {
+    const date = new Date(input);
+    const str = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()} 
+    ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    return str;
+  }
+
 const Comment = ({data, post_id}) => {
 
     const [update, setUpdate] = useState(false);
@@ -65,7 +72,7 @@ const Comment = ({data, post_id}) => {
         : 
         <CommentContainer>
             <CommentSpan>작성자 : {data.writer}</CommentSpan>
-            <CommentSpan>마지막 댓글 수정 날짜 : {data.updatedAt}</CommentSpan>
+            <CommentSpan>마지막 댓글 수정 날짜 : {parseDate(data.updatedAt)}</CommentSpan>
             {userName === data.writer ?
                 <> 
                     <CommentButton onClick={() => setUpdate(true)}>수정</CommentButton>

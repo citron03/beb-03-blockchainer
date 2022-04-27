@@ -71,6 +71,13 @@ const Paragraph = styled.p`
     word-wrap: break-word;
 `
 
+const parseDate = (input) => {
+    const date = new Date(input);
+    const str = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()} 
+    ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    return str;
+  }
+
 const Post = ({data}) => {
     const history = useHistory();
     const userName = useSelector(state => state.token.username);
@@ -96,7 +103,7 @@ const Post = ({data}) => {
     return (
     <>
         <PostContainer>
-            <UpdatedDate>마지막 수정 : {data.updatedAt}</UpdatedDate>
+            <UpdatedDate>마지막 수정 : {parseDate(data.updatedAt)}</UpdatedDate>
             <Title>제목 : {data.title}</Title>
             <PostHeader>
                 <p>작성자 : {data.writer}</p>

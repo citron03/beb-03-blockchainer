@@ -99,7 +99,11 @@ const WriteForm = () => {
             writer : userName, // 임시 작성자
             title, content
         }
-        
+        if(title.length >= 120) {
+          alert(`제목은 120 글자를 넘을 수 없습니다. \n - 현재 제목의 글자 수 : ${title.length}`);
+          return;
+        }
+
         if (title !== '' && content !== '' && userName !== ''){
           axios.post(url, payload)
           .then(el => {

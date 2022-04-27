@@ -22,7 +22,7 @@ const Button = styled.button`
     color: white;
     border-radius: 3rem;
     left: 10.5%;
-    top: 0.3rem;
+    top: 0.28rem;
     width: 55px;
     height: 55px;
     &:active{

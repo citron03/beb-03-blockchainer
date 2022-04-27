@@ -66,9 +66,9 @@ const ContentPageTable = () => {
                     <tr>
                         <Td>id</Td>
                         <Td>title</Td>
-                        {/* <Td>작성시간</Td>
-                        <Td>수정시간</Td> */}
                         <Td>작성자</Td>
+                        <Td>작성시간</Td>
+                        <Td>수정시간</Td>
                     </tr>
                     {
                         postsArr.map(el => {
