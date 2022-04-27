@@ -3,9 +3,13 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import profile from '../assets/images/profile.png';
-import ListTable from '../components/ListTable';
+import ListTable from '../components/mypage/ListTable';
 import dummyPosts from '../assets/dymmydata/dummyPosts';
 import dummyComments from '../assets/dymmydata/dummyComments';
+import dummyNfts from '../assets/dymmydata/dummyNfts';
+import ItemList from '../components/nft/ItemList';
+import { fetchMyInfo, fetchMyPosts, fetchMyComments } from '../components/mypage/fetchMypageData';
+import { useEffect } from 'react';
 
 const Main = styled.main`
 margin-top: 90px;
@@ -121,30 +125,51 @@ const Profile = styled.p`
 const Mypage = () => {
   const tokenSelector = useSelector((state) => state.token);
   const username = tokenSelector.username;
+  const [userInfo, setUserInfo] = useState({})
   const [currentTab, setCurrentTab] = useState(0);
-  const [dataList, setDataList] = useState([[dummyPosts], [dummyComments], []]);
+  const [dataList, setDataList] = useState([[], [], dummyNfts]);
 
   const menuArr = ['내가 쓴 글', '내가 쓴 댓글', 'NFT'];
+
+  useEffect(() => {
+    fetchMyInfo(username).then((info) => {
+      setUserInfo(info);
+    })
+
+    fetchMyPosts(username).then((posts) => {
+      let newDataList = [...dataList];
+      newDataList[0] = posts;
+      console.log(newDataList);
+      setDataList(newDataList);
+    })
+  }, [])
 
   const selectMenuHandler = (index) => {
     setCurrentTab(index);
     if (dataList[index].length === 0) {
-      const data = getMypageData(index);
-      // setDataList()
+      switch (index) {
+        case 0:
+          fetchMyPosts(username).then((posts) => {
+            let newDataList = [...dataList];
+            newDataList[0] = posts;
+            console.log(newDataList);
+            setDataList(newDataList);
+          })
+          break;
+        case 1:
+          fetchMyComments(username).then((comments) => {
+            let newDataList = [...dataList];
+            newDataList[1] = comments;
+            console.log(newDataList);
+            setDataList(newDataList);
+          })
+          break;
+        case 2:
+          break;
+      }
     }
   }
 
-  // 백엔드로 요청 전송
-  const getMypageData = (index) => {
-    switch (index) {
-      case 0:
-        break;
-      case 1:
-        break;
-      case 2:
-        break;
-    }
-  }
 
   return (
     <Main>
@@ -160,9 +185,9 @@ const Mypage = () => {
               <Image src={profile}></Image>
               <div>
                 <Profile className="username">{username}</Profile>
-                <Profile className="email">example@test.com</Profile>
+              <Profile className="email">{userInfo.email}</Profile>
               </div>
-              <Profile className="balance">잔액: 1.5 ETH</Profile>
+            <Profile className="balance">잔액:  {userInfo.balance} ETH</Profile>
           </Div>
           <Div className='tabmenu'>
             <TabMenu>
@@ -176,7 +201,8 @@ const Mypage = () => {
               </TabMenu>
           </Div>
           <Desc>
-            {currentTab === 2 ? (<div></div>) :
+            {currentTab === 2 ?
+              (<ItemList dataList={dataList[currentTab]}></ItemList>) :
               (<ListTable dataList={dataList[currentTab]} currentTab={currentTab}/>)}
           </Desc>
         </Container>
