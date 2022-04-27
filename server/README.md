@@ -31,3 +31,11 @@ $ npm run start
 ```bash
 $ npm run start:dev
 ```
+
+## .env 설정
+
+DATABASE_USERNAME= mysql username<br>
+DATABASE_PASSWORD= mysql password<br>
+DATABASE_NAME= mysql database name<br>
+FAUCET_ADDRESS= server 계정에 eth를 전송해 줄 계정<br>
+FAUCET_SECRET= 해당 계정의 비밀 키<br>
