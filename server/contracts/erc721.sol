@@ -32,7 +32,7 @@ contract blockchainerNFT is ERC721URIStorage, Ownable {
 
     function setToken (address tokenAddress) public onlyOwner returns (bool) {
         require(tokenAddress != address(0x0));
-        token = IERC20(tokenAddress);
+        token = IERC20(tokenAddress); // 팀원이 만든 토큰 어드레스
         return true;
     }
 }

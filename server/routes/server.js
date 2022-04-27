@@ -97,9 +97,7 @@ router.post("/ethfaucet", async (req, res) => {
 });
 
 router.post("/deploynft", async (req, res) => {
-  const web3 = new Web3(
-    new Web3.providers.HttpProvider("http://127.0.0.1:7545")
-  );
+  const web3 = new Web3("http://localhost:7545");
 
   const serverAccount = await User.findOne({
     attributes: ["privatekey"],
@@ -109,13 +107,17 @@ router.post("/deploynft", async (req, res) => {
   });
 
   const server = await web3.eth.accounts.wallet.add(serverAccount.privatekey);
+  // const server = web3.eth.accounts.privateKeyToAccount(
+  //   serverAccount.privatekey
+  // );
   const parameter = {
     from: server.address,
     gas: 3000000,
   };
 
-  const myContract = new web3.eth.Contract(erc721abi);
-  myContract
+  const nftContract = new web3.eth.Contract(erc721abi);
+
+  nftContract
     .deploy({ data: erc721bytecode })
     .send(parameter)
     .on("receipt", async (receipt) => {
@@ -132,3 +134,8 @@ router.post("/deploynft", async (req, res) => {
 });
 
 module.exports = router;
+
+// 1. 토큰 잔액이 가격보다 큰 지 확인
+// 2. 배포된 erc721 컨트랙트의 mintNFT를 통해서 nft 발급
+// 3. 발급된 nft를 유저에게 보내줌
+// 4. 서버 계정에서 조작해서 유저의 토큰을 깎음
