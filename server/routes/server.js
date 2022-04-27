@@ -50,7 +50,7 @@ router.post("/ethfaucet", async (req, res) => {
       username: "server",
     },
   });
-  console.log(server);
+
   const web3 = new Web3(
     new Web3.providers.HttpProvider("http://127.0.0.1:7545")
   );
@@ -79,6 +79,7 @@ router.post("/ethfaucet", async (req, res) => {
     signedTx.rawTransaction,
     function (error, hash) {
       if (error) {
+        console.log(error);
         res.status(400).json({ message: "Error: Faucet Transaction Failed" });
       } else {
         res.status(200).json({
