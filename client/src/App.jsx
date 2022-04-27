@@ -14,6 +14,8 @@ import Write from './pages/Write';
 import Modify from './pages/Modify';
 import ContentPage from './pages/ContentPage';
 import Footer from './components/Footer';
+import Nfts from './pages/Nfts';
+import NftDetail from './pages/NftDetail';
 
 function App() {
   window.addEventListener("scroll", () => {
@@ -62,6 +64,12 @@ function App() {
           </Route>
           <Route path="/modify/:post_id">
             <Modify />
+          </Route>
+          <Route path="/nfts">
+            <Nfts />
+          </Route>
+          <Route path="/nftdetail/:nft_id">
+            <NftDetail />          
           </Route>
         </Switch>
         <Footer/>

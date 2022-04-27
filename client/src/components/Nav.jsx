@@ -130,6 +130,11 @@ const Nav = () => {
               Content
               </MyLink>
             </MyLi>
+            <MyLi>
+              <MyLink to="/nfts">
+              NFTs
+              </MyLink>
+            </MyLi>
             {accessToken !== "" ? (
               <>
                 <MyLi>

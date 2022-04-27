@@ -4,8 +4,6 @@ import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import profile from '../assets/images/profile.png';
 import ListTable from '../components/mypage/ListTable';
-import dummyPosts from '../assets/dymmydata/dummyPosts';
-import dummyComments from '../assets/dymmydata/dummyComments';
 import dummyNfts from '../assets/dymmydata/dummyNfts';
 import ItemList from '../components/nft/ItemList';
 import { fetchMyInfo, fetchMyPosts, fetchMyComments } from '../components/mypage/fetchMypageData';
