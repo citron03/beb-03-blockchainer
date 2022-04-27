@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from "styled-components";
-import axios from 'axios';
 import fetchMetadata from './fetchMetadata';
 
 const ItemDiv = styled.div`
@@ -9,6 +9,11 @@ const ItemDiv = styled.div`
   width: 32%;
   margin: 0.5rem 0.5rem;
   margin-left: ${(props) => (props.nftId % 3 === 1 ? "0.55rem" : "0rem")};
+
+  &:hover {
+    border: 2px solid black;
+    cursor: pointer;
+  }
 `;
 
 const Image = styled.img`
@@ -41,6 +46,7 @@ const DescP = styled.p`
 `;
 
 const Item = ({ nft }) => {
+  const history = useHistory();
   const [metadata, setMetadata] = useState({});
 
   useEffect(() => {
@@ -50,14 +56,21 @@ const Item = ({ nft }) => {
     })
   }, [])
 
+  const handleClick = (nftId) => {
+    console.log(nft);
+    history.push({
+      pathname: `/nftdetail/${nftId}`,
+      state: {nft, metadata}
+    })
+  }
+
   return (
-    <ItemDiv nftId={nft.nftId}>
+    <ItemDiv nftId={nft.nftId} onClick={() => { handleClick(nft.nftId) }}>
       <Image src={metadata.image} />
       <DescDiv>
-      <DescP className="name">{metadata.name}</DescP>
-      <DescP className="description">{metadata.description}</DescP>
+        <DescP className="name">{metadata.name}</DescP>
+        <DescP className="description">{metadata.description}</DescP>
       </DescDiv>
-      
     </ItemDiv>
   );
 }
