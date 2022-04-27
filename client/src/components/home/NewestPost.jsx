@@ -15,7 +15,7 @@ const NewsPostContainer = styled.section`
     flex: 3 1 0;
     margin: 1rem;
     background-color: white;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     border-radius: 8px;
 `
 
