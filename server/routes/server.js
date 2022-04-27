@@ -1,10 +1,12 @@
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const { User } = require("../models");
 const Web3 = require("web3");
 const rpcURL = "https://ropsten.infura.io/v3/";
-require("dotenv").config();
 
+const erc721abi = require("../contracts/erc721abi");
+const erc721bytecode = require("../contracts/erc721bytecode");
 const web3 = new Web3(rpcURL); // web3 객체 생성
 
 router.post("/createaccount", async (req, res) => {
@@ -92,6 +94,41 @@ router.post("/ethfaucet", async (req, res) => {
       }
     }
   );
+});
+
+router.post("/deploynft", async (req, res) => {
+  const web3 = new Web3(
+    new Web3.providers.HttpProvider("http://127.0.0.1:7545")
+  );
+
+  const serverAccount = await User.findOne({
+    attributes: ["privatekey"],
+    where: {
+      username: "server",
+    },
+  });
+
+  const server = await web3.eth.accounts.wallet.add(serverAccount.privatekey);
+  const parameter = {
+    from: server.address,
+    gas: 3000000,
+  };
+
+  const myContract = new web3.eth.Contract(erc721abi);
+  myContract
+    .deploy({ data: erc721bytecode })
+    .send(parameter)
+    .on("receipt", async (receipt) => {
+      console.log(receipt.contractAddress);
+      res.status(201).json({
+        message: "deploying ERC721 is succeed",
+        receipt,
+      });
+    })
+    .on("error", (error) => {
+      console.log(error);
+      res.status(400).json({ message: "deploying ERC721 is failed" });
+    });
 });
 
 module.exports = router;
