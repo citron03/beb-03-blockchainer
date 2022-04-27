@@ -71,7 +71,7 @@ const Paragraph = styled.p`
 `
 
 const Post = ({data}) => {
-    const history = useHistory({ forceRefresh: true });
+    const history = useHistory();
     const userName = useSelector(state => state.token.username);
     const reload = useSelector(state => state.reload.controller);
     const dispatch = useDispatch();
@@ -100,8 +100,8 @@ const Post = ({data}) => {
                 <p>작성자 : {data.writer}</p>
                 {userName === data.writer ? 
                     <ButtonDiv>
-                        <Button onClick={() => handleDeletePost(data.id, history)}>삭제</Button>
                         <Button onClick={() => history.push(`/modify/${data.id}`)}>수정</Button>
+                        <Button onClick={() => handleDeletePost(data.id, history)}>삭제</Button>
                     </ButtonDiv>                
                     : null}
             </PostHeader>
