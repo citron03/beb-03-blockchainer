@@ -99,7 +99,7 @@ const WriteForm = () => {
             writer : userName, // 임시 작성자
             title, content
         }
-        console.log(payload);
+        
         if (title !== '' && content !== '' && userName !== ''){
           axios.post(url, payload)
           .then(el => {

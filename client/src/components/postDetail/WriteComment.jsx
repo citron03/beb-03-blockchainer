@@ -39,6 +39,7 @@ const CommentButton = styled.button`
     border-radius: 2rem;
     width: fit-content;
     min-width: 3rem;
+    margin: 0.5rem;
 `;
 
 const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = null, userName} ) => {
@@ -52,13 +53,13 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
         let url = "http://localhost:4000/comment/";
         if(setUpdate){
             // 업데이트
-            if((newContent !== '' || comment_id) && userName !== ''){
+            if(newContent !== '' && comment_id && userName !== ''){
                 url += "update";
                 const payload = {
                     content: newContent,
                     id: comment_id
                 }
-                console.log(payload);
+                
                 axios.patch(url, payload)
                     .then(el => {
                         // console.log(el);
@@ -72,7 +73,7 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
             }
         } else {
             // 새 등록
-            if((newContent !== "" || post_id) && userName !== ""){
+            if(newContent !== "" && post_id && userName !== ""){
                 url += "posting";
                 const payload = {
                     writer: userName, 
@@ -102,6 +103,8 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
             onChange={(e) => setNewContent(e.target.value)}
         />
         <CommentButton onClick={handleCommentPost}>{buttonName}</CommentButton>
+        {setUpdate ? 
+            <CommentButton onClick={() => setUpdate(false)}>취소</CommentButton> : null}
     </WriteCommentConatiner>)
 }
 

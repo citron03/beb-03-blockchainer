@@ -103,7 +103,7 @@ const ModifyForm = ({data}) => {
             id: postId,
             title, content
         }
-        if (title !== '' && content !== ''){
+        if (title !== '' && content !== '' && postId){
             axios.patch(url, payload)
               .then(el => {
                   // console.log(el);
