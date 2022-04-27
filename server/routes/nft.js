@@ -46,15 +46,21 @@ router.post("/deploynft", async (req, res) => {
 });
 
 router.post("/getnft", async (req, res) => {
+  const receiptAddress = req.body.address;
+  const senderAccount = await User.findOne({
+    attributes: ["address"],
+    where: {
+      username: "server",
+    },
+  });
+
   const erc721Contract = new web3.eth.Contract(
     erc721abi,
-    "0xEAcF5CC1C436aEbEFc632E3339b4995d3EaF049A", // 컨트랙트의 주소
+    "0xe0724eF1f6ffdACBE78F58D402d0e5990afD8195", // 컨트랙트의 주소
     {
-      from: "0x8d11356c781cbf6f3421300f08079f3a22981b09", // 컨트랙트 발행자 주소
+      from: senderAccount.address, // 컨트랙트 발행자 주소
     }
   );
-
-  const receiptAddress = req.body.address; // "0x2570a4f4b557eae2066238b152728cd03da5afdb"
 
   //   await erc721Contract.methods.setToken("token contract address").call();
   await erc721Contract.methods.mintNFT(receiptAddress, metadata).call();
