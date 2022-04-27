@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
@@ -97,23 +97,23 @@ const ModifyForm = ({data}) => {
       }
     }, [data])
 
-    const handleUpdate = () => {
+    const handleUpdate = useCallback((history) => {
         const url = "http://localhost:4000/content/update";
         const payload = {
             id: postId,
             title, content
         }
-        if (title !== '' && content !== ''){
+        if (title !== '' && content !== '' && postId){
             axios.patch(url, payload)
               .then(el => {
-                  console.log(el);
+                  // console.log(el);
                   history.push(`/postdetail/${postId}`);
               })
               .catch(err => console.log(err));
         } else {
           alert("제목과 내용 모두 작성해주세요!");
         }
-    }
+    }, [title, content, postId]);
 
     return (
     <ModifyContainer>
@@ -129,7 +129,7 @@ const ModifyForm = ({data}) => {
             />
             <ButtonDiv>
                 <Button type="button" onClick={handleReset}>초기화</Button>
-                <Button type="button" onClick={handleUpdate}>등록</Button>
+                <Button type="button" onClick={() => handleUpdate(history)}>등록</Button>
             </ButtonDiv>
         </FormDiv>
     </ModifyContainer>);

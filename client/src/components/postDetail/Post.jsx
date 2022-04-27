@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setReload } from "../../Redux/reload";
+import { useCallback } from "react";
 
 const PostContainer = styled.div`
     display: flex;
@@ -71,26 +72,27 @@ const Paragraph = styled.p`
 `
 
 const Post = ({data}) => {
-    const history = useHistory({ forceRefresh: true });
+    const history = useHistory();
     const userName = useSelector(state => state.token.username);
     const reload = useSelector(state => state.reload.controller);
     const dispatch = useDispatch();
 
-    const handleDeletePost = (post_id, history) => {
+    const handleDeletePost = useCallback((post_id, history) => {
         const url = "http://localhost:4000/content/delete";
         const payload = {
             id: post_id
         }    
         axios.post(url, payload)
             .then(el => {
-                console.log(el);
+                // console.log(el);
                 dispatch(setReload({
                     controller: !reload
                 }));    
                 history.push("/content");
             })
             .catch(err => console.log(err));
-    }
+    }, [reload, dispatch]);
+
     return (
     <>
         <PostContainer>
@@ -100,8 +102,8 @@ const Post = ({data}) => {
                 <p>작성자 : {data.writer}</p>
                 {userName === data.writer ? 
                     <ButtonDiv>
-                        <Button onClick={() => handleDeletePost(data.id, history)}>삭제</Button>
                         <Button onClick={() => history.push(`/modify/${data.id}`)}>수정</Button>
+                        <Button onClick={() => handleDeletePost(data.id, history)}>삭제</Button>
                     </ButtonDiv>                
                     : null}
             </PostHeader>
