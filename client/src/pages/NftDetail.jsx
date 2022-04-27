@@ -42,6 +42,11 @@ const Div = styled.div`
     margin-left: 3rem;
     width: 40%;
   }
+
+  &.props {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
 `;
 
 const TitleDiv = styled.div`
@@ -77,11 +82,23 @@ const DescDiv = styled.div`
   border: 1px solid lightgray;
   border-radius: 0.5rem;
   width: 100%;
-  padding: 1rem 1rem;
+  padding: 1rem 1rem 2rem 1rem;
   text-align: center;
+
+  &.props {
+    width: 29%;
+    margin: 1rem 1rem;
+    border: 1px solid gray;
+  }
 `;
 
 const P = styled.p`
+  &.name {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0.5rem 0;
+  }
+
   &.owner {
     color: gray;
   }
@@ -93,6 +110,17 @@ const P = styled.p`
 
   &.desc_description {
     font-size: 1.3rem;
+  }
+
+  &.props_type {
+    font-size: 1.3rem;
+    color: gray;
+    font-weight: bold;
+  }
+
+  &.props_value {
+    font-size: 1.3rem;
+    font-weight: bold;
   }
 `;
 
@@ -118,7 +146,8 @@ const Properties = styled.div`
   border: 1px solid lightgray;
   border-radius: 0.5rem;
   margin: 2rem 2rem;
-  width: 100%;
+  padding: 1rem 1rem;
+  width: 85%;
   flex-direction: column;
   justify-content: center;
   text-align: center;
@@ -137,14 +166,14 @@ const NftDetail = () => {
         <Container>
           <Div>
             <TitleDiv>
-              <Title>NFT Detail</Title>
+              <Title>NFT</Title>
             </TitleDiv>
           </Div>
           <Div className='detail'>
             <Detail>
               <Image src={metadata.image} />
               <Div className='desc'>
-                <h1>{metadata.name}</h1>
+                <P className='name'>{metadata.name}</P>
                 <P className='owner'>owned by BlockChainer</P>
                 <DescDiv>
                   <h2>Current Price</h2>
@@ -153,7 +182,6 @@ const NftDetail = () => {
                     <Button type='button'>Buy now</Button>
                     <Button type='button'>make offer</Button>
                   </span>
-                  
                 </DescDiv>
                 <DescDiv>
                   <h2>Description</h2>
@@ -163,14 +191,17 @@ const NftDetail = () => {
             </Detail>
             <Properties>
               <h2>Properties</h2>
-              {metadata.attributes.map((el) => {
-                return (
-                  <div>
-                    <p>{el.type}</p>
-                    <p>{el.value}</p>
-                  </div>
-                )
-              })}
+              <Div className='props'>
+                {metadata.attributes.map((el) => {
+                  return (
+                    <DescDiv className='props'>
+                      <P className='props_type'>{el.type}</P>
+                      <P className='props_value'>{el.value}</P>
+                    </DescDiv>
+                  )
+                })}
+              </Div>
+              
             </Properties>
           </Div>
         </Container>
