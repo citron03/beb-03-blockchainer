@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       ifps: DataTypes.STRING,
       price: DataTypes.INTEGER,
-      owner: DataTypes.INTEGER,
+      owner: DataTypes.STRING,
       name: DataTypes.STRING,
       description: DataTypes.STRING,
     },
