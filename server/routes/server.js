@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const { User } = require("../models");
 const Web3 = require("web3");
-const rpcURL = "https://ropsten.infura.io/v3/"; // 원격 이더리움 노드에 접속할 수 있는 주소
+const rpcURL = "https://ropsten.infura.io/v3/";
+require("dotenv").config();
 
 const web3 = new Web3(rpcURL); // web3 객체 생성
 
@@ -43,15 +44,53 @@ router.post("/createaccount", async (req, res) => {
 });
 
 router.post("/ethfaucet", async (req, res) => {
-  const web3 = new Web3("HTTP://127.0.0.1:7545");
+  const server = await User.findOne({
+    attributes: ["address"],
+    where: {
+      username: "server",
+    },
+  });
+  console.log(server);
+  const web3 = new Web3(
+    new Web3.providers.HttpProvider("http://127.0.0.1:7545")
+  );
 
-  const accounts = await web3.eth.getAccounts();
-  console.log(accounts);
-  web3.eth.accounts.privateKeyToAccount(
-    "0x33643e4e48578610802dbf35722f2642ded9429055623c8159cbcdde2fdf326a"
-  ); // serverAccount의 privatekey가 들어가는 자리입니다. 일단 각자 넣어주시고 나중에 변수로 저장해서 쓸 수 있도록 하겠습니다.
+  web3.eth.accounts.privateKeyToAccount(process.env.FAUCET_SECRET);
 
-  const nonce = await web3.eth.getTransactionCount(myAddress, "latest");
+  const nonce = await web3.eth.getTransactionCount(
+    process.env.FAUCET_ADDRESS,
+    "latest"
+  );
+  const transaction = {
+    to: server.address,
+    value: "1000000000000000000", // 1 ETH
+    gas: "30000",
+    nonce: nonce,
+  };
+
+  const signedTx = await web3.eth.accounts.signTransaction(
+    transaction,
+    process.env.FAUCET_SECRET
+  );
+
+  const ethbalance = await web3.eth.getBalance(server.address);
+
+  web3.eth.sendSignedTransaction(
+    signedTx.rawTransaction,
+    function (error, hash) {
+      if (error) {
+        res.status(400).json({ message: "Error: Faucet Transaction Failed" });
+      } else {
+        res.status(200).json({
+          data: {
+            server_ethbalance: web3.utils.fromWei(ethbalance, "ether"),
+            txhash: hash,
+          },
+          message: "Faucet Successed to server account",
+        });
+      }
+    }
+  );
 });
 
 module.exports = router;

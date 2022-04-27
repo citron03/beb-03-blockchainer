@@ -44,6 +44,8 @@ router.post('/login', async (req, res) => {
     res.status(400).send('Error: Login Failed');
   }
 
+  console.log(userInfo);
+
   const data = userInfo.dataValues;
   delete data.password;
   if (data) {
