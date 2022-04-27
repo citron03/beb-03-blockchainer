@@ -3,11 +3,10 @@ const express = require("express");
 const router = express.Router();
 const { User } = require("../models");
 const Web3 = require("web3");
-const rpcURL = "https://ropsten.infura.io/v3/";
 
 const erc721abi = require("../contracts/erc721abi");
 const erc721bytecode = require("../contracts/erc721bytecode");
-const web3 = new Web3(rpcURL); // web3 객체 생성
+const web3 = new Web3("http://localhost:7545");
 
 router.post("/createaccount", async (req, res) => {
   let serverAccount = await User.findOne({
@@ -53,10 +52,6 @@ router.post("/ethfaucet", async (req, res) => {
     },
   });
 
-  const web3 = new Web3(
-    new Web3.providers.HttpProvider("http://127.0.0.1:7545")
-  );
-
   web3.eth.accounts.privateKeyToAccount(process.env.FAUCET_SECRET);
 
   const nonce = await web3.eth.getTransactionCount(
@@ -97,8 +92,6 @@ router.post("/ethfaucet", async (req, res) => {
 });
 
 router.post("/deploynft", async (req, res) => {
-  const web3 = new Web3("http://localhost:7545");
-
   const serverAccount = await User.findOne({
     attributes: ["privatekey"],
     where: {
@@ -115,7 +108,7 @@ router.post("/deploynft", async (req, res) => {
     gas: 3000000,
   };
 
-  const nftContract = new web3.eth.Contract(erc721abi);
+  const nftContract = new web3.eth.Contract(erc721abi, server.address);
 
   nftContract
     .deploy({ data: erc721bytecode })
@@ -131,6 +124,10 @@ router.post("/deploynft", async (req, res) => {
       console.log(error);
       res.status(400).json({ message: "deploying ERC721 is failed" });
     });
+
+  // await nftContract.methods
+  //   .setToken("0xB8c77482e45F1F44dE1745F52C74426C631bDD52")
+  //   .call();
 });
 
 module.exports = router;
