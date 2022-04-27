@@ -3,6 +3,7 @@ import getPageCount from "../content/useData/getPageCount";
 import axios from "axios";
 import { useEffect, useState } from 'react';
 import dummyPosts from './../../assets/dymmydata/dummyPosts'
+import { Link } from 'react-router-dom';
 
 const fetchPost = async (id) => {
     const getLastPosId = await getPageCount();
@@ -46,6 +47,29 @@ const NewestPostDiv = styled.div`
     }
 `
 
+const ContainerHeader = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`
+
+const ContainerTitle = styled.h3`
+    padding: 1rem;
+`
+
+const Shortcuts = styled.span`
+    margin: 1.5rem;
+    cursor: pointer;
+    & a {
+        color: black;
+    }
+    &:hover {
+        & a {
+            color: gray;
+        }
+    }
+`
+
 const NewsPost = () => {
 
     const [newestPost, setNewestPost] = useState({});
@@ -59,7 +83,14 @@ const NewsPost = () => {
 
     return (
     <NewsPostContainer>
-        <h3 style={{padding: "1rem"}}>Newest Post</h3>
+        <ContainerHeader>
+            <ContainerTitle>Newest Post</ContainerTitle>
+            <Shortcuts>
+                <Link to={`/postdetail/1`}>
+                    바로 가기            
+                </Link>
+            </Shortcuts>
+        </ContainerHeader>
         {newestPost.title ? 
             <NewestPostDiv>
                 <PostHeaderDiv>
