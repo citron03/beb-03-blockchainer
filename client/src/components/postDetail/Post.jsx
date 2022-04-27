@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setReload } from "../../Redux/reload";
+import { useCallback } from "react";
 
 const PostContainer = styled.div`
     display: flex;
@@ -76,21 +77,22 @@ const Post = ({data}) => {
     const reload = useSelector(state => state.reload.controller);
     const dispatch = useDispatch();
 
-    const handleDeletePost = (post_id, history) => {
+    const handleDeletePost = useCallback((post_id, history) => {
         const url = "http://localhost:4000/content/delete";
         const payload = {
             id: post_id
         }    
         axios.post(url, payload)
             .then(el => {
-                console.log(el);
+                // console.log(el);
                 dispatch(setReload({
                     controller: !reload
                 }));    
                 history.push("/content");
             })
             .catch(err => console.log(err));
-    }
+    }, [reload, dispatch]);
+
     return (
     <>
         <PostContainer>

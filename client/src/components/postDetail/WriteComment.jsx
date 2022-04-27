@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import axios from "axios";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setReload } from "../../Redux/reload";
 
@@ -48,7 +48,7 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
     const buttonName = setUpdate ? "수정" : "등록";
     const dispatch = useDispatch();
 
-    const handleCommentPost = () => {
+    const handleCommentPost = useCallback(() => {
         let url = "http://localhost:4000/comment/";
         if(setUpdate){
             // 업데이트
@@ -61,7 +61,7 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
                 console.log(payload);
                 axios.patch(url, payload)
                     .then(el => {
-                        console.log(el);
+                        // console.log(el);
                         setUpdate(false); 
                         dispatch(setReload({
                             controller: !reload
@@ -82,7 +82,7 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
                 
                 axios.post(url, payload)
                     .then(el => {
-                        console.log(el);
+                        // console.log(el);
                         setNewContent(""); 
                         dispatch(setReload({
                             controller: !reload
@@ -93,7 +93,7 @@ const WriteComment = ( {content = "", setUpdate = null, post_id, comment_id = nu
                 alert("내용을 입력하세요!");
             }
         }
-    }
+    }, [reload, dispatch, comment_id, newContent, post_id, setUpdate, userName]);
 
     return (
     <WriteCommentConatiner>

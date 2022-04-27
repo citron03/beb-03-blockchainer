@@ -44,7 +44,7 @@ const Comment = ({data, post_id}) => {
             }
             axios.post(url, payload)
                 .then(el => {
-                    console.log(el);
+                    // console.log(el);
                     // 삭제 후 동기화
                     setTimeout(() => {
                         dispatch(setReload({

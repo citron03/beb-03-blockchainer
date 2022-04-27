@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -93,7 +93,7 @@ const WriteForm = () => {
         setTitle("");
     }
 
-    const handlePosting = () => {
+    const handlePosting =  useCallback((history) => {
         const url = "http://localhost:4000/content/posting";
         const payload = {
             writer : userName, // 임시 작성자
@@ -113,7 +113,7 @@ const WriteForm = () => {
         } else {
           alert("제목과 내용 모두 작성해주세요!");
         }
-    }
+    }, [dispatch, reload, content, title, userName]);
 
     return (
     <WriteContainer>
@@ -129,7 +129,7 @@ const WriteForm = () => {
             />
             <ButtonDiv>
                 <Button type="button" onClick={handleReset}>초기화</Button>
-                <Button type="button" onClick={handlePosting}>등록</Button>
+                <Button type="button" onClick={() => handlePosting(history)}>등록</Button>
             </ButtonDiv>
         </FormDiv>
     </WriteContainer>);
