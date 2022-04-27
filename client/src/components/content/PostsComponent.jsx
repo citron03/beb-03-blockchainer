@@ -67,13 +67,19 @@ function PostsComponent() {
     const history = useHistory();
     
     useEffect(() => {
+        let isComponentMounted = true;
         fetchPosts(1)
             .then(el => {
-                setPosts(el.data.data);
-                dispatch(setReload({
-                    controller: !reload
-                }));
+                if(isComponentMounted){
+                    setPosts(el.data.data);
+                    dispatch(setReload({
+                        controller: !reload
+                    }));
+                }
             });
+        return () => {
+            isComponentMounted = false;
+        }
     }, [reload, dispatch]);
 
     useEffect(() => {
