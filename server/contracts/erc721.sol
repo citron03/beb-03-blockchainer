@@ -14,13 +14,13 @@ contract blockchainerNFT is ERC721URIStorage, Ownable {
     uint256 nftPrice;
 
     constructor() ERC721("MyNFTs", "MNFT") {
-        nftPrice = 100e18;
+        nftPrice = 1;
     }
 
     function mintNFT(address recipient, string memory tokenURI) public onlyOwner returns (uint256) {
-        require(token.balanceOf(recipient) > nftPrice);
+        // require(token.balanceOf(recipient) > nftPrice); // 추후 해제
 
-        token.transferFrom(recipient, msg.sender, nftPrice);
+        // token.transferFrom(recipient, msg.sender, nftPrice); // 추후 해제
         
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();

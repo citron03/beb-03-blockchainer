@@ -4,9 +4,9 @@ const router = express.Router();
 const { User } = require("../models");
 const Web3 = require("web3");
 
+const web3 = new Web3("http://localhost:7545");
 const erc721abi = require("../contracts/erc721abi");
 const erc721bytecode = require("../contracts/erc721bytecode");
-const web3 = new Web3("http://localhost:7545");
 
 router.post("/createaccount", async (req, res) => {
   let serverAccount = await User.findOne({
@@ -124,10 +124,6 @@ router.post("/deploynft", async (req, res) => {
       console.log(error);
       res.status(400).json({ message: "deploying ERC721 is failed" });
     });
-
-  // await nftContract.methods
-  //   .setToken("0xB8c77482e45F1F44dE1745F52C74426C631bDD52")
-  //   .call();
 });
 
 module.exports = router;
