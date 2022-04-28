@@ -5,8 +5,6 @@ const { User } = require("../models");
 const Web3 = require("web3");
 
 const web3 = new Web3("http://localhost:7545");
-const erc721abi = require("../contracts/erc721abi");
-const erc721bytecode = require("../contracts/erc721bytecode");
 
 router.post("/createaccount", async (req, res) => {
   let serverAccount = await User.findOne({

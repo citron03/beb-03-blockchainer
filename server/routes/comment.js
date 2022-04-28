@@ -22,7 +22,7 @@ router.post("/posting", async (req, res) => {
   console.log(receipt.address);
 
   const value = "1000000000000000000";
-  const myErc20Contract = await new web3.eth.Contract(
+  const erc20Contract = await new web3.eth.Contract(
     erc20abi,
     process.env.ERC20_CONTRACT,
     {
@@ -32,7 +32,7 @@ router.post("/posting", async (req, res) => {
 
   const server = await web3.eth.accounts.wallet.add(process.env.SERVER_SECRET);
 
-  await myErc20Contract.methods.mintToken(receipt.address, value).send({
+  await erc20Contract.methods.mintToken(receipt.address, value).send({
     from: server.address,
     to: process.env.ERC20_CONTRACT,
     gasPrice: 100,
