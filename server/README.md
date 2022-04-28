@@ -1,28 +1,28 @@
 ## .env 설정
 
-# 데이터베이스
+데이터베이스
 
-DATABASE_USERNAME=
-DATABASE_PASSWORD=
+DATABASE_USERNAME=<br>
+DATABASE_PASSWORD=<br>
 DATABASE_NAME=
 
-# 인증
+인증
 
 ACCESS_SECRET=
 
-# 수수료를 보내 줄 가나슈 계정
+수수료를 보내 줄 가나슈 계정
 
-FAUCET_SECRET=
+FAUCET_SECRET=<br>
 FAUCET_ADDRESS=
 
-# server account 정보
+server account 정보
 
-SERVER_ADDRESS=
+SERVER_ADDRESS=<br>
 SERVER_SECRET=
 
-# 배포한 컨트랙트
+배포한 컨트랙트
 
-ERC721_CONTRACT=
+ERC721_CONTRACT=<br>
 ERC20_CONTRACT=
 
 ## 초기 세팅
