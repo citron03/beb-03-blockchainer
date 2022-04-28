@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      ifps: {
+      ipfs: {
         type: Sequelize.STRING,
       },
       price: {
