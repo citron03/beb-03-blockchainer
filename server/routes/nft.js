@@ -2,10 +2,9 @@ require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const Web3 = require("web3");
-const { Nft } = require("../models");
 const { User } = require("../models");
+const { Nft } = require("../models");
 
-const metadata = require("../contracts/metadata.json");
 const web3 = new Web3("http://localhost:7545");
 const erc721abi = require("../contracts/erc721abi");
 const erc721bytecode = require("../contracts/erc721bytecode");
@@ -33,7 +32,6 @@ router.post("/deploynft", async (req, res) => {
     .deploy({ data: erc721bytecode })
     .send(parameter)
     .on("receipt", async (receipt) => {
-      console.log(receipt.contractAddress);
       res.status(201).json({
         message: "deploying ERC721 is succeed",
         receipt,
