@@ -9,15 +9,26 @@ const ListContainer = styled.div`
   flex-wrap : wrap;
 `;
 
-const ItemList = ({ dataList }) => {
+const Div = styled.div`
+  display: block;
+  text-align: center;
+  width: 100%;
+  color: gray;
+`;
 
+const ItemList = ({ dataList }) => {
   return (
     <ListContainer>
-      {dataList.map((nft) => {
-        return (
-          <Item nft={nft} key={nft.nftId}/>
-        );
-      })}
+      {dataList.length === 0 ? (
+        <Div>
+          <p>키워드를 NFT 이름, 설명에서 검색한 결과</p>
+          <p>검색 결과가 없습니다</p>
+        </Div>) :
+        (dataList.map((nft, index) => {
+          return (
+            <Item nft={nft} index={index} key={nft.nftId}/>
+          );
+        }))}
     </ListContainer>
   );
 }
