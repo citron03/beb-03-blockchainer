@@ -27,6 +27,9 @@ const List = styled.li`
         font-weight: bold;
         margin-right: 1rem;
     }
+    &:hover {
+        transform: translate(-0.5px, -1px);
+    }
     cursor: pointer;
 `
 

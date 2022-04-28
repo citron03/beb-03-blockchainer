@@ -185,7 +185,7 @@ const Mypage = () => {
                 <Profile className="username">{username}</Profile>
               <Profile className="email">{userInfo.email}</Profile>
               </div>
-            <Profile className="balance">잔액:  {userInfo.balance} ETH</Profile>
+            <Profile className="balance">잔액:  {userInfo.balance} BCT</Profile>
           </Div>
           <Div className='tabmenu'>
             <TabMenu>

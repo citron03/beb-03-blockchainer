@@ -1,4 +1,6 @@
 import styled, { keyframes } from "styled-components";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const SearchContainer = styled.section`
     flex: 1 1 0;
@@ -63,12 +65,24 @@ const InformationText = styled.h3`
     animation: ${fadein} 3s;
 `
 
+const handleSearch = (history, query) => {
+    if(query.length > 0){
+        history.push(`/searchpost/${query}`);
+    } else {
+        alert("검색어를 입력하세요!");
+    }
+}
+
 const Search = () => {
+
+    const [query, setQuery] = useState("");
+    const history = useHistory();
+
     return (
     <SearchContainer>
         <SearchDiv>
-            <Input type="search" placeholder="관심 있는 내용을 검색하세요" />
-            <Button>검색</Button>
+            <Input type="search" placeholder="관심 있는 내용을 검색하세요" value={query} onChange={(e) => setQuery(e.target.value)} />
+            <Button onClick={() => handleSearch(history, query)}>검색</Button>
         </SearchDiv>
         <SiteInformation>
             <InformationTitle>글과 댓글을 작성하고 리워드를 받으세요!</InformationTitle>
