@@ -1,11 +1,12 @@
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const { User } = require("../models");
 const Web3 = require("web3");
-const rpcURL = "https://ropsten.infura.io/v3/";
-require("dotenv").config();
 
-const web3 = new Web3(rpcURL); // web3 객체 생성
+const web3 = new Web3("http://localhost:7545");
+const erc721abi = require("../contracts/erc721abi");
+const erc721bytecode = require("../contracts/erc721bytecode");
 
 router.post("/createaccount", async (req, res) => {
   let serverAccount = await User.findOne({
@@ -50,10 +51,6 @@ router.post("/ethfaucet", async (req, res) => {
       username: "server",
     },
   });
-  console.log(server);
-  const web3 = new Web3(
-    new Web3.providers.HttpProvider("http://127.0.0.1:7545")
-  );
 
   web3.eth.accounts.privateKeyToAccount(process.env.FAUCET_SECRET);
 
@@ -79,6 +76,7 @@ router.post("/ethfaucet", async (req, res) => {
     signedTx.rawTransaction,
     function (error, hash) {
       if (error) {
+        console.log(error);
         res.status(400).json({ message: "Error: Faucet Transaction Failed" });
       } else {
         res.status(200).json({
