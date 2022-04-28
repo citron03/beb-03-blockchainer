@@ -38,7 +38,7 @@ const TableHeader = styled.div`
     margin: 1rem;
 `
 
-const ContentPageTable = () => {
+const ContentPageTable = ({query = ""}) => {
 
     const page = useParams().page;
     const [postsArr, setPostsArr] = useState([]);
@@ -47,9 +47,15 @@ const ContentPageTable = () => {
     const reload = useSelector(state => state.reload.controller);
 
     useEffect(() => {
-        fetchPosts(page)
+        if(!query) {
+            // 모두 검색
+            fetchPosts(page)
             .then(el => setPostsArr(el.data.data))
             .catch(err => console.log(err));
+        } else {
+            // 검색어 존재
+
+        }
     }, [page, reload])
 
     return (
@@ -78,7 +84,7 @@ const ContentPageTable = () => {
                 </tbody>
             </table>
         </TableContainer>
-        <Pagination/>
+        {query.length <= 0 ? <Pagination/> : null}
     </>
     );
 
