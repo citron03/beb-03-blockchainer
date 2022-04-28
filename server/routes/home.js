@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Post } = require("../models");
-const { Comment, sequelize } = require("../models");
+const { Post, sequelize, Nft } = require("../models");
 
 router.get("/newstpost", async (req, res) => {
   let data = await Post.findOne({
@@ -20,6 +19,27 @@ router.get("/newstpost", async (req, res) => {
       message: "Error: loading Failed",
     });
   }
+});
+
+router.get("/newstnft", async (req, res) => {
+
+  let data = await Nft.findAll({
+    order: [['id', 'DESC']],
+    limit: 4
+  });
+
+  try {
+    res.status(200).json({
+      message: "loading Successed",
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({
+      message: "Error: loading Failed",
+    });
+  }
+  
 });
 
 router.get("/rank", async (req, res) => {

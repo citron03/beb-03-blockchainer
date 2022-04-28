@@ -3,11 +3,6 @@ import axios from "axios";
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const fetchNewestPost = async () => {
-    const getPost = await axios.get(`http://localhost:4000/home/newstpost`);
-    return getPost.data.data;
-}
-
 const NewsPostContainer = styled.section`
     flex: 3 1 0;
     margin: 1rem;
@@ -67,34 +62,45 @@ const Shortcuts = styled.span`
     }
 `
 
+const fetchNewestPost = async () => {
+    const getPost = await axios.get(`http://localhost:4000/home/newstpost`);
+    return getPost.data.data;
+}
+
 const NewsPost = () => {
 
     const [newestPost, setNewestPost] = useState({});
 
     useEffect(() => {
         fetchNewestPost()
-            .then(el => setNewestPost(el))
+            .then(el => {
+                if(el){
+                    setNewestPost(el)
+                }
+            })
             .catch(err => console.log(err));
     }, [])
 
     return (
     <NewsPostContainer>
-        <ContainerHeader>
-            <ContainerTitle>Newest Post</ContainerTitle>
-            <Shortcuts>
-                <Link to={`/postdetail/${newestPost.id}`}>
-                    바로 가기            
-                </Link>
-            </Shortcuts>
-        </ContainerHeader>
         {newestPost.title ? 
-            <NewestPostDiv>
-                <PostHeaderDiv>
-                    <span style={{padding: "1rem", fontSize: "1.2rem"}}>{newestPost.title}</span>
-                    <span style={{padding: "1rem"}}>작성자 : {newestPost.writer}</span>
-                </PostHeaderDiv>
-                <Paragraph>{newestPost.content}</Paragraph>
-            </NewestPostDiv>
+            <>
+                <ContainerHeader>
+                    <ContainerTitle>Newest Post</ContainerTitle>
+                    <Shortcuts>
+                        <Link to={`/postdetail/${newestPost.id}`}>
+                            바로 가기            
+                        </Link>
+                    </Shortcuts>
+                </ContainerHeader>
+                <NewestPostDiv>
+                    <PostHeaderDiv>
+                        <span style={{padding: "1rem", fontSize: "1.2rem"}}>{newestPost.title}</span>
+                        <span style={{padding: "1rem"}}>작성자 : {newestPost.writer}</span>
+                    </PostHeaderDiv>
+                    <Paragraph>{newestPost.content}</Paragraph>
+                </NewestPostDiv>
+            </>
         : null}
     </NewsPostContainer>);
 }
