@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setReload } from "../../Redux/reload";
 import { useCallback } from "react";
+import parseDate from "../parsingData/parseDate";
 
 const PostContainer = styled.div`
     display: flex;
@@ -70,13 +71,6 @@ const Paragraph = styled.p`
     white-space: pre-line;
     word-wrap: break-word;
 `
-
-const parseDate = (input) => {
-    const date = new Date(input);
-    const str = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()} 
-    ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-    return str;
-  }
 
 const Post = ({data}) => {
     const history = useHistory();

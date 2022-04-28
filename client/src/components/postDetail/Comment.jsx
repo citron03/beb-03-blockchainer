@@ -4,6 +4,7 @@ import WriteComment from "./WriteComment";
 import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
 import { setReload } from "../../Redux/reload";
+import parseDate from "../parsingData/parseDate";
 
 const CommentContainer = styled.div`
     padding: 1rem;
@@ -27,13 +28,6 @@ const CommentButton = styled.button`
 const Paragraph = styled.p`
     white-space: pre-line;
 `
-
-const parseDate = (input) => {
-    const date = new Date(input);
-    const str = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()} 
-    ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-    return str;
-  }
 
 const Comment = ({data, post_id}) => {
 

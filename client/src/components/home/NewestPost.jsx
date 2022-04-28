@@ -1,13 +1,10 @@
 import styled from "styled-components";
-import getPageCount from "../content/useData/getPageCount";
 import axios from "axios";
 import { useEffect, useState } from 'react';
-import dummyPosts from './../../assets/dymmydata/dummyPosts'
 import { Link } from 'react-router-dom';
 
-const fetchPost = async (id) => {
-    const getLastPosId = await getPageCount();
-    const getPost = await axios.get(`http://localhost:4000/page/content/${getLastPosId}`);
+const fetchNewestPost = async () => {
+    const getPost = await axios.get(`http://localhost:4000/home/newstpost`);
     return getPost.data.data;
 }
 
@@ -75,10 +72,9 @@ const NewsPost = () => {
     const [newestPost, setNewestPost] = useState({});
 
     useEffect(() => {
-        // fetchPost()
-        //     .then(el => setNewestPost(el))
-        //     .catch(err => console.log(err));
-        setNewestPost(dummyPosts[0]);
+        fetchNewestPost()
+            .then(el => setNewestPost(el))
+            .catch(err => console.log(err));
     }, [])
 
     return (
@@ -86,7 +82,7 @@ const NewsPost = () => {
         <ContainerHeader>
             <ContainerTitle>Newest Post</ContainerTitle>
             <Shortcuts>
-                <Link to={`/postdetail/1`}>
+                <Link to={`/postdetail/${newestPost.id}`}>
                     바로 가기            
                 </Link>
             </Shortcuts>
