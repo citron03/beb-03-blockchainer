@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import fetchPosts from "./fetchData/fetchPosts";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const TableContainer = styled.div`
     margin: 100px 1rem 1rem 1rem;
@@ -38,6 +39,11 @@ const TableHeader = styled.div`
     margin: 1rem;
 `
 
+const fetchQueryPost = async (query) => {
+    const fetchPosts = await axios.get(`http://localhost:4000/home/searchpost/${query}`);
+    return fetchPosts;
+}
+
 const ContentPageTable = ({query = ""}) => {
 
     const page = useParams().page;
@@ -53,10 +59,12 @@ const ContentPageTable = ({query = ""}) => {
             .then(el => setPostsArr(el.data.data))
             .catch(err => console.log(err));
         } else {
-            // 검색어 존재
-
+            // 검색어 존재  
+            fetchQueryPost(query)
+                .then(el => setPostsArr(el.data.data))
+                .catch(err => console.log(err));
         }
-    }, [page, reload])
+    }, [page, reload, query])
 
     return (
     <>
