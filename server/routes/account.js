@@ -3,6 +3,9 @@ const router = express.Router();
 const lightwallet = require("eth-lightwallet");
 const { User } = require("../models");
 
+const Web3 = require("web3");
+const web3 = new Web3("http://localhost:7545");
+
 router.post("/checkusername", async (req, res) => {
   let reqUsername = req.body.username;
   const existuser = await User.findOne({
@@ -38,44 +41,27 @@ router.post("/register", async (req, res) => {
         message: "Error: Email Already Exists",
       });
     } else {
-      let mnemonic;
-      mnemonic = lightwallet.keystore.generateRandomSeed();
-      lightwallet.keystore.createVault(
+      let wallet = web3.eth.accounts.create();
+      const newAccount = User.update(
         {
+          username: reqUsername,
           password: reqPassword,
-          seedPhrase: mnemonic,
-          hdPathString: "m/0'/0'/0'",
+          address: wallet.address,
+          privatekey: wallet.privateKey,
+          balance: "0",
         },
-        function (err, ks) {
-          ks.keyFromPassword(reqPassword, function (err, pwDerivedKey) {
-            ks.generateNewAddress(pwDerivedKey, 1);
-
-            let address = ks.getAddresses().toString();
-            let keyStore = ks.serialize();
-
-            console.log(keyStore);
-            User.update(
-              {
-                username: reqUsername,
-                password: reqPassword,
-                address: address,
-                balance: "0",
-              },
-              {
-                where: { email: reqemail },
-              }
-            )
-              .then((result) => {
-                res.status(201).json({
-                  message: "Register Successed",
-                });
-              })
-              .catch((err) => {
-                console.error(err);
-              });
-          });
+        {
+          where: { email: reqemail },
         }
-      );
+      )
+        .then((result) => {
+          res.status(201).json({
+            message: "Register Successed",
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
   });
 });

@@ -16,6 +16,7 @@ import ContentPage from './pages/ContentPage';
 import Footer from './components/Footer';
 import Nfts from './pages/Nfts';
 import NftDetail from './pages/NftDetail';
+import SearchPost from './pages/SearchPost';
 
 function App() {
   window.addEventListener("scroll", () => {
@@ -70,6 +71,9 @@ function App() {
           </Route>
           <Route path="/nftdetail/:nft_id">
             <NftDetail />          
+          </Route>
+          <Route path="/searchpost/:query">
+            <SearchPost />          
           </Route>
         </Switch>
         <Footer/>
