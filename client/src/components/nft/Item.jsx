@@ -8,7 +8,7 @@ const ItemDiv = styled.div`
   border: 1px solid lightgray;
   width: 32%;
   margin: 0.5rem 0.5rem;
-  margin-left: ${(props) => (props.nftId % 3 === 1 ? "0.55rem" : "0rem")};
+  margin-left: ${(props) => (props.index % 3 === 1 ? "0.55rem" : "0rem")};
 
   &:hover {
     border: 2px solid black;
@@ -45,7 +45,7 @@ const DescP = styled.p`
   
 `;
 
-const Item = ({ nft }) => {
+const Item = ({ nft, index }) => {
   const history = useHistory();
   const [metadata, setMetadata] = useState({});
 
@@ -54,7 +54,7 @@ const Item = ({ nft }) => {
     fetchMetadata(nft.ipfs).then((meta) => {
       setMetadata(meta);
     })
-  }, [])
+  }, [nft])
 
   const handleClick = (nftId) => {
     console.log(nft);
@@ -65,7 +65,7 @@ const Item = ({ nft }) => {
   }
 
   return (
-    <ItemDiv nftId={nft.nftId} onClick={() => { handleClick(nft.nftId) }}>
+    <ItemDiv index={index+1} onClick={() => { handleClick(nft.id) }}>
       <Image src={metadata.image} />
       <DescDiv>
         <DescP className="name">{metadata.name}</DescP>

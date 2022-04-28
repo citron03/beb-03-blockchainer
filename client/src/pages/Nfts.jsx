@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import ItemList from '../components/nft/ItemList';
-import dummyNfts from '../assets/dymmydata/dummyNfts';
-import { useEffect, useState } from 'react';
-import fetchMetadata from '../components/nft/fetchMetadata';
+import { useEffect, useRef, useState } from 'react';
+import fetchAllNfts from '../components/nft/fetchAllNfts';
 
 const Main = styled.main`
 margin-top: 90px;
@@ -66,45 +65,44 @@ const Button = styled.button`
 `;
 
 const Nfts = () => {
-  const [nftList, setNftList] = useState(dummyNfts);
-  const [metaList, setMetaList] = useState([]);
-  const [filtered, setFiltered] = useState();
-  const [keyword, setKeyword] = useState();
+  const keywordRef = useRef(null);
+  const [nftList, setNftList] = useState([]);
+  const [filtered, setFiltered] = useState(false); // 필터링된 결과를 보여줄지 전체를 보여줄지 여부 저장
+  const [searchList, setSearchList] = useState([]); // 검색어로 필터링한 리스트
 
   useEffect(() => {
     // 전체 NFT 정보 백엔드에서 가져와서 nftList에 저장
-    // // ipfs 링크로 메타데이터 받아오기
-    // let metas = new Array();
-    // nftList.map((nft) => {
-    //   // ipfs 링크로 메타데이터 받아오기
-    //   fetchMetadata(nft.ipfs).then((meta) => {
-    //     metas.push({...nft, nftId: nft.nftId, meta: meta });
-    //   })
-    // })
-    // setMetaList(metas);
-    // setNftList(metas);
+    fetchAllNfts().then((data) => {
+      setNftList(data);
+    })
   }, [])
 
-  const handleChange = (e) => {
-    setKeyword(e.target.value);
+  // 검색 버튼 클릭 시
+  const handleSearch = () => {
+    // console.log(keywordRef.current.value);
+
+    const keyword = keywordRef.current.value;
+    if (keyword === '') {
+      setFiltered(false);
+    } else {
+      let newList = nftList.filter((nft) => {
+        return (nft.name.includes(keyword) || nft.description.includes(keyword));
+      })
+      setSearchList(newList);
+      setFiltered(true);
+    }
   }
 
-  const handleSearch = () => {
-    // if (keyword === '') {
-    //   setNftList(dummyNfts);
-    // } else {
-    //   console.log('clicked');
-    //   let newFiltered = metaList.filter((nft) => {
-    //     return (nft.meta.name.includes(keyword) || nft.meta.description.includes(keyword));
-    //   })
-    //   console.log(newFiltered);
-    // }
+  const handleEntire = () => {
+    setSearchList([]);
+    setFiltered(false);
   }
   
 
   return (
     <Main>
-      {console.log(nftList)}
+      {/* {console.log('filterd', filtered)}
+      {console.log('searchList', searchList)} */}
       <Section>
         <Container>
           <Div>
@@ -114,12 +112,15 @@ const Nfts = () => {
           </Div>
           <Div className='search'>
             <span>
-              <Input type='text' placeholder='원하는 키워드를 입력하세요' onChange={handleChange}/>
+              <Input type='text' placeholder='원하는 키워드를 입력하세요' ref={keywordRef}/>
               <Button type='button' onClick={handleSearch}>검색</Button>
+              <Button type='button' onClick={handleEntire}>전체보기</Button>
             </span>
           </Div>
           <Div>
-            <ItemList dataList={nftList} />
+            {filtered === true ?
+              (<ItemList dataList={searchList} />):
+              (<ItemList dataList={nftList} />)}
           </Div>
         </Container>
       </Section>
