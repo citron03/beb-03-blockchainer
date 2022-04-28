@@ -21,7 +21,6 @@ const ItemList = ({ dataList }) => {
     <ListContainer>
       {dataList.length === 0 ? (
         <Div>
-          <p>키워드를 NFT 이름, 설명에서 검색한 결과</p>
           <p>검색 결과가 없습니다</p>
         </Div>) :
         (dataList.map((nft, index) => {

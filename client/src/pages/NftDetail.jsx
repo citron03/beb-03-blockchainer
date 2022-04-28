@@ -1,5 +1,10 @@
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { useParams, useLocation } from 'react-router-dom';
 import styled from "styled-components";
+import { fetchMyInfo } from '../components/mypage/fetchMypageData';
+import buyNft from '../components/nft/buyNft';
 
 const Main = styled.main`
   margin-top: 90px;
@@ -154,10 +159,40 @@ const Properties = styled.div`
 `;
 
 const NftDetail = () => {
+  const history = useHistory();
+  const tokenSelector = useSelector((state) => state.token);
   const nftId = useParams();
   const location = useLocation();
   const nft = location.state.nft;
   const metadata = location.state.metadata;
+
+  const handleBuy = () => {
+    // 로그인 안되어있으면 로그인 페이지로 이동
+    if (tokenSelector.accessToken === '') {
+      history.push('/login');
+    }
+
+    // 현재 로그인되어 있는 사용자의 balance 검사
+    fetchMyInfo(tokenSelector.username)
+      .then((info) => {
+        console.log(info);
+        if (info.balance < nft.price) {
+          alert('잔액이 부족합니다');
+        } else {
+          // NFT 구매 요청 전송 및 성공하면 mypage로 이동
+          buyNft(nftId.nft_id, tokenSelector.username)
+          .then((res) => {
+            if (res.status === 201) {
+              alert('구매 성공!');
+              history.push('/mypage');
+            }
+          })
+        }
+      })
+
+    
+  }
+
   return (
     <Main>
       {console.log(nftId)}
@@ -174,13 +209,15 @@ const NftDetail = () => {
               <Image src={metadata.image} />
               <Div className='desc'>
                 <P className='name'>{metadata.name}</P>
-                <P className='owner'>owned by BlockChainer</P>
+                <P className='owner'>owned by {nft.owner === null ? 'BlockChainer' : nft.owner}</P>
                 <DescDiv>
                   <h2>Current Price</h2>
                   <P className='desc_price'>{nft.price} BCT</P>
                   <span>
-                    <Button type='button'>Buy now</Button>
-                    <Button type='button'>make offer</Button>
+                    {nft.owner === null ? (
+                      <Button type='button' onClick={handleBuy}>Buy now</Button>
+                    ) : null}
+                    <Button type='button' disabled>make offer</Button>
                   </span>
                 </DescDiv>
                 <DescDiv>

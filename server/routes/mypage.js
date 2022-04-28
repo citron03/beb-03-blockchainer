@@ -93,7 +93,7 @@ router.get('/nftlist/:username', async (req, res) => {
   } else {
     await Nft.findAll({
       where: {
-        ifps: nftlistUserName,
+        owner: nftlistUserName,
       },
     }).then((result) => {
       res.status(200).send({
