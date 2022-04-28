@@ -14,7 +14,7 @@ router.post("/createaccount", async (req, res) => {
       username: "server",
     },
   });
-  console.log(serverAccount);
+
   if (serverAccount) {
     res.status(200).json({
       message: "server account is already exist",

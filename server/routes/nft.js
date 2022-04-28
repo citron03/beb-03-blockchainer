@@ -48,6 +48,7 @@ router.post("/deploynft", async (req, res) => {
 router.post("/getnft", async (req, res) => {
   const reqid = req.body.id;
   const receiptAddress = req.body.address;
+
   const senderAccount = await User.findOne({
     attributes: ["address"],
     where: {
@@ -57,7 +58,7 @@ router.post("/getnft", async (req, res) => {
 
   const erc721Contract = new web3.eth.Contract(
     erc721abi,
-    "0xe0724eF1f6ffdACBE78F58D402d0e5990afD8195", // 컨트랙트의 주소
+    process.env.ERC721_CONTRACT, // 컨트랙트의 주소
     {
       from: senderAccount.address, // 컨트랙트 발행자 주소
     }
@@ -79,8 +80,8 @@ router.post("/getnft", async (req, res) => {
     },
   });
 
-  const nftinfo = await Nft.create({
-    ifps: metadata,
+  const nftinfo = await Nft.update({
+    ifps: metadata.image,
     owner: owner.username,
     price: 0,
     name: metadata.name,
