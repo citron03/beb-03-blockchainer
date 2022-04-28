@@ -48,13 +48,22 @@ router.post("/deploynft", async (req, res) => {
 router.post("/getnft", async (req, res) => {
   const reqid = req.body.id;
   const username = req.body.username;
-  const nftprice = "1000000000000000000";
 
   const receipt = await User.findOne({
     where: {
       username: username,
     },
   });
+
+  const chosenNft = await Nft.findOne({
+    attributes: ["price"],
+    where: {
+      id: reqid,
+    },
+  });
+
+  const nftprice = chosenNft.price.toString() + "000000000000000000";
+
   // 컨트랙트 선언
 
   const erc20Contract = await new web3.eth.Contract(
@@ -108,7 +117,6 @@ router.post("/getnft", async (req, res) => {
     {
       ifps: metadata.image,
       owner: receipt.username,
-      price: 1,
       name: metadata.name,
       description: metadata.description,
     },

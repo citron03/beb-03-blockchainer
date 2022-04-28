@@ -21,7 +21,7 @@ router.post("/posting", async (req, res) => {
   });
   console.log(receipt.address);
 
-  const value = "1000000000000000000";
+  const value = "10000000000000000000";
   const erc20Contract = await new web3.eth.Contract(
     erc20abi,
     process.env.ERC20_CONTRACT,

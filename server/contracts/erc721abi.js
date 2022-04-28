@@ -430,5 +430,4 @@ const erc721Abi = [
     type: "function",
   },
 ];
-
 module.exports = erc721Abi;
