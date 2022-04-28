@@ -1,7 +1,10 @@
+import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useParams, useLocation } from 'react-router-dom';
 import styled from "styled-components";
+import { fetchMyInfo } from '../components/mypage/fetchMypageData';
+import buyNft from '../components/nft/buyNft';
 
 const Main = styled.main`
   margin-top: 90px;
@@ -169,11 +172,25 @@ const NftDetail = () => {
       history.push('/login');
     }
 
-    // const url = 'http://localhost:4000/nft/getnft'
-    // const payload = {
-    //   id: nftId,
-    //   username: tokenSelector.username
-    // }
+    // 현재 로그인되어 있는 사용자의 balance 검사
+    fetchMyInfo(tokenSelector.username)
+      .then((info) => {
+        console.log(info);
+        if (info.balance < nft.price) {
+          alert('잔액이 부족합니다');
+        } else {
+          // NFT 구매 요청 전송 및 성공하면 mypage로 이동
+          buyNft(nftId.nft_id, tokenSelector.username)
+          .then((res) => {
+            if (res.status === 201) {
+              alert('구매 성공!');
+              history.push('/mypage');
+            }
+          })
+        }
+      })
+
+    
   }
 
   return (
