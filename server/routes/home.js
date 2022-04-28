@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Post } = require("../models");
+const { Comment, sequelize } = require("../models");
 
 router.get("/newstpost", async (req, res) => {
   let data = await Post.findOne({
@@ -22,16 +23,24 @@ router.get("/newstpost", async (req, res) => {
 });
 
 router.get("/rank", async (req, res) => {
-  
-  let count = await Post.count({
-    where: {},
-  });
 
   let data = await Post.findAll({
-    order: [['id', 'DESC']],
+    attributes: [
+      'id', 
+      'title',
+      [
+        sequelize.literal(`(
+          SELECT COUNT(Comments.id)
+          FROM Comments
+          WHERE Comments.post_id = Post.id
+        )`),
+        'count',
+      ],
+    ],
+    order: [[sequelize.literal('count'), 'DESC']],
     limit: 5
   });
-  
+
   try {
     res.status(200).json({
       message: "loading Successed",
