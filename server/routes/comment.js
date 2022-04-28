@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Comment } = require("../models");
+const { User } = require("../models");
 
 router.post("/posting", async (req, res) => {
   const newComment = await Comment.create({
@@ -18,6 +19,12 @@ router.post("/posting", async (req, res) => {
       message: "Error: Commenting Failed",
     });
   }
+  const writer = await User.findOne({
+    attributes: ["address"],
+    where: {
+      username: req.body.writer,
+    },
+  });
 });
 
 router.patch("/update", async (req, res) => {
