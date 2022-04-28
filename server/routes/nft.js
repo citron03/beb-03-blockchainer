@@ -45,7 +45,7 @@ router.post("/deploynft", async (req, res) => {
 
 router.post("/getnft", async (req, res) => {
   const reqid = req.body.id;
-  const receiptAddress = req.body.address;
+  const username = req.body.username;
 
   const senderAccount = await User.findOne({
     attributes: ["address"],
@@ -62,30 +62,41 @@ router.post("/getnft", async (req, res) => {
     }
   );
 
-  const metadata = Nft.findOne({
+  const metadata = await Nft.findOne({
     attributes: ["ipfs"],
     where: {
       id: reqid,
     },
   });
-  //   await erc721Contract.methods.setToken("token contract address").call();
-  await erc721Contract.methods.mintNFT(receiptAddress, metadata).call();
 
-  const owner = await User.findOne({
-    attributes: ["username"],
+  const receipt = await User.findOne({
     where: {
-      address: receiptAddress,
+      username: username,
     },
   });
+  console.log(receipt);
+  // await erc721Contract.methods.setToken(process.env.ERC721_CONTRACT).call();
+  await erc721Contract.methods.mintNFT(receipt.address, metadata).call();
 
-  const nftinfo = await Nft.update({
-    ifps: metadata.image,
-    owner: owner.username,
-    price: 0,
-    name: metadata.name,
-    description: metadata.description,
-  });
-  res.status(201).json({ message: "nft mint complete", data: nftinfo });
+  const newNft = await Nft.update(
+    {
+      ifps: metadata.image,
+      owner: receipt.username,
+      price: 1,
+      name: metadata.name,
+      description: metadata.description,
+    },
+    {
+      where: {
+        id: reqid,
+      },
+    }
+  );
+  try {
+    res.status(201).json({ message: "nft mint complete" });
+  } catch {
+    (err) => console.log(err);
+  }
 });
 
 router.get("/allnfts", async (req, res) => {
