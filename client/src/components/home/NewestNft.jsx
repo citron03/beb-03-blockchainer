@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import fetchMetadata from './../nft/fetchMetadata'
 
 const NewestNftContainer = styled.section`
     flex: 1 1 0;
@@ -60,21 +61,24 @@ const getMetaData = async () => {
 
     if(ipfs){
         for(let el of ipfs) {
-            let tmp = await axios.get(el.ipfs);
-            metaData.push(Object.assign({nftData: tmp.data}, el));
+            let tmp = await fetchMetadata(el.ipfs);
+            metaData.push({metadata: tmp, nft: el});
         }
     } 
     return metaData;
 }
 
-const getImage = (str) => {
-    // https://ipfs.infura.io/ipfs/
-    return `https://ipfs.infura.io/ipfs/${str.slice(7)}`;
-}
-
 const NewestNft = () => {
 
     const [metaData, setMetaData] = useState([]);
+    const history = useHistory();
+
+    const handleClick = (nftId, nft, metadata) => {
+        history.push({
+          pathname: `/nftdetail/${nftId}`,
+          state: {nft, metadata}
+        })
+      }
 
     useEffect(() => {
         getMetaData()
@@ -88,12 +92,10 @@ const NewestNft = () => {
             {metaData.length > 0 ? 
                 metaData.map((el) => {
                     return (
-                        <ImageDiv key={el.id}>
-                            <Link to={`/nftdetail/${el.id}`}>
-                                <Image src={getImage(el.nftData.image)} alt={el.name}/>
-                                <NftText border={true}>{el.name}</NftText>
-                                <NftText>{el.price} eth</NftText>
-                            </Link>
+                        <ImageDiv key={el.nft.id} onClick={() => handleClick(el.nft.id, el.nft, el.metadata)}>
+                                <Image src={el.metadata.image} alt={el.nft.name}/>
+                                <NftText border={true}>{el.nft.name}</NftText>
+                                <NftText>{el.nft.price} BCT</NftText>
                         </ImageDiv>);
                 }) : null}
         </AllImageDiv>
