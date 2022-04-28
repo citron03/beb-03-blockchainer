@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import parseDate from "../parsingData/parseDate";
 
 const Tr = styled.tr`
     border: 1px solid black;
@@ -12,13 +13,6 @@ const Tr = styled.tr`
 const Td = styled.td`
     padding: 2rem;
 `
-
-const parseDate = (input) => {
-    const date = new Date(input);
-    const str = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()} 
-    ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-    return str;
-  }
 
 const Table = ({data}) => {
     const history = useHistory();

@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import dummyPosts from "../../assets/dymmydata/dummyPosts";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const PostRankContainer = styled.section`
     /* border-left: 1px solid #636e72; */
@@ -26,19 +27,33 @@ const List = styled.li`
         font-weight: bold;
         margin-right: 1rem;
     }
+    cursor: pointer;
 `
+
+const fetchPostRank = async () => {
+    const getPost = await axios.get(`http://localhost:4000/home/rank`);
+    return getPost.data.data;
+}
 
 const PostRank = () => {
 
-    const [posts, setPosts] = useState(dummyPosts.slice(0, 5));
+    const [posts, setPosts] = useState([]);
+    const history = useHistory();
     
+    useEffect(() => {
+        fetchPostRank()
+            .then(el => setPosts(el))
+            .catch(err => console.log(err));
+    }, [])
+
     return (
     <PostRankContainer>
         <ListsTitle>인기글</ListsTitle>
         <Lists>
-            {posts.map((el, idx) => {
-                return <List key={el.post_id} rank={String(idx + 1)}>{el.title}</List>
-            })}
+            {posts.length > 0 ? posts.map((el, idx) => {
+                return <List key={el.id} rank={String(idx + 1)} 
+                            onClick={() => history.push(`/postdetail/${el.id}`)}>{`${el.title} - (${el.count})`}</List>
+            }) : null}
         </Lists>
     </PostRankContainer>);
 }
