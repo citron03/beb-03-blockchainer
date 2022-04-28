@@ -46,6 +46,7 @@ router.post("/deploynft", async (req, res) => {
 });
 
 router.post("/getnft", async (req, res) => {
+  const reqid = req.body.id;
   const receiptAddress = req.body.address;
   const senderAccount = await User.findOne({
     attributes: ["address"],
@@ -62,6 +63,12 @@ router.post("/getnft", async (req, res) => {
     }
   );
 
+  const metadata = Nft.findOne({
+    attributes: ["ipfs"],
+    where: {
+      id: reqid,
+    },
+  });
   //   await erc721Contract.methods.setToken("token contract address").call();
   await erc721Contract.methods.mintNFT(receiptAddress, metadata).call();
 
@@ -73,7 +80,7 @@ router.post("/getnft", async (req, res) => {
   });
 
   const nftinfo = await Nft.create({
-    ifps: metadata.image,
+    ifps: metadata,
     owner: owner.username,
     price: 0,
     name: metadata.name,
