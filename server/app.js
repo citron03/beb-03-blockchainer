@@ -12,6 +12,7 @@ const serverRouter = require('./routes/server');
 const pageRouter = require('./routes/page');
 const authRouter = require('./routes/auth');
 const mypageRouter = require('./routes/mypage');
+const homeRouter = require('./routes/home');
 
 app.use(cors());
 app.use(express.json());
@@ -22,6 +23,7 @@ app.use('/server', serverRouter);
 app.use('/page', pageRouter);
 app.use('/auth', authRouter);
 app.use('/mypage', mypageRouter);
+app.use('/home', homeRouter);
 
 db.sequelize
   .sync({})
