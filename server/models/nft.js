@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Nft.init(
     {
-      ifps: DataTypes.STRING,
+      ipfs: DataTypes.STRING,
       price: DataTypes.INTEGER,
       owner: DataTypes.STRING,
       name: DataTypes.STRING,
