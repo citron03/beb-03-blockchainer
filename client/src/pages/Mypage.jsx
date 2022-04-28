@@ -6,7 +6,7 @@ import profile from '../assets/images/profile.png';
 import ListTable from '../components/mypage/ListTable';
 import dummyNfts from '../assets/dymmydata/dummyNfts';
 import ItemList from '../components/nft/ItemList';
-import { fetchMyInfo, fetchMyPosts, fetchMyComments } from '../components/mypage/fetchMypageData';
+import { fetchMyInfo, fetchMyPosts, fetchMyComments, fetchMyNfts } from '../components/mypage/fetchMypageData';
 import { useEffect } from 'react';
 
 const Main = styled.main`
@@ -125,7 +125,7 @@ const Mypage = () => {
   const username = tokenSelector.username;
   const [userInfo, setUserInfo] = useState({})
   const [currentTab, setCurrentTab] = useState(0);
-  const [dataList, setDataList] = useState([[], [], dummyNfts]);
+  const [dataList, setDataList] = useState([[], [], []]);
 
   const menuArr = ['내가 쓴 글', '내가 쓴 댓글', 'NFT'];
 
@@ -163,6 +163,12 @@ const Mypage = () => {
           })
           break;
         case 2:
+          fetchMyNfts(username).then((nfts) => {
+            let newDataList = [...dataList];
+            newDataList[2] = nfts;
+            console.log(newDataList);
+            setDataList(newDataList);
+          })
           break;
       }
     }
