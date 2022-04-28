@@ -61,7 +61,7 @@ $ npm run start:dev
 
 # 사용 방법
 
-post 요청 : /server/createaccount 로 서버 계정 생성
-post 요청 : /server/ethfaucet 으로 수수료로 사용할 이더리움 전송
-post 요청 : /token/deploytoken 으로 erc20 배포 및 서버 계정에 토큰 지급
+post 요청 : /server/createaccount 로 서버 계정 생성<br>
+post 요청 : /server/ethfaucet 으로 수수료로 사용할 이더리움 전송<br>
+post 요청 : /token/deploytoken 으로 erc20 배포 및 서버 계정에 토큰 지급<br>
 post 요청 : /nft/deploynft 로 erc7210 배포
