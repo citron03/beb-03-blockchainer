@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import fetchPosts from "./fetchData/fetchPosts";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const TableContainer = styled.div`
     margin: 100px 1rem 1rem 1rem;
@@ -38,7 +39,12 @@ const TableHeader = styled.div`
     margin: 1rem;
 `
 
-const ContentPageTable = () => {
+const fetchQueryPost = async (query) => {
+    const fetchPosts = await axios.get(`http://localhost:4000/home/searchpost/${query}`);
+    return fetchPosts;
+}
+
+const ContentPageTable = ({query = ""}) => {
 
     const page = useParams().page;
     const [postsArr, setPostsArr] = useState([]);
@@ -47,10 +53,18 @@ const ContentPageTable = () => {
     const reload = useSelector(state => state.reload.controller);
 
     useEffect(() => {
-        fetchPosts(page)
+        if(!query) {
+            // 모두 검색
+            fetchPosts(page)
             .then(el => setPostsArr(el.data.data))
             .catch(err => console.log(err));
-    }, [page, reload])
+        } else {
+            // 검색어 존재  
+            fetchQueryPost(query)
+                .then(el => setPostsArr(el.data.data))
+                .catch(err => console.log(err));
+        }
+    }, [page, reload, query])
 
     return (
     <>
@@ -78,7 +92,7 @@ const ContentPageTable = () => {
                 </tbody>
             </table>
         </TableContainer>
-        <Pagination/>
+        {query.length <= 0 ? <Pagination/> : null}
     </>
     );
 
