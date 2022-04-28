@@ -80,7 +80,7 @@ router.post("/getnft", async (req, res) => {
     },
   });
 
-  const nftinfo = await Nft.create({
+  const nftinfo = await Nft.update({
     ifps: metadata.image,
     owner: owner.username,
     price: 0,
