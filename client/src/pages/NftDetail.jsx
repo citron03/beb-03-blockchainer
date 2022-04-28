@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { useParams, useLocation } from 'react-router-dom';
 import styled from "styled-components";
 
@@ -154,10 +156,26 @@ const Properties = styled.div`
 `;
 
 const NftDetail = () => {
+  const history = useHistory();
+  const tokenSelector = useSelector((state) => state.token);
   const nftId = useParams();
   const location = useLocation();
   const nft = location.state.nft;
   const metadata = location.state.metadata;
+
+  const handleBuy = () => {
+    // 로그인 안되어있으면 로그인 페이지로 이동
+    if (tokenSelector.accessToken === '') {
+      history.push('/login');
+    }
+
+    // const url = 'http://localhost:4000/nft/getnft'
+    // const payload = {
+    //   id: nftId,
+    //   username: tokenSelector.username
+    // }
+  }
+
   return (
     <Main>
       {console.log(nftId)}
@@ -174,13 +192,15 @@ const NftDetail = () => {
               <Image src={metadata.image} />
               <Div className='desc'>
                 <P className='name'>{metadata.name}</P>
-                <P className='owner'>owned by BlockChainer</P>
+                <P className='owner'>owned by {nft.owner === null ? 'BlockChainer' : nft.owner}</P>
                 <DescDiv>
                   <h2>Current Price</h2>
                   <P className='desc_price'>{nft.price} BCT</P>
                   <span>
-                    <Button type='button'>Buy now</Button>
-                    <Button type='button'>make offer</Button>
+                    {nft.owner === null ? (
+                      <Button type='button' onClick={handleBuy}>Buy now</Button>
+                    ) : null}
+                    <Button type='button' disabled>make offer</Button>
                   </span>
                 </DescDiv>
                 <DescDiv>
