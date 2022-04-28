@@ -68,7 +68,7 @@ router.post("/getnft", async (req, res) => {
       id: reqid,
     },
   });
-  //   await erc721Contract.methods.setToken("token contract address").call();
+  // await erc721Contract.methods.setToken(process.env.ERC721_CONTRACT).call();
   await erc721Contract.methods.mintNFT(receiptAddress, metadata).call();
 
   const owner = await User.findOne({
@@ -78,14 +78,25 @@ router.post("/getnft", async (req, res) => {
     },
   });
 
-  const nftinfo = await Nft.update({
-    ifps: metadata.image,
-    owner: owner.username,
-    price: 0,
-    name: metadata.name,
-    description: metadata.description,
-  });
-  res.status(201).json({ message: "nft mint complete", data: nftinfo });
+  const newNft = await Nft.update(
+    {
+      ifps: metadata.image,
+      owner: owner.username,
+      price: 1,
+      name: metadata.name,
+      description: metadata.description,
+    },
+    {
+      where: {
+        id: reqid,
+      },
+    }
+  );
+  try {
+    res.status(201).json({ message: "nft mint complete" });
+  } catch {
+    (err) => console.log(err);
+  }
 });
 
 module.exports = router;

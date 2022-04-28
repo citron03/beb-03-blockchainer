@@ -42,35 +42,35 @@ router.post("/deploytoken", async (req, res) => {
     });
 });
 
-router.post("/minttoken", async (req, res) => {
-  const value = "1000000000000000000";
-  const myErc20Contract = await new web3.eth.Contract(
-    erc20abi,
-    process.env.ERC20_CONTRACT,
-    {
-      from: process.env.SERVER_ADDRESS,
-    }
-  );
+// router.post("/transfertoken", async (req, res) => {
+//   const value = "1000000000000000000";
+//   const myErc20Contract = await new web3.eth.Contract(
+//     erc20abi,
+//     process.env.ERC20_CONTRACT,
+//     {
+//       from: process.env.SERVER_ADDRESS,
+//     }
+//   );
 
-  const server = await web3.eth.accounts.wallet.add(process.env.SERVER_SECRET);
+//   const server = await web3.eth.accounts.wallet.add(process.env.SERVER_SECRET);
 
-  await myErc20Contract.methods
-    .transfer("0x3d8761340aeeca56eda57546f791fe45945a5eae", value)
-    .send({
-      from: server.address,
-      to: process.env.ERC20_CONTRACT,
-      gasPrice: 100,
-      gas: 2000000,
-    })
-    .on("receipt", (receipt) => {
-      const msg = "Succeed in minting new ERC20 Token.";
-      res.status(201).json({ receipt, msg });
-    })
-    .on("error", (error) => {
-      error = error.toString();
-      const msg = "Failed to mint new ERC20 Token.";
-      res.status(500).send({ error, msg });
-    });
-});
+//   await myErc20Contract.methods
+//     .transfer("0x3d8761340aeeca56eda57546f791fe45945a5eae", value)
+//     .send({
+//       from: server.address,
+//       to: process.env.ERC20_CONTRACT,
+//       gasPrice: 100,
+//       gas: 2000000,
+//     })
+//     .on("receipt", (receipt) => {
+//       const msg = "Succeed in minting new ERC20 Token.";
+//       res.status(201).json({ receipt, msg });
+//     })
+//     .on("error", (error) => {
+//       error = error.toString();
+//       const msg = "Failed to mint new ERC20 Token.";
+//       res.status(500).send({ error, msg });
+//     });
+// });
 
 module.exports = router;
