@@ -8,6 +8,8 @@ const { Nft } = require("../models");
 const web3 = new Web3("http://localhost:7545");
 const erc721abi = require("../contracts/erc721abi");
 const erc721bytecode = require("../contracts/erc721bytecode");
+const erc20abi = require("../contracts/erc20abi");
+const erc20bytecode = require("../contracts/erc20bytecode");
 
 router.post("/deploynft", async (req, res) => {
   const serverAccount = await User.findOne({
@@ -47,21 +49,60 @@ router.post("/getnft", async (req, res) => {
   const reqid = req.body.id;
   const username = req.body.username;
 
-  const senderAccount = await User.findOne({
-    attributes: ["address"],
+  const receipt = await User.findOne({
     where: {
-      username: "server",
+      username: username,
     },
   });
 
+  const chosenNft = await Nft.findOne({
+    attributes: ["price"],
+    where: {
+      id: reqid,
+    },
+  });
+
+  const nftprice = chosenNft.price.toString() + "000000000000000000";
+
+  // 컨트랙트 선언
+
+  const erc20Contract = await new web3.eth.Contract(
+    erc20abi,
+    process.env.ERC20_CONTRACT,
+    {
+      from: process.env.SERVER_ADDRESS,
+    }
+  );
   const erc721Contract = new web3.eth.Contract(
     erc721abi,
-    process.env.ERC721_CONTRACT, // 컨트랙트의 주소
+    process.env.ERC721_CONTRACT,
     {
-      from: senderAccount.address, // 컨트랙트 발행자 주소
+      from: process.env.SERVER_ADDRESS,
     }
   );
 
+  const server = await web3.eth.accounts.wallet.add(process.env.SERVER_SECRET);
+  await erc721Contract.methods.setToken(process.env.ERC20_CONTRACT).call();
+
+  // 사용가능한 잔액 확인
+  const balance = await erc20Contract.methods
+    .allowance(receipt.address, process.env.SERVER_ADDRESS)
+    .call();
+
+  console.log(balance);
+  if (nftprice > balance) {
+    res.status(400).json({ message: "insufficient BCT" });
+  }
+
+  // 유저로부터 토큰 회수
+  await erc20Contract.methods
+    .transferFrom(receipt.address, process.env.SERVER_ADDRESS, nftprice)
+    .send({
+      from: server.address,
+      gas: 2000000,
+    });
+
+  // nft 발행
   const metadata = await Nft.findOne({
     attributes: ["ipfs"],
     where: {
@@ -69,26 +110,28 @@ router.post("/getnft", async (req, res) => {
     },
   });
 
-  const receipt = await User.findOne({
-    where: {
-      username: username,
-    },
-  });
-  console.log(receipt);
-  // await erc721Contract.methods.setToken(process.env.ERC721_CONTRACT).call();
   await erc721Contract.methods.mintNFT(receipt.address, metadata).call();
 
+  // 결과에 맞추어 db 업데이트
   const newNft = await Nft.update(
     {
       ifps: metadata.image,
       owner: receipt.username,
-      price: 1,
       name: metadata.name,
       description: metadata.description,
     },
     {
       where: {
         id: reqid,
+      },
+    }
+  );
+
+  await User.decrement(
+    { balance: chosenNft.price },
+    {
+      where: {
+        username: req.body.username,
       },
     }
   );
@@ -102,11 +145,6 @@ router.post("/getnft", async (req, res) => {
 router.get("/allnfts", async (req, res) => {
   const nftList = await Nft.findAll();
   res.status(200).json({ message: "all nft loading Successed", data: nftList });
-})
+});
 
 module.exports = router;
-
-// 1. 토큰 잔액이 가격보다 큰 지 확인
-// 2. 배포된 erc721 컨트랙트의 mintNFT를 통해서 nft 발급
-// 3. 발급된 nft를 유저에게 보내줌
-// 4. 서버 계정에서 조작해서 유저의 토큰을 깎음

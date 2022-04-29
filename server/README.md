@@ -1,3 +1,30 @@
+## .env 설정
+
+데이터베이스
+
+DATABASE_USERNAME=<br>
+DATABASE_PASSWORD=<br>
+DATABASE_NAME=
+
+인증
+
+ACCESS_SECRET=
+
+수수료를 보내 줄 가나슈 계정
+
+FAUCET_SECRET=<br>
+FAUCET_ADDRESS=
+
+server account 정보
+
+SERVER_ADDRESS=<br>
+SERVER_SECRET=
+
+배포한 컨트랙트
+
+ERC721_CONTRACT=<br>
+ERC20_CONTRACT=
+
 ## 초기 세팅
 
 패키지 설치<br>
@@ -32,10 +59,9 @@ $ npm run start
 $ npm run start:dev
 ```
 
-## .env 설정
+## 사용 방법
 
-DATABASE_USERNAME= mysql username<br>
-DATABASE_PASSWORD= mysql password<br>
-DATABASE_NAME= mysql database name<br>
-FAUCET_ADDRESS= server 계정에 eth를 전송해 줄 계정<br>
-FAUCET_SECRET= 해당 계정의 비밀 키<br>
+post 요청 : /server/createaccount 로 서버 계정 생성<br>
+post 요청 : /server/ethfaucet 으로 수수료로 사용할 이더리움 전송<br>
+post 요청 : /token/deploytoken 으로 erc20 배포 및 서버 계정에 토큰 지급<br>
+post 요청 : /nft/deploynft 로 erc7210 배포
