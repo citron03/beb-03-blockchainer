@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       User.hasMany(models.Nft, {
         foreignKey: "owner",
+        sourceKey: "username",
       });
       User.hasMany(models.Comment, {
         foreignKey: "writer",
