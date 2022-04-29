@@ -19,4 +19,4 @@
 * react-redux ^8.0.1
 * @reduxjs/toolkit ^1.8.1
 
-#### 이 웹사이트에 사용된 이미지들의 출처는 https://pixabay.com/ko/입니다. (NFT에 사용된 이미지 )
+#### 이 웹사이트에 사용된 이미지들의 출처는 https://pixabay.com/ko/입니다. (NFT에 사용된 이미지는 제외)
