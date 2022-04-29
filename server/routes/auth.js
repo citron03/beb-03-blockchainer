@@ -42,16 +42,18 @@ router.post('/login', async (req, res) => {
 
   if (!userInfo) {
     res.status(400).send('Error: Login Failed');
+  } else {
+    console.log(userInfo);
+
+    const data = userInfo.dataValues;
+    delete data.password;
+    if (data) {
+      const accessToken = generateAccessToken(data);
+      sendAccessToken(res, accessToken);
+    }
   }
 
-  console.log(userInfo);
-
-  const data = userInfo.dataValues;
-  delete data.password;
-  if (data) {
-    const accessToken = generateAccessToken(data);
-    sendAccessToken(res, accessToken);
-  }
+  
 });
 
 router.post('/logout', (req, res) => {
