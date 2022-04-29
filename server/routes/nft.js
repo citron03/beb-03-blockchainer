@@ -142,4 +142,9 @@ router.post("/getnft", async (req, res) => {
   }
 });
 
+router.get("/allnfts", async (req, res) => {
+  const nftList = await Nft.findAll();
+  res.status(200).json({ message: "all nft loading Successed", data: nftList });
+});
+
 module.exports = router;
