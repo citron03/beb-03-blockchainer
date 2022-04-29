@@ -25,7 +25,7 @@ SERVER_SECRET=
 ERC721_CONTRACT=<br>
 ERC20_CONTRACT=
 
-## 초기 세팅
+## 실행 방법
 
 패키지 설치<br>
 
@@ -59,9 +59,10 @@ $ npm run start
 $ npm run start:dev
 ```
 
-## 사용 방법
+## 서버 초기 설정
 
+postman을 사용을 권장합니다
 post 요청 : /server/createaccount 로 서버 계정 생성<br>
 post 요청 : /server/ethfaucet 으로 수수료로 사용할 이더리움 전송<br>
 post 요청 : /token/deploytoken 으로 erc20 배포 및 서버 계정에 토큰 지급<br>
-post 요청 : /nft/deploynft 로 erc7210 배포
+post 요청 : /nft/deploynft 로 erc721 배포
