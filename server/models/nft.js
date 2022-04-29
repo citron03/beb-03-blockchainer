@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Nft.belongsTo(models.User, {
         foreignKey: "owner",
+        targetKey: "username",
       });
     }
   }
