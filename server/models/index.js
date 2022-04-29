@@ -20,11 +20,6 @@ if (config.use_env_variable) {
   );
 }
 
-db.User = require("./user")(sequelize, Sequelize);
-db.Post = require("./Post")(sequelize, Sequelize);
-db.Comment = require("./Comment")(sequelize, Sequelize);
-db.Nft = require("./Nft")(sequelize, Sequelize);
-
 fs.readdirSync(__dirname)
   .filter((file) => {
     return (
