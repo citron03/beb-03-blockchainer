@@ -126,6 +126,15 @@ router.post("/getnft", async (req, res) => {
       },
     }
   );
+
+  await User.decrement(
+    { balance: chosenNft.price },
+    {
+      where: {
+        username: req.body.username,
+      },
+    }
+  );
   try {
     res.status(201).json({ message: "nft mint complete" });
   } catch {
