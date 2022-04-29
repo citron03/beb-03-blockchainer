@@ -18,3 +18,5 @@
 - Client App은 react를 기반으로 만들어졌습니다.
 - Server App은 express를 기반으로 만들어졌습니다.
 - DB로 Mysql이 사용되었습니다.
+- 이더리움 블록체인 네트워크를 사용하기 위해서 Web3.js를 사용하였습니다.
+- Ganache를 사용하여 이더리움 개발 환경을 구축하였습니다.
