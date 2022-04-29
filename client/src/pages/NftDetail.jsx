@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useParams, useLocation } from 'react-router-dom';
@@ -163,8 +164,25 @@ const NftDetail = () => {
   const tokenSelector = useSelector((state) => state.token);
   const nftId = useParams();
   const location = useLocation();
-  const nft = location.state.nft;
-  const metadata = location.state.metadata;
+  const [nft, setNft] = useState({});
+  const [metadata, setMetadata] = useState({attributes: []});
+
+  useEffect(() => {
+    if (tokenSelector.accessToken === '') {
+      console.log(location.state);
+      history.push({
+        pathname: `/nftdetail/${nftId}`,
+        state: {nft, metadata}
+      })
+    }
+    
+    if (location.state !== undefined) {
+      setNft(location.state.nft);
+      setMetadata(location.state.metadata);
+    }
+
+    console.log(nft, metadata);
+  }, [tokenSelector.accessToken])
 
   const handleBuy = () => {
     // 로그인 안되어있으면 로그인 페이지로 이동
@@ -195,8 +213,6 @@ const NftDetail = () => {
 
   return (
     <Main>
-      {console.log(nftId)}
-      {console.log(location.state)}
       <Section>
         <Container>
           <Div>
